@@ -8,7 +8,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { formatDistanceToNow } from "date-fns";
 import { Review, ReviewStatus } from "@/types/review";
 import { useAuth } from "@/context/AuthContext";
-import { Star, CheckCircle, XCircle, AlertCircle } from "lucide-react";
+import {
+  Star,
+  CheckCircle,
+  XCircle,
+  AlertCircle,
+  ShieldCheck,
+} from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -45,6 +51,7 @@ const ReviewModeration: React.FC<ReviewModerationProps> = ({
   const [moderationStatus, setModerationStatus] = useState<ReviewStatus | null>(
     null,
   );
+  const [verifyReview, setVerifyReview] = useState(false);
   const [moderationDialogOpen, setModerationDialogOpen] = useState(false);
 
   // Check if user can moderate reviews
@@ -95,6 +102,7 @@ const ReviewModeration: React.FC<ReviewModerationProps> = ({
         moderationStatus,
         user.id,
         moderationNotes,
+        verifyReview,
       );
 
       // Update the reviews list
@@ -237,15 +245,34 @@ const ReviewModeration: React.FC<ReviewModerationProps> = ({
                 </p>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="moderation-notes">Moderation Notes</Label>
-                <Textarea
-                  id="moderation-notes"
-                  placeholder="Add notes about why this review was approved or rejected"
-                  value={moderationNotes}
-                  onChange={(e) => setModerationNotes(e.target.value)}
-                  className="min-h-[100px]"
-                />
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="moderation-notes">Moderation Notes</Label>
+                  <Textarea
+                    id="moderation-notes"
+                    placeholder="Add notes about why this review was approved or rejected"
+                    value={moderationNotes}
+                    onChange={(e) => setModerationNotes(e.target.value)}
+                    className="min-h-[100px] mt-1"
+                  />
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="verify-review"
+                    checked={verifyReview}
+                    onChange={() => setVerifyReview(!verifyReview)}
+                    className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                  />
+                  <Label
+                    htmlFor="verify-review"
+                    className="flex items-center cursor-pointer"
+                  >
+                    <ShieldCheck className="h-4 w-4 mr-1 text-green-500" />
+                    Mark as verified review (admin verification)
+                  </Label>
+                </div>
               </div>
             </div>
           )}

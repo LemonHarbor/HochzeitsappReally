@@ -21,6 +21,7 @@ export const getReviews = async (): Promise<Review[]> => {
 export const getReviewsByVendor = async (
   vendorId: string,
   includeNonApproved = false,
+  sortBy: "recent" | "helpful" | "rating" = "recent",
 ): Promise<Review[]> => {
   try {
     let query = supabase
@@ -32,9 +33,22 @@ export const getReviewsByVendor = async (
       query = query.eq("status", "approved");
     }
 
-    const { data, error } = await query.order("created_at", {
-      ascending: false,
-    });
+    // Apply sorting
+    switch (sortBy) {
+      case "helpful":
+        // Sort by net helpfulness (helpful_votes - unhelpful_votes)
+        query = query.order("helpful_votes", { ascending: false });
+        break;
+      case "rating":
+        query = query.order("rating", { ascending: false });
+        break;
+      case "recent":
+      default:
+        query = query.order("created_at", { ascending: false });
+        break;
+    }
+
+    const { data, error } = await query;
 
     if (error) throw error;
     return data || [];
@@ -112,6 +126,11 @@ export const createReview = async (
           ...reviewData,
           user_id: userId,
           status: reviewData.status || "pending", // Default to pending for moderation
+          is_verified: reviewData.is_verified || false,
+          verification_type: reviewData.verification_type,
+          verification_date:
+            reviewData.verification_date ||
+            (reviewData.is_verified ? new Date().toISOString() : null),
         },
       ])
       .select()
@@ -155,17 +174,27 @@ export const moderateReview = async (
   status: ReviewStatus,
   moderatorId: string,
   moderationNotes?: string,
+  verifyReview?: boolean,
 ): Promise<Review> => {
   try {
+    const updateData: any = {
+      status,
+      moderation_notes: moderationNotes,
+      moderated_by: moderatorId,
+      moderated_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
+    // If verifying the review during moderation
+    if (verifyReview) {
+      updateData.is_verified = true;
+      updateData.verification_type = "admin";
+      updateData.verification_date = new Date().toISOString();
+    }
+
     const { data, error } = await supabase
       .from("vendor_reviews")
-      .update({
-        status,
-        moderation_notes: moderationNotes,
-        moderated_by: moderatorId,
-        moderated_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      })
+      .update(updateData)
       .eq("id", id)
       .select()
       .single();

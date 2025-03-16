@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { format, formatDistanceToNow } from "date-fns";
-import { Review, ReviewStatus } from "@/types/review";
+import { Review, ReviewStatus, VerificationType } from "@/types/review";
 import { useAuth } from "@/context/AuthContext";
 import {
   Star,
@@ -16,6 +16,15 @@ import {
   CheckCircle,
   XCircle,
   Clock,
+  SortAsc,
+  ThumbsUp,
+  Filter,
+  Calendar,
+  Search,
+  X,
+  ShieldCheck,
+  FileCheck,
+  Award,
 } from "lucide-react";
 import {
   AlertDialog,
@@ -27,6 +36,24 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
+  DropdownMenuLabel,
+  DropdownMenuGroup,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import ReviewVoteButtons from "./ReviewVoteButtons";
+import VerificationBadge from "./VerificationBadge";
 
 interface ReviewListProps {
   reviews: Review[];
@@ -39,8 +66,20 @@ interface ReviewListProps {
   showPendingReviews?: boolean;
 }
 
+type SortOption = "recent" | "helpful" | "rating" | "oldest";
+type FilterOptions = {
+  ratings: number[];
+  searchTerm: string;
+  dateRange: {
+    from: Date | null;
+    to: Date | null;
+  };
+  showVerifiedOnly: boolean;
+  verificationType?: VerificationType | null;
+};
+
 const ReviewList: React.FC<ReviewListProps> = ({
-  reviews,
+  reviews: initialReviews,
   averageRating = 0,
   ratingDistribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
   loading = false,
@@ -49,13 +88,130 @@ const ReviewList: React.FC<ReviewListProps> = ({
   onDeleteReview = () => {},
   showPendingReviews = false,
 }) => {
+  const [sortOption, setSortOption] = useState<SortOption>("recent");
   const { user, permissions } = useAuth();
   const [reviewToDelete, setReviewToDelete] = React.useState<string | null>(
     null,
   );
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
+    ratings: [],
+    searchTerm: "",
+    dateRange: { from: null, to: null },
+    showVerifiedOnly: false,
+    verificationType: null,
+  });
+  const [isFilterActive, setIsFilterActive] = useState(false);
+
+  // Update search term in filter options when it changes
+  useEffect(() => {
+    setFilterOptions((prev) => ({ ...prev, searchTerm }));
+  }, [searchTerm]);
+
+  // Check if any filter is active
+  useEffect(() => {
+    const hasActiveFilters =
+      filterOptions.ratings.length > 0 ||
+      filterOptions.searchTerm.trim() !== "" ||
+      filterOptions.dateRange.from !== null ||
+      filterOptions.dateRange.to !== null ||
+      filterOptions.showVerifiedOnly ||
+      filterOptions.verificationType !== null;
+
+    setIsFilterActive(hasActiveFilters);
+  }, [filterOptions]);
+
+  // Toggle rating filter
+  const toggleRatingFilter = (rating: number) => {
+    setFilterOptions((prev) => {
+      const newRatings = prev.ratings.includes(rating)
+        ? prev.ratings.filter((r) => r !== rating)
+        : [...prev.ratings, rating];
+      return { ...prev, ratings: newRatings };
+    });
+  };
+
+  // Clear all filters
+  const clearFilters = () => {
+    setFilterOptions({
+      ratings: [],
+      searchTerm: "",
+      dateRange: { from: null, to: null },
+      showVerifiedOnly: false,
+      verificationType: null,
+    });
+    setSearchTerm("");
+  };
+
+  // Filter reviews based on permissions and filter options
+  const filteredReviews = initialReviews.filter((review) => {
+    // First apply permission-based filtering
+    const passesPermissionFilter =
+      (permissions.canManagePermissions && showPendingReviews) ||
+      review.status === "approved" ||
+      (user && user.id === review.user_id);
+
+    if (!passesPermissionFilter) return false;
+
+    // Then apply user-selected filters
+    // Rating filter
+    if (
+      filterOptions.ratings.length > 0 &&
+      !filterOptions.ratings.includes(review.rating)
+    ) {
+      return false;
+    }
+
+    // Search term filter
+    if (filterOptions.searchTerm.trim() !== "") {
+      const searchLower = filterOptions.searchTerm.toLowerCase();
+      const textLower = review.review_text?.toLowerCase() || "";
+      if (!textLower.includes(searchLower)) {
+        return false;
+      }
+    }
+
+    // Date range filter
+    if (filterOptions.dateRange.from || filterOptions.dateRange.to) {
+      const reviewDate = review.created_at ? new Date(review.created_at) : null;
+      if (!reviewDate) return false;
+
+      if (
+        filterOptions.dateRange.from &&
+        reviewDate < filterOptions.dateRange.from
+      ) {
+        return false;
+      }
+
+      if (filterOptions.dateRange.to) {
+        // Set the end of day for the "to" date
+        const endDate = new Date(filterOptions.dateRange.to);
+        endDate.setHours(23, 59, 59, 999);
+        if (reviewDate > endDate) {
+          return false;
+        }
+      }
+    }
+
+    // Verified reviews filter
+    if (filterOptions.showVerifiedOnly && !review.is_verified) {
+      return false;
+    }
+
+    // Filter by verification type
+    if (
+      filterOptions.verificationType &&
+      (!review.is_verified ||
+        review.verification_type !== filterOptions.verificationType)
+    ) {
+      return false;
+    }
+
+    return true;
+  });
 
   // Calculate total reviews
-  const totalReviews = reviews.length;
+  const totalReviews = initialReviews.length;
 
   // Format date
   const formatReviewDate = (dateString: string) => {
@@ -110,13 +266,27 @@ const ReviewList: React.FC<ReviewListProps> = ({
     return null;
   };
 
-  // Filter reviews based on permissions
-  const visibleReviews = reviews.filter((review) => {
-    // If user has admin permissions and showPendingReviews is true, show all reviews
-    if (permissions.canManagePermissions && showPendingReviews) return true;
-
-    // For regular users, only show approved reviews or their own pending reviews
-    return review.status === "approved" || (user && user.id === review.user_id);
+  // Sort reviews based on selected option
+  const visibleReviews = [...filteredReviews].sort((a, b) => {
+    switch (sortOption) {
+      case "helpful":
+        const aHelpful = (a.helpful_votes || 0) - (a.unhelpful_votes || 0);
+        const bHelpful = (b.helpful_votes || 0) - (b.unhelpful_votes || 0);
+        return bHelpful - aHelpful;
+      case "rating":
+        return b.rating - a.rating;
+      case "oldest":
+        return (
+          new Date(a.created_at || "").getTime() -
+          new Date(b.created_at || "").getTime()
+        );
+      case "recent":
+      default:
+        return (
+          new Date(b.created_at || "").getTime() -
+          new Date(a.created_at || "").getTime()
+        );
+    }
   });
 
   return (
@@ -125,10 +295,268 @@ const ReviewList: React.FC<ReviewListProps> = ({
         <CardHeader>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
             <CardTitle>Reviews & Ratings</CardTitle>
-            <Button onClick={onAddReview}>
-              <Plus className="mr-2 h-4 w-4" />
-              Write a Review
-            </Button>
+            <div className="flex items-center gap-2">
+              <div className="relative">
+                <Input
+                  placeholder="Search reviews..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-[200px] h-9 pl-8"
+                />
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                {searchTerm && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-1 top-1 h-7 w-7 p-0"
+                    onClick={() => setSearchTerm("")}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className={
+                      isFilterActive
+                        ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                        : ""
+                    }
+                  >
+                    <Filter className="mr-2 h-4 w-4" />
+                    Filter
+                    {isFilterActive && (
+                      <Badge
+                        variant="secondary"
+                        className="ml-2 bg-primary-foreground text-primary"
+                      >
+                        {filterOptions.ratings.length +
+                          (filterOptions.searchTerm ? 1 : 0) +
+                          (filterOptions.dateRange.from ||
+                          filterOptions.dateRange.to
+                            ? 1
+                            : 0) +
+                          (filterOptions.showVerifiedOnly ? 1 : 0)}
+                      </Badge>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[240px] p-4" align="end">
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-medium mb-2">Rating</h4>
+                      <div className="flex flex-col gap-2">
+                        {[5, 4, 3, 2, 1].map((rating) => (
+                          <div
+                            key={rating}
+                            className={`flex items-center gap-2 p-1.5 rounded cursor-pointer ${filterOptions.ratings.includes(rating) ? "bg-muted" : ""}`}
+                            onClick={() => toggleRatingFilter(rating)}
+                          >
+                            <div className="flex items-center">
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <Star
+                                  key={star}
+                                  className={`h-4 w-4 ${star <= rating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"}`}
+                                />
+                              ))}
+                            </div>
+                            <span className="text-sm">
+                              {rating} star{rating !== 1 ? "s" : ""}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="font-medium mb-2">Verification Filters</h4>
+                      <div className="flex items-center gap-2 p-1.5 rounded cursor-pointer">
+                        <input
+                          type="checkbox"
+                          id="verified"
+                          checked={filterOptions.showVerifiedOnly}
+                          onChange={() =>
+                            setFilterOptions((prev) => ({
+                              ...prev,
+                              showVerifiedOnly: !prev.showVerifiedOnly,
+                              verificationType: null, // Reset verification type when toggling all verified
+                            }))
+                          }
+                          className="mr-2"
+                        />
+                        <label
+                          htmlFor="verified"
+                          className="text-sm cursor-pointer"
+                        >
+                          Verified reviews only
+                        </label>
+                      </div>
+
+                      <div className="mt-2 space-y-1">
+                        <div className="text-xs font-medium text-muted-foreground mb-1">
+                          Filter by verification type:
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          <Badge
+                            variant={
+                              filterOptions.verificationType === "booking"
+                                ? "default"
+                                : "outline"
+                            }
+                            className="cursor-pointer flex items-center gap-1"
+                            onClick={() =>
+                              setFilterOptions((prev) => ({
+                                ...prev,
+                                verificationType:
+                                  prev.verificationType === "booking"
+                                    ? null
+                                    : "booking",
+                                showVerifiedOnly:
+                                  prev.verificationType === "booking"
+                                    ? false
+                                    : true,
+                              }))
+                            }
+                          >
+                            <ShieldCheck className="h-3 w-3" />
+                            <span>Booking</span>
+                          </Badge>
+
+                          <Badge
+                            variant={
+                              filterOptions.verificationType === "contract"
+                                ? "default"
+                                : "outline"
+                            }
+                            className="cursor-pointer flex items-center gap-1"
+                            onClick={() =>
+                              setFilterOptions((prev) => ({
+                                ...prev,
+                                verificationType:
+                                  prev.verificationType === "contract"
+                                    ? null
+                                    : "contract",
+                                showVerifiedOnly:
+                                  prev.verificationType === "contract"
+                                    ? false
+                                    : true,
+                              }))
+                            }
+                          >
+                            <FileCheck className="h-3 w-3" />
+                            <span>Contract</span>
+                          </Badge>
+
+                          <Badge
+                            variant={
+                              filterOptions.verificationType === "purchase"
+                                ? "default"
+                                : "outline"
+                            }
+                            className="cursor-pointer flex items-center gap-1"
+                            onClick={() =>
+                              setFilterOptions((prev) => ({
+                                ...prev,
+                                verificationType:
+                                  prev.verificationType === "purchase"
+                                    ? null
+                                    : "purchase",
+                                showVerifiedOnly:
+                                  prev.verificationType === "purchase"
+                                    ? false
+                                    : true,
+                              }))
+                            }
+                          >
+                            <CheckCircle className="h-3 w-3" />
+                            <span>Purchase</span>
+                          </Badge>
+
+                          <Badge
+                            variant={
+                              filterOptions.verificationType === "admin"
+                                ? "default"
+                                : "outline"
+                            }
+                            className="cursor-pointer flex items-center gap-1"
+                            onClick={() =>
+                              setFilterOptions((prev) => ({
+                                ...prev,
+                                verificationType:
+                                  prev.verificationType === "admin"
+                                    ? null
+                                    : "admin",
+                                showVerifiedOnly:
+                                  prev.verificationType === "admin"
+                                    ? false
+                                    : true,
+                              }))
+                            }
+                          >
+                            <Award className="h-3 w-3" />
+                            <span>Admin</span>
+                          </Badge>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 flex justify-between">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={clearFilters}
+                        disabled={!isFilterActive}
+                      >
+                        Clear All
+                      </Button>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm">
+                    <SortAsc className="mr-2 h-4 w-4" />
+                    {sortOption === "recent" && "Most Recent"}
+                    {sortOption === "oldest" && "Oldest First"}
+                    {sortOption === "helpful" && "Most Helpful"}
+                    {sortOption === "rating" && "Highest Rated"}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>Sort by</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem onClick={() => setSortOption("recent")}>
+                      <Calendar className="mr-2 h-4 w-4" />
+                      Most Recent
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setSortOption("oldest")}>
+                      <Calendar className="mr-2 h-4 w-4" />
+                      Oldest First
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setSortOption("helpful")}>
+                      <ThumbsUp className="mr-2 h-4 w-4" />
+                      Most Helpful
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setSortOption("rating")}>
+                      <Star className="mr-2 h-4 w-4" />
+                      Highest Rated
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <Button onClick={onAddReview}>
+                <Plus className="mr-2 h-4 w-4" />
+                Write a Review
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent>
@@ -183,6 +611,19 @@ const ReviewList: React.FC<ReviewListProps> = ({
             </div>
           ) : visibleReviews.length > 0 ? (
             <div className="space-y-6">
+              {isFilterActive && (
+                <div className="flex items-center justify-between bg-muted p-3 rounded-md">
+                  <div className="text-sm">
+                    <span className="font-medium">{visibleReviews.length}</span>{" "}
+                    {visibleReviews.length === 1 ? "review" : "reviews"} match
+                    your filters
+                  </div>
+                  <Button variant="ghost" size="sm" onClick={clearFilters}>
+                    <X className="mr-2 h-3 w-3" />
+                    Clear filters
+                  </Button>
+                </div>
+              )}
               {visibleReviews.map((review) => (
                 <div key={review.id} className="border rounded-lg p-4">
                   <div className="flex justify-between items-start">
@@ -203,6 +644,13 @@ const ReviewList: React.FC<ReviewListProps> = ({
                     </div>
                     <div className="flex items-center gap-2">
                       {getStatusBadge(review.status)}
+                      {review.is_verified && (
+                        <VerificationBadge
+                          type={review.verification_type}
+                          size="sm"
+                          showLabel={false}
+                        />
+                      )}
                       <div className="flex items-center">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <Star
@@ -215,6 +663,14 @@ const ReviewList: React.FC<ReviewListProps> = ({
                   </div>
                   <div className="mt-3 whitespace-pre-line">
                     {review.review_text}
+                  </div>
+                  <div className="mt-3">
+                    <ReviewVoteButtons
+                      reviewId={review.id}
+                      helpfulCount={review.helpful_votes}
+                      unhelpfulCount={review.unhelpful_votes}
+                      size="sm"
+                    />
                   </div>
                   {review.moderation_notes &&
                     permissions.canManagePermissions && (
@@ -252,11 +708,31 @@ const ReviewList: React.FC<ReviewListProps> = ({
             </div>
           ) : (
             <div className="text-center py-8 text-muted-foreground">
-              <p>No reviews yet. Be the first to review this vendor!</p>
-              <Button variant="outline" onClick={onAddReview} className="mt-4">
-                <Plus className="mr-2 h-4 w-4" />
-                Write a Review
-              </Button>
+              {isFilterActive ? (
+                <>
+                  <p>No reviews match your current filters.</p>
+                  <Button
+                    variant="outline"
+                    onClick={clearFilters}
+                    className="mt-4"
+                  >
+                    <X className="mr-2 h-4 w-4" />
+                    Clear Filters
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <p>No reviews yet. Be the first to review this vendor!</p>
+                  <Button
+                    variant="outline"
+                    onClick={onAddReview}
+                    className="mt-4"
+                  >
+                    <Plus className="mr-2 h-4 w-4" />
+                    Write a Review
+                  </Button>
+                </>
+              )}
             </div>
           )}
         </CardContent>

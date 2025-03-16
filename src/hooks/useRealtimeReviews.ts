@@ -11,6 +11,7 @@ import {
 export function useRealtimeReviews(
   vendorId?: string,
   includeNonApproved = false,
+  sortBy: "recent" | "helpful" | "rating" = "recent",
 ) {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +29,11 @@ export function useRealtimeReviews(
     const fetchReviews = async () => {
       try {
         setLoading(true);
-        const data = await getReviewsByVendor(vendorId, includeNonApproved);
+        const data = await getReviewsByVendor(
+          vendorId,
+          includeNonApproved,
+          sortBy,
+        );
         setReviews(data);
       } catch (err) {
         setError(err as Error);
@@ -90,7 +95,7 @@ export function useRealtimeReviews(
     return () => {
       subscription.unsubscribe();
     };
-  }, [vendorId, includeNonApproved, toast]);
+  }, [vendorId, includeNonApproved, sortBy, toast]);
 
   return { reviews, loading, error };
 }

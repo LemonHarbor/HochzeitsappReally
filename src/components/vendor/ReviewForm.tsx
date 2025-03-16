@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Save, X, Star } from "lucide-react";
+import { Save, X, Star, ShieldCheck } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/context/AuthContext";
 import {
@@ -10,6 +10,7 @@ import {
   updateReview,
   getReviewByVendorAndUser,
 } from "@/services/reviewService";
+import { checkUserBookedVendor } from "@/services/verificationService";
 
 import {
   Form,
@@ -36,6 +37,8 @@ const formSchema = z.object({
   review_text: z
     .string()
     .min(10, { message: "Review must be at least 10 characters" }),
+  is_verified: z.boolean().optional(),
+  verification_type: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -61,6 +64,10 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   const { user } = useAuth();
   const [hoveredRating, setHoveredRating] = React.useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [canBeVerified, setCanBeVerified] = React.useState(false);
+  const [verificationType, setVerificationType] = React.useState<string | null>(
+    null,
+  );
 
   // Initialize the form
   const form = useForm<FormValues>({
@@ -68,8 +75,38 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
     defaultValues: {
       rating: initialData.rating || 0,
       review_text: initialData.review_text || "",
+      is_verified: initialData.is_verified || false,
+      verification_type: initialData.verification_type || "",
     },
   });
+
+  // Check if the user has booked this vendor
+  useEffect(() => {
+    const checkBookingStatus = async () => {
+      if (!user || !vendorId) return;
+
+      try {
+        const hasBooked = await checkUserBookedVendor(user.id, vendorId);
+        setCanBeVerified(hasBooked);
+
+        if (hasBooked) {
+          // Determine verification type based on booking history
+          // This is simplified - in a real app you'd have more complex logic
+          setVerificationType("booking");
+
+          // If this is a new review (not editing), auto-set as verified
+          if (!isEditing) {
+            form.setValue("is_verified", true);
+            form.setValue("verification_type", "booking");
+          }
+        }
+      } catch (error) {
+        console.error("Error checking booking status:", error);
+      }
+    };
+
+    checkBookingStatus();
+  }, [user, vendorId, isEditing, form]);
 
   const watchedRating = form.watch("rating");
 
@@ -113,6 +150,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
           user_id: user.id,
           rating: values.rating,
           review_text: values.review_text,
+          is_verified: values.is_verified,
+          verification_type: values.verification_type || null,
         };
 
         if (isEditing && reviewId) {
@@ -225,6 +264,26 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
                 </FormItem>
               )}
             />
+
+            {canBeVerified && (
+              <div className="px-0 pt-4">
+                <div className="flex items-center space-x-2 bg-green-50 p-3 rounded-md border border-green-200">
+                  <ShieldCheck className="h-5 w-5 text-green-600 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-medium text-green-800">
+                      Your review will be marked as verified
+                    </p>
+                    <p className="text-xs text-green-700">
+                      We've confirmed you've{" "}
+                      {verificationType === "booking"
+                        ? "booked"
+                        : "purchased from"}{" "}
+                      this vendor
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
 
             <CardFooter className="px-0 pt-6 flex justify-end space-x-2">
               <Button

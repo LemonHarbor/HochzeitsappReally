@@ -25,31 +25,33 @@ export const getRecommendedVendors = async (
     }
 
     // Fetch vendors
-    const { data, error } = await query.limit(limit);
+    const { data, error } = await query.limit(limit * 2); // Fetch more to allow for rating filtering
 
     if (error) throw error;
 
     // Apply additional filters that can't be done in the query
     let filteredVendors = data || [];
 
-    // Filter by rating if specified
-    if (preferences.rating && preferences.rating > 0) {
-      const vendorsWithRatings = [];
+    // Get ratings for all vendors
+    const vendorsWithRatings: Array<{ vendor: Vendor; rating: number }> = [];
 
-      for (const vendor of filteredVendors) {
-        const rating = await getVendorAverageRating(vendor.id);
-        if (rating >= preferences.rating) {
-          vendorsWithRatings.push(vendor);
-        }
-      }
-
-      filteredVendors = vendorsWithRatings;
+    for (const vendor of filteredVendors) {
+      const rating = await getVendorAverageRating(vendor.id);
+      vendorsWithRatings.push({ vendor, rating });
     }
 
-    // Sort by relevance (this is a placeholder - in a real app, you'd have a more sophisticated algorithm)
-    filteredVendors.sort((a, b) => a.name.localeCompare(b.name));
+    // Filter by rating if specified
+    if (preferences.rating && preferences.rating > 0) {
+      vendorsWithRatings.filter((item) => item.rating >= preferences.rating);
+    }
 
-    return filteredVendors.slice(0, limit);
+    // Sort by rating (highest first)
+    vendorsWithRatings.sort((a, b) => b.rating - a.rating);
+
+    // Extract just the vendors from the sorted array
+    const sortedVendors = vendorsWithRatings.map((item) => item.vendor);
+
+    return sortedVendors.slice(0, limit);
   } catch (error) {
     console.error("Error getting recommended vendors:", error);
     throw error;
@@ -77,10 +79,21 @@ export const getSimilarVendors = async (
     // Filter out the original vendor
     const filteredVendors = similarVendors.filter((v) => v.id !== vendorId);
 
-    // Sort by relevance (this is a placeholder - in a real app, you'd have a more sophisticated algorithm)
-    filteredVendors.sort((a, b) => a.name.localeCompare(b.name));
+    // Get ratings for all vendors
+    const vendorsWithRatings: Array<{ vendor: Vendor; rating: number }> = [];
 
-    return filteredVendors.slice(0, limit);
+    for (const vendor of filteredVendors) {
+      const rating = await getVendorAverageRating(vendor.id);
+      vendorsWithRatings.push({ vendor, rating });
+    }
+
+    // Sort by rating (highest first)
+    vendorsWithRatings.sort((a, b) => b.rating - a.rating);
+
+    // Extract just the vendors from the sorted array
+    const sortedVendors = vendorsWithRatings.map((item) => item.vendor);
+
+    return sortedVendors.slice(0, limit);
   } catch (error) {
     console.error("Error getting similar vendors:", error);
     throw error;
@@ -96,9 +109,21 @@ export const getPopularVendorsByCategory = async (
     // Get vendors in the category
     const vendors = await getVendorsByCategory(category);
 
-    // In a real app, you'd sort by popularity metrics like review count, average rating, etc.
-    // For now, we'll just return the first few vendors
-    return vendors.slice(0, limit);
+    // Get ratings for all vendors
+    const vendorsWithRatings: Array<{ vendor: Vendor; rating: number }> = [];
+
+    for (const vendor of vendors) {
+      const rating = await getVendorAverageRating(vendor.id);
+      vendorsWithRatings.push({ vendor, rating });
+    }
+
+    // Sort by rating (highest first)
+    vendorsWithRatings.sort((a, b) => b.rating - a.rating);
+
+    // Extract just the vendors from the sorted array
+    const sortedVendors = vendorsWithRatings.map((item) => item.vendor);
+
+    return sortedVendors.slice(0, limit);
   } catch (error) {
     console.error("Error getting popular vendors by category:", error);
     throw error;

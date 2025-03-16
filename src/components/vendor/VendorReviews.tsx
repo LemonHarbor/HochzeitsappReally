@@ -17,6 +17,7 @@ import {
   getVendorRatingDistribution,
   getReviewByVendorAndUser,
 } from "@/services/reviewService";
+import { checkUserBookedVendor } from "@/services/verificationService";
 
 interface VendorReviewsProps {
   vendor: Vendor;
@@ -26,7 +27,10 @@ interface VendorReviewsProps {
 const VendorReviews: React.FC<VendorReviewsProps> = ({ vendor, onBack }) => {
   const { toast } = useToast();
   const { user } = useAuth();
-  const { reviews, loading } = useRealtimeReviews(vendor.id);
+  const [sortOption, setSortOption] = useState<"recent" | "helpful" | "rating">(
+    "recent",
+  );
+  const { reviews, loading } = useRealtimeReviews(vendor.id, false, sortOption);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
@@ -41,6 +45,8 @@ const VendorReviews: React.FC<VendorReviewsProps> = ({ vendor, onBack }) => {
     5: 0,
   });
   const [userHasReviewed, setUserHasReviewed] = useState(false);
+  const [canBeVerified, setCanBeVerified] = useState(false);
+  const [verificationType, setVerificationType] = useState<string | null>(null);
 
   // Fetch average rating and distribution when reviews change
   useEffect(() => {
@@ -58,23 +64,35 @@ const VendorReviews: React.FC<VendorReviewsProps> = ({ vendor, onBack }) => {
     fetchRatingData();
   }, [vendor.id, reviews]);
 
-  // Check if current user has already reviewed this vendor
+  // Check if current user has already reviewed this vendor and if they can have a verified review
   useEffect(() => {
-    const checkUserReview = async () => {
+    const checkUserReviewAndVerification = async () => {
       if (!user) {
         setUserHasReviewed(false);
+        setCanBeVerified(false);
         return;
       }
 
       try {
+        // Check if user has already reviewed
         const userReview = await getReviewByVendorAndUser(vendor.id, user.id);
         setUserHasReviewed(!!userReview);
+
+        // Check if user has booked/purchased from this vendor
+        const hasBooked = await checkUserBookedVendor(user.id, vendor.id);
+        setCanBeVerified(hasBooked);
+
+        if (hasBooked) {
+          // Determine verification type based on booking history
+          // This is simplified - in a real app you'd have more complex logic
+          setVerificationType("booking");
+        }
       } catch (error) {
-        console.error("Error checking user review:", error);
+        console.error("Error checking user review and verification:", error);
       }
     };
 
-    checkUserReview();
+    checkUserReviewAndVerification();
   }, [vendor.id, user, reviews]);
 
   // Handle adding a new review
@@ -155,6 +173,8 @@ const VendorReviews: React.FC<VendorReviewsProps> = ({ vendor, onBack }) => {
             vendor_id: vendor.id,
             rating: data.rating,
             review_text: data.review_text,
+            is_verified: canBeVerified,
+            verification_type: canBeVerified ? verificationType : undefined,
           },
           user.id,
         );
