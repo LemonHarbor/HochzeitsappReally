@@ -17,6 +17,7 @@ import VendorDetail from "./VendorDetail";
 import VendorPayments from "./VendorPayments";
 import VendorContracts from "./VendorContracts";
 import VendorReviews from "./VendorReviews";
+import VendorAppointments from "./VendorAppointments";
 import VendorComparisonTool from "./VendorComparisonTool";
 import VendorRecommendations from "./VendorRecommendations";
 import ExpiringContractsAlert from "./ExpiringContractsAlert";
@@ -25,6 +26,7 @@ import { updateExpense } from "@/services/budgetService";
 interface VendorManagerProps {
   onAddExpense?: (vendorId: string) => void;
   onViewReceipt?: (url: string) => void;
+  initialVendorId?: string;
 }
 
 const VendorManager: React.FC<VendorManagerProps> = ({
@@ -43,6 +45,8 @@ const VendorManager: React.FC<VendorManagerProps> = ({
   const [viewingVendorPayments, setViewingVendorPayments] = useState(false);
   const [viewingVendorContracts, setViewingVendorContracts] = useState(false);
   const [viewingVendorReviews, setViewingVendorReviews] = useState(false);
+  const [viewingVendorAppointments, setViewingVendorAppointments] =
+    useState(false);
   const [viewingVendorComparison, setViewingVendorComparison] = useState(false);
   const [viewingVendorRecommendations, setViewingVendorRecommendations] =
     useState(false);
@@ -179,6 +183,18 @@ const VendorManager: React.FC<VendorManagerProps> = ({
     setViewingDetailedReport(false);
     setViewingVendorPayments(false);
     setViewingVendorContracts(false);
+    setViewingVendorAppointments(false);
+  };
+
+  // Handle viewing appointments
+  const handleViewAppointments = () => {
+    setViewingVendorAppointments(true);
+    setViewingVendorReviews(false);
+    setViewingVendorDetail(false);
+    setViewingVendorExpenses(false);
+    setViewingDetailedReport(false);
+    setViewingVendorPayments(false);
+    setViewingVendorContracts(false);
   };
 
   // Handle back from detailed report
@@ -222,6 +238,7 @@ const VendorManager: React.FC<VendorManagerProps> = ({
     setViewingDetailedReport(false);
     setViewingVendorPayments(false);
     setViewingVendorContracts(false);
+    setViewingVendorReviews(false);
   };
 
   // Check for initial section from URL parameters
@@ -275,6 +292,11 @@ const VendorManager: React.FC<VendorManagerProps> = ({
         />
       ) : viewingVendorReviews && selectedVendor ? (
         <VendorReviews vendor={selectedVendor} onBack={handleBackFromReviews} />
+      ) : viewingVendorAppointments && selectedVendor ? (
+        <VendorAppointments
+          vendor={selectedVendor}
+          onBack={() => setViewingVendorAppointments(false)}
+        />
       ) : viewingVendorRecommendations ? (
         <VendorRecommendations
           selectedVendor={selectedVendor}
@@ -297,6 +319,7 @@ const VendorManager: React.FC<VendorManagerProps> = ({
           onViewPayments={handleViewPayments}
           onViewContracts={handleViewContracts}
           onViewReviews={handleViewReviews}
+          onViewAppointments={handleViewAppointments}
           onViewReceipt={onViewReceipt}
         />
       ) : (

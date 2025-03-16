@@ -5,6 +5,11 @@ import * as z from "zod";
 import { Save, X, Star } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/context/AuthContext";
+import {
+  createReview,
+  updateReview,
+  getReviewByVendorAndUser,
+} from "@/services/reviewService";
 
 import {
   Form,
@@ -41,18 +46,21 @@ interface ReviewFormProps {
   onSubmit?: (data: FormValues) => void;
   onCancel?: () => void;
   isEditing?: boolean;
+  reviewId?: string;
 }
 
 const ReviewForm: React.FC<ReviewFormProps> = ({
   vendorId,
   initialData = {},
-  onSubmit = () => {},
+  onSubmit,
   onCancel = () => {},
   isEditing = false,
+  reviewId,
 }) => {
   const { toast } = useToast();
   const { user } = useAuth();
   const [hoveredRating, setHoveredRating] = React.useState<number | null>(null);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   // Initialize the form
   const form = useForm<FormValues>({
@@ -66,8 +74,10 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   const watchedRating = form.watch("rating");
 
   // Handle form submission
-  const handleSubmit = (values: FormValues) => {
+  const handleSubmit = async (values: FormValues) => {
     try {
+      setIsSubmitting(true);
+
       if (!user) {
         toast({
           variant: "destructive",
@@ -77,13 +87,60 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
         return;
       }
 
-      onSubmit(values);
+      // If not editing, check if user has already reviewed this vendor
+      if (!isEditing) {
+        const existingReview = await getReviewByVendorAndUser(
+          vendorId,
+          user.id,
+        );
+        if (existingReview) {
+          toast({
+            variant: "destructive",
+            title: "Review Error",
+            description: "You have already reviewed this vendor.",
+          });
+          return;
+        }
+      }
+
+      // If onSubmit is provided, use that (for custom handling)
+      if (onSubmit) {
+        onSubmit(values);
+      } else {
+        // Otherwise use the default service methods
+        const reviewData = {
+          vendor_id: vendorId,
+          user_id: user.id,
+          rating: values.rating,
+          review_text: values.review_text,
+        };
+
+        if (isEditing && reviewId) {
+          await updateReview(reviewId, reviewData);
+        } else {
+          await createReview(reviewData);
+        }
+
+        toast({
+          title: isEditing ? "Review Updated" : "Review Submitted",
+          description: isEditing
+            ? "Your review has been updated successfully."
+            : "Thank you for your feedback!",
+        });
+
+        // Reset form if not editing
+        if (!isEditing) {
+          form.reset();
+        }
+      }
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Error",
         description: `Failed to ${isEditing ? "update" : "submit"} review: ${error.message}`,
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -170,13 +227,22 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
             />
 
             <CardFooter className="px-0 pt-6 flex justify-end space-x-2">
-              <Button type="button" variant="outline" onClick={onCancel}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={onCancel}
+                disabled={isSubmitting}
+              >
                 <X className="mr-2 h-4 w-4" />
                 Cancel
               </Button>
-              <Button type="submit">
+              <Button type="submit" disabled={isSubmitting}>
                 <Save className="mr-2 h-4 w-4" />
-                {isEditing ? "Update Review" : "Submit Review"}
+                {isSubmitting
+                  ? "Saving..."
+                  : isEditing
+                    ? "Update Review"
+                    : "Submit Review"}
               </Button>
             </CardFooter>
           </form>

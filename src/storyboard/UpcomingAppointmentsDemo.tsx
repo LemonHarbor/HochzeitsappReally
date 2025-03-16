@@ -2,10 +2,10 @@ import React from "react";
 import { ThemeProvider } from "@/lib/theme";
 import { LanguageProvider } from "@/lib/language";
 import { CurrencyProvider } from "@/lib/currency";
-import AppointmentCalendar from "@/components/vendor/AppointmentCalendar";
+import UpcomingAppointments from "@/components/dashboard/UpcomingAppointments";
 import { addDays, subDays } from "date-fns";
 
-const AppointmentCalendarDemo = () => {
+const UpcomingAppointmentsDemo = () => {
   // Current date for reference
   const now = new Date();
 
@@ -87,32 +87,6 @@ const AppointmentCalendarDemo = () => {
       reminder_sent: false,
       created_at: subDays(now, 3).toISOString(),
     },
-    {
-      id: "appointment-4",
-      vendor_id: "vendor-1",
-      title: "Contract Signing",
-      description: "Review and sign venue contract",
-      start_time: addDays(now, 7).toISOString(),
-      end_time: new Date(addDays(now, 7).setHours(11, 0)).toISOString(),
-      location: "Grand Plaza Hotel, Business Center",
-      status: "scheduled",
-      notes: "Bring payment for deposit",
-      reminder_sent: false,
-      created_at: subDays(now, 2).toISOString(),
-    },
-    {
-      id: "appointment-5",
-      vendor_id: "vendor-2",
-      title: "Final Menu Selection",
-      description: "Finalize wedding menu choices",
-      start_time: addDays(now, 14).toISOString(),
-      end_time: new Date(addDays(now, 14).setHours(15, 30)).toISOString(),
-      location: "Elegant Catering Studio",
-      status: "scheduled",
-      notes: "Confirm final guest count and dietary restrictions",
-      reminder_sent: false,
-      created_at: subDays(now, 1).toISOString(),
-    },
   ];
 
   return (
@@ -120,13 +94,13 @@ const AppointmentCalendarDemo = () => {
       <LanguageProvider>
         <CurrencyProvider>
           <div className="p-8 bg-background">
-            <AppointmentCalendar
-              appointments={sampleAppointments}
+            <UpcomingAppointments
               vendors={sampleVendors}
-              onAddAppointment={() => console.log("Add appointment clicked")}
               onViewAppointment={(appointment) =>
                 console.log("View appointment", appointment)
               }
+              onViewAllAppointments={() => console.log("View all appointments")}
+              onAddAppointment={() => console.log("Add appointment")}
             />
           </div>
         </CurrencyProvider>
@@ -135,4 +109,4 @@ const AppointmentCalendarDemo = () => {
   );
 };
 
-export default AppointmentCalendarDemo;
+export default UpcomingAppointmentsDemo;

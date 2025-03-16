@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { format, parseISO } from "date-fns";
+import {
+  format,
+  parseISO,
+  addDays,
+  addHours,
+  addMinutes,
+  isBefore,
+} from "date-fns";
 import { Appointment } from "@/types/appointment";
 import {
   Calendar,
@@ -13,15 +20,40 @@ import {
   CheckCircle,
   FileText,
   CalendarDays,
+  Bell,
+  BellOff,
 } from "lucide-react";
-import { downloadAppointmentAsICal } from "@/services/appointmentService";
+import {
+  downloadAppointmentAsICal,
+  setAppointmentReminder,
+  cancelAppointmentReminder,
+} from "@/services/appointmentService";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { toast } from "@/components/ui/use-toast";
 
 interface AppointmentDetailsProps {
   appointment: Appointment;
   onEdit: () => void;
   onComplete: (notes?: string) => void;
   onBack: () => void;
+  onReminderSet?: (appointment: Appointment) => void;
 }
 
 const AppointmentDetails: React.FC<AppointmentDetailsProps> = ({
@@ -29,10 +61,15 @@ const AppointmentDetails: React.FC<AppointmentDetailsProps> = ({
   onEdit,
   onComplete,
   onBack,
+  onReminderSet,
 }) => {
-  const [meetingNotes, setMeetingNotes] = React.useState(
-    appointment.notes || "",
+  const [meetingNotes, setMeetingNotes] = useState(appointment.notes || "");
+  const [reminderDialogOpen, setReminderDialogOpen] = useState(false);
+  const [reminderTime, setReminderTime] = useState<string>("1hour");
+  const [reminderType, setReminderType] = useState<"email" | "sms" | "both">(
+    "email",
   );
+  const [isSettingReminder, setIsSettingReminder] = useState(false);
 
   // Format date
   const formatDateString = (dateString: string) => {
@@ -79,6 +116,130 @@ const AppointmentDetails: React.FC<AppointmentDetailsProps> = ({
     }
   };
 
+  // Handle setting a reminder
+  const handleSetReminder = async () => {
+    if (!appointment) return;
+
+    setIsSettingReminder(true);
+    try {
+      // Calculate the reminder time based on the selection
+      const appointmentDate = parseISO(appointment.start_time);
+      let reminderDate: Date;
+
+      switch (reminderTime) {
+        case "15min":
+          reminderDate = addMinutes(appointmentDate, -15);
+          break;
+        case "30min":
+          reminderDate = addMinutes(appointmentDate, -30);
+          break;
+        case "1hour":
+          reminderDate = addHours(appointmentDate, -1);
+          break;
+        case "2hours":
+          reminderDate = addHours(appointmentDate, -2);
+          break;
+        case "1day":
+          reminderDate = addDays(appointmentDate, -1);
+          break;
+        default:
+          reminderDate = addHours(appointmentDate, -1);
+      }
+
+      // Don't allow setting reminders in the past
+      if (isBefore(reminderDate, new Date())) {
+        toast({
+          title: "Cannot set reminder",
+          description:
+            "The reminder time is in the past. Please choose a different time.",
+          variant: "destructive",
+        });
+        setIsSettingReminder(false);
+        return;
+      }
+
+      const updatedAppointment = await setAppointmentReminder(
+        appointment.id,
+        reminderDate.toISOString(),
+        reminderType,
+      );
+
+      toast({
+        title: "Reminder set",
+        description: `You will receive a ${reminderType} reminder ${reminderTime.replace(/([0-9]+)([a-z]+)/, "$1 $2")} before the appointment.`,
+      });
+
+      setReminderDialogOpen(false);
+
+      // Call the callback if provided
+      if (onReminderSet) {
+        onReminderSet(updatedAppointment);
+      }
+    } catch (error) {
+      console.error("Error setting reminder:", error);
+      toast({
+        title: "Error",
+        description: "Failed to set reminder. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSettingReminder(false);
+    }
+  };
+
+  // Handle canceling a reminder
+  const handleCancelReminder = async () => {
+    if (!appointment) return;
+
+    try {
+      await cancelAppointmentReminder(appointment.id);
+
+      toast({
+        title: "Reminder canceled",
+        description: "The appointment reminder has been canceled.",
+      });
+
+      // Call the callback if provided
+      if (onReminderSet) {
+        const updatedAppointment = {
+          ...appointment,
+          reminder_time: undefined,
+          reminder_type: undefined,
+        };
+        onReminderSet(updatedAppointment);
+      }
+    } catch (error) {
+      console.error("Error canceling reminder:", error);
+      toast({
+        title: "Error",
+        description: "Failed to cancel reminder. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Format reminder time for display
+  const formatReminderTime = () => {
+    if (!appointment.reminder_time) return null;
+
+    const reminderDate = parseISO(appointment.reminder_time);
+    const appointmentDate = parseISO(appointment.start_time);
+    const diffMs = appointmentDate.getTime() - reminderDate.getTime();
+
+    // Convert to appropriate unit
+    const diffMins = Math.floor(diffMs / (1000 * 60));
+
+    if (diffMins < 60) {
+      return `${diffMins} minute${diffMins !== 1 ? "s" : ""} before`;
+    } else if (diffMins < 24 * 60) {
+      const hours = Math.floor(diffMins / 60);
+      return `${hours} hour${hours !== 1 ? "s" : ""} before`;
+    } else {
+      const days = Math.floor(diffMins / (24 * 60));
+      return `${days} day${days !== 1 ? "s" : ""} before`;
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -106,6 +267,12 @@ const AppointmentDetails: React.FC<AppointmentDetailsProps> = ({
                 {appointment.status.charAt(0).toUpperCase() +
                   appointment.status.slice(1)}
               </Badge>
+              {appointment.reminder_time && (
+                <Badge variant="outline" className="flex items-center gap-1">
+                  <Bell className="h-3 w-3" />
+                  {formatReminderTime()}
+                </Badge>
+              )}
             </div>
           </div>
         </div>
@@ -117,6 +284,95 @@ const AppointmentDetails: React.FC<AppointmentDetailsProps> = ({
             <Download className="mr-2 h-4 w-4" />
             Export to Calendar
           </Button>
+          {appointment.status === "scheduled" && (
+            <>
+              {appointment.reminder_time ? (
+                <Button variant="outline" onClick={handleCancelReminder}>
+                  <BellOff className="mr-2 h-4 w-4" />
+                  Cancel Reminder
+                </Button>
+              ) : (
+                <Dialog
+                  open={reminderDialogOpen}
+                  onOpenChange={setReminderDialogOpen}
+                >
+                  <DialogTrigger asChild>
+                    <Button variant="outline">
+                      <Bell className="mr-2 h-4 w-4" />
+                      Set Reminder
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Set Appointment Reminder</DialogTitle>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                      <div className="grid gap-2">
+                        <Label htmlFor="reminder-time">Remind me</Label>
+                        <Select
+                          value={reminderTime}
+                          onValueChange={(value) => setReminderTime(value)}
+                        >
+                          <SelectTrigger id="reminder-time">
+                            <SelectValue placeholder="Select time" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="15min">
+                              15 minutes before
+                            </SelectItem>
+                            <SelectItem value="30min">
+                              30 minutes before
+                            </SelectItem>
+                            <SelectItem value="1hour">1 hour before</SelectItem>
+                            <SelectItem value="2hours">
+                              2 hours before
+                            </SelectItem>
+                            <SelectItem value="1day">1 day before</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="grid gap-2">
+                        <Label>Notification method</Label>
+                        <RadioGroup
+                          value={reminderType}
+                          onValueChange={(value) =>
+                            setReminderType(value as "email" | "sms" | "both")
+                          }
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="email" id="email" />
+                            <Label htmlFor="email">Email</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="sms" id="sms" />
+                            <Label htmlFor="sms">SMS</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="both" id="both" />
+                            <Label htmlFor="both">Both</Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button
+                        variant="outline"
+                        onClick={() => setReminderDialogOpen(false)}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={handleSetReminder}
+                        disabled={isSettingReminder}
+                      >
+                        {isSettingReminder ? "Setting..." : "Set Reminder"}
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              )}
+            </>
+          )}
           <Button variant="outline" onClick={onEdit}>
             <Edit className="mr-2 h-4 w-4" />
             Edit
@@ -180,6 +436,32 @@ const AppointmentDetails: React.FC<AppointmentDetailsProps> = ({
                   </div>
                 </div>
               </div>
+
+              {appointment.reminder_time && (
+                <div className="flex items-center gap-2">
+                  <Bell className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium">Reminder</div>
+                    <div>
+                      {format(
+                        parseISO(appointment.reminder_time),
+                        "PPP 'at' h:mm a",
+                      )}
+                      {appointment.reminder_type && (
+                        <span className="text-sm text-muted-foreground block">
+                          Via:{" "}
+                          {appointment.reminder_type === "both"
+                            ? "Email and SMS"
+                            : appointment.reminder_type
+                                .charAt(0)
+                                .toUpperCase() +
+                              appointment.reminder_type.slice(1)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {appointment.updated_at && (
                 <div className="flex items-center gap-2">

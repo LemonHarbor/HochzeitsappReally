@@ -15,6 +15,11 @@ import { applyTheme, getActiveTheme } from "./lib/themes";
 import { TempoDevtools } from "tempo-devtools";
 TempoDevtools.init();
 
+// Add error handling for routing issues
+window.addEventListener("error", (event) => {
+  console.error("Global error caught:", event.error);
+});
+
 // Apply the active color theme before rendering
 const activeTheme = getActiveTheme();
 applyTheme(activeTheme);

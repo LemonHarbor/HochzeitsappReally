@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { Review, ReviewFormData } from "@/types/review";
+import { Review, ReviewFormData, ReviewStatus } from "@/types/review";
 
 // Get all reviews
 export const getReviews = async (): Promise<Review[]> => {
@@ -17,21 +17,46 @@ export const getReviews = async (): Promise<Review[]> => {
   }
 };
 
-// Get reviews by vendor ID
+// Get reviews by vendor ID (only approved by default)
 export const getReviewsByVendor = async (
   vendorId: string,
+  includeNonApproved = false,
 ): Promise<Review[]> => {
   try {
-    const { data, error } = await supabase
+    let query = supabase
       .from("vendor_reviews")
       .select("*")
-      .eq("vendor_id", vendorId)
-      .order("created_at", { ascending: false });
+      .eq("vendor_id", vendorId);
+
+    if (!includeNonApproved) {
+      query = query.eq("status", "approved");
+    }
+
+    const { data, error } = await query.order("created_at", {
+      ascending: false,
+    });
 
     if (error) throw error;
     return data || [];
   } catch (error) {
     console.error("Error fetching vendor reviews:", error);
+    throw error;
+  }
+};
+
+// Get reviews pending moderation
+export const getPendingReviews = async (): Promise<Review[]> => {
+  try {
+    const { data, error } = await supabase
+      .from("vendor_reviews")
+      .select("*")
+      .eq("status", "pending")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error("Error fetching pending reviews:", error);
     throw error;
   }
 };
@@ -82,7 +107,13 @@ export const createReview = async (
   try {
     const { data, error } = await supabase
       .from("vendor_reviews")
-      .insert([{ ...reviewData, user_id: userId }])
+      .insert([
+        {
+          ...reviewData,
+          user_id: userId,
+          status: reviewData.status || "pending", // Default to pending for moderation
+        },
+      ])
       .select()
       .single();
 
@@ -118,6 +149,35 @@ export const updateReview = async (
   }
 };
 
+// Moderate a review
+export const moderateReview = async (
+  id: string,
+  status: ReviewStatus,
+  moderatorId: string,
+  moderationNotes?: string,
+): Promise<Review> => {
+  try {
+    const { data, error } = await supabase
+      .from("vendor_reviews")
+      .update({
+        status,
+        moderation_notes: moderationNotes,
+        moderated_by: moderatorId,
+        moderated_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error("Error moderating review:", error);
+    throw error;
+  }
+};
+
 // Delete a review
 export const deleteReview = async (id: string): Promise<boolean> => {
   try {
@@ -134,7 +194,7 @@ export const deleteReview = async (id: string): Promise<boolean> => {
   }
 };
 
-// Get vendor average rating
+// Get vendor average rating (only approved reviews)
 export const getVendorAverageRating = async (
   vendorId: string,
 ): Promise<number> => {
@@ -142,7 +202,8 @@ export const getVendorAverageRating = async (
     const { data, error } = await supabase
       .from("vendor_reviews")
       .select("rating")
-      .eq("vendor_id", vendorId);
+      .eq("vendor_id", vendorId)
+      .eq("status", "approved");
 
     if (error) throw error;
 
@@ -156,7 +217,7 @@ export const getVendorAverageRating = async (
   }
 };
 
-// Get vendor rating distribution
+// Get vendor rating distribution (only approved reviews)
 export const getVendorRatingDistribution = async (
   vendorId: string,
 ): Promise<Record<number, number>> => {
@@ -164,7 +225,8 @@ export const getVendorRatingDistribution = async (
     const { data, error } = await supabase
       .from("vendor_reviews")
       .select("rating")
-      .eq("vendor_id", vendorId);
+      .eq("vendor_id", vendorId)
+      .eq("status", "approved");
 
     if (error) throw error;
 

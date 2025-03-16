@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -70,6 +70,7 @@ interface VendorDetailProps {
   onViewPayments?: () => void;
   onViewContracts?: () => void;
   onViewReviews?: () => void;
+  onViewAppointments?: () => void;
 }
 
 const VendorDetail: React.FC<VendorDetailProps> = ({
@@ -84,6 +85,7 @@ const VendorDetail: React.FC<VendorDetailProps> = ({
   onViewPayments,
   onViewContracts,
   onViewReviews,
+  onViewAppointments,
 }) => {
   const { formatCurrency } = useCurrency();
   const { expenses, loading } = useRealtimeVendorExpenses(vendor.id);
@@ -460,6 +462,12 @@ const VendorDetail: React.FC<VendorDetailProps> = ({
               <Sparkles className="mr-2 h-4 w-4" />
               Similar Vendors
             </Button>
+            {onViewAppointments && (
+              <Button variant="outline" onClick={onViewAppointments}>
+                <Calendar className="mr-2 h-4 w-4" />
+                Appointments
+              </Button>
+            )}
             {onAddExpense && (
               <Button onClick={onAddExpense}>Add Expense</Button>
             )}

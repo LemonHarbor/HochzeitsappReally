@@ -1,0 +1,149 @@
+/* Mobile-specific styles */
+
+/* Improve touch targets */
+button,
+a,
+input,
+select,
+.clickable {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Prevent text selection during touch interactions */
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Optimize scrolling */
+.scroll-container {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+}
+
+/* Prevent iOS zoom on input focus */
+@media screen and (max-width: 768px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* Improve tap highlight */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Add active state for touch */
+.touch-active:active {
+  opacity: 0.7;
+}
+
+/* Fix for iOS safe areas */
+.safe-area-padding {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+.bottom-nav-padding {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
+}
+
+/* Optimize for mobile viewports */
+@media screen and (max-width: 768px) {
+  .mobile-full-width {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .mobile-stack {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-hidden {
+    display: none;
+  }
+
+  .mobile-visible {
+    display: block;
+  }
+
+  .mobile-text-center {
+    text-align: center;
+  }
+
+  .mobile-text-lg {
+    font-size: 1.125rem;
+  }
+
+  .mobile-text-xl {
+    font-size: 1.25rem;
+  }
+
+  .mobile-p-4 {
+    padding: 1rem;
+  }
+
+  .mobile-m-2 {
+    margin: 0.5rem;
+  }
+
+  .mobile-rounded-lg {
+    border-radius: 0.5rem;
+  }
+}
+
+/* Optimize for tablets */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .tablet-p-6 {
+    padding: 1.5rem;
+  }
+
+  .tablet-grid-cols-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Add pull-to-refresh animation */
+.ptr-element {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: #aaa;
+  z-index: 10;
+  text-align: center;
+  height: 50px;
+  transition: all 0.25s ease;
+}
+
+.ptr-refresh {
+  display: inline-block;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid;
+  border-top-color: transparent;
+  animation: ptr-refreshing-animation 1s infinite linear;
+}
+
+@keyframes ptr-refreshing-animation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

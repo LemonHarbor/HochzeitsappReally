@@ -7,3 +7,7 @@ interface Window {
 interface Window {
   initialSection?: string;
 }
+
+interface Window {
+  initialSection?: string;
+}

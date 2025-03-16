@@ -1,6 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { Appointment, AppointmentFormData } from "@/types/appointment";
-import { format, addDays, startOfDay, endOfDay } from "date-fns";
+import { Appointment } from "@/types/appointment";
 
 // Get all appointments
 export const getAppointments = async (): Promise<Appointment[]> => {
@@ -37,50 +36,6 @@ export const getAppointmentsByVendor = async (
   }
 };
 
-// Get appointments by date range
-export const getAppointmentsByDateRange = async (
-  startDate: Date,
-  endDate: Date,
-): Promise<Appointment[]> => {
-  try {
-    const { data, error } = await supabase
-      .from("vendor_appointments")
-      .select("*")
-      .gte("start_time", startOfDay(startDate).toISOString())
-      .lte("start_time", endOfDay(endDate).toISOString())
-      .order("start_time", { ascending: true });
-
-    if (error) throw error;
-    return data || [];
-  } catch (error) {
-    console.error("Error fetching appointments by date range:", error);
-    throw error;
-  }
-};
-
-// Get upcoming appointments
-export const getUpcomingAppointments = async (
-  days: number = 7,
-): Promise<Appointment[]> => {
-  try {
-    const now = new Date();
-    const future = addDays(now, days);
-
-    const { data, error } = await supabase
-      .from("vendor_appointments")
-      .select("*")
-      .gte("start_time", now.toISOString())
-      .lte("start_time", future.toISOString())
-      .order("start_time", { ascending: true });
-
-    if (error) throw error;
-    return data || [];
-  } catch (error) {
-    console.error("Error fetching upcoming appointments:", error);
-    throw error;
-  }
-};
-
 // Get appointment by ID
 export const getAppointmentById = async (id: string): Promise<Appointment> => {
   try {
@@ -100,7 +55,7 @@ export const getAppointmentById = async (id: string): Promise<Appointment> => {
 
 // Create a new appointment
 export const createAppointment = async (
-  appointmentData: AppointmentFormData,
+  appointmentData: any,
 ): Promise<Appointment> => {
   try {
     const { data, error } = await supabase
@@ -120,7 +75,7 @@ export const createAppointment = async (
 // Update an appointment
 export const updateAppointment = async (
   id: string,
-  appointmentData: Partial<AppointmentFormData>,
+  appointmentData: any,
 ): Promise<Appointment> => {
   try {
     const { data, error } = await supabase
@@ -163,7 +118,7 @@ export const completeAppointment = async (
   notes?: string,
 ): Promise<Appointment> => {
   try {
-    const updateData: Partial<AppointmentFormData> = {
+    const updateData: any = {
       status: "completed",
       updated_at: new Date().toISOString(),
     };
@@ -187,27 +142,59 @@ export const completeAppointment = async (
   }
 };
 
-// Mark appointment reminder as sent
-export const markReminderSent = async (id: string): Promise<boolean> => {
+// Set reminder for appointment
+export const setAppointmentReminder = async (
+  id: string,
+  reminderTime: string,
+  reminderType: "email" | "sms" | "both",
+): Promise<Appointment> => {
   try {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("vendor_appointments")
       .update({
-        reminder_sent: true,
+        reminder_time: reminderTime,
+        reminder_type: reminderType,
         updated_at: new Date().toISOString(),
       })
-      .eq("id", id);
+      .eq("id", id)
+      .select()
+      .single();
 
     if (error) throw error;
-    return true;
+    return data;
   } catch (error) {
-    console.error("Error marking reminder as sent:", error);
+    console.error("Error setting appointment reminder:", error);
     throw error;
   }
 };
 
-// Export appointment to iCalendar format
-export const exportAppointmentToICal = (appointment: Appointment): string => {
+// Cancel appointment reminder
+export const cancelAppointmentReminder = async (
+  id: string,
+): Promise<Appointment> => {
+  try {
+    const { data, error } = await supabase
+      .from("vendor_appointments")
+      .update({
+        reminder_time: null,
+        reminder_type: null,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error("Error canceling appointment reminder:", error);
+    throw error;
+  }
+};
+
+// Download appointment as iCalendar file
+export const downloadAppointmentAsICal = (appointment: Appointment): void => {
+  // Format date for iCal
   const formatICalDate = (dateString: string) => {
     const date = new Date(dateString);
     return date
@@ -220,6 +207,7 @@ export const exportAppointmentToICal = (appointment: Appointment): string => {
   const startDate = formatICalDate(appointment.start_time);
   const endDate = formatICalDate(appointment.end_time);
 
+  // Create iCal content
   const icalContent = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
@@ -239,12 +227,7 @@ export const exportAppointmentToICal = (appointment: Appointment): string => {
     .filter((line) => line !== "")
     .join("\r\n");
 
-  return icalContent;
-};
-
-// Download appointment as iCalendar file
-export const downloadAppointmentAsICal = (appointment: Appointment): void => {
-  const icalContent = exportAppointmentToICal(appointment);
+  // Create and download file
   const blob = new Blob([icalContent], { type: "text/calendar;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");

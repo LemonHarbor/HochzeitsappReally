@@ -4,10 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
 import { format, formatDistanceToNow } from "date-fns";
-import { Review } from "@/types/review";
+import { Review, ReviewStatus } from "@/types/review";
 import { useAuth } from "@/context/AuthContext";
-import { Star, Edit, Trash2, Plus } from "lucide-react";
+import {
+  Star,
+  Edit,
+  Trash2,
+  Plus,
+  CheckCircle,
+  XCircle,
+  Clock,
+} from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,6 +36,7 @@ interface ReviewListProps {
   onAddReview?: () => void;
   onEditReview?: (review: Review) => void;
   onDeleteReview?: (id: string) => void;
+  showPendingReviews?: boolean;
 }
 
 const ReviewList: React.FC<ReviewListProps> = ({
@@ -37,8 +47,9 @@ const ReviewList: React.FC<ReviewListProps> = ({
   onAddReview = () => {},
   onEditReview = () => {},
   onDeleteReview = () => {},
+  showPendingReviews = false,
 }) => {
-  const { user } = useAuth();
+  const { user, permissions } = useAuth();
   const [reviewToDelete, setReviewToDelete] = React.useState<string | null>(
     null,
   );
@@ -54,7 +65,9 @@ const ReviewList: React.FC<ReviewListProps> = ({
 
   // Check if user can edit/delete a review
   const canModifyReview = (review: Review) => {
-    return user && user.id === review.user_id;
+    return (
+      user && (user.id === review.user_id || permissions.canManagePermissions)
+    );
   };
 
   // Handle delete confirmation
@@ -71,6 +84,40 @@ const ReviewList: React.FC<ReviewListProps> = ({
     // For now, just use the first two characters of the user ID
     return userId.substring(0, 2).toUpperCase();
   };
+
+  // Get status badge for a review
+  const getStatusBadge = (status?: ReviewStatus) => {
+    if (!status || status === "approved") return null;
+
+    if (status === "pending") {
+      return (
+        <Badge variant="outline" className="bg-yellow-50">
+          <Clock className="h-3 w-3 mr-1 text-yellow-500" />
+          Pending
+        </Badge>
+      );
+    }
+
+    if (status === "rejected") {
+      return (
+        <Badge variant="outline" className="bg-red-50">
+          <XCircle className="h-3 w-3 mr-1 text-red-500" />
+          Rejected
+        </Badge>
+      );
+    }
+
+    return null;
+  };
+
+  // Filter reviews based on permissions
+  const visibleReviews = reviews.filter((review) => {
+    // If user has admin permissions and showPendingReviews is true, show all reviews
+    if (permissions.canManagePermissions && showPendingReviews) return true;
+
+    // For regular users, only show approved reviews or their own pending reviews
+    return review.status === "approved" || (user && user.id === review.user_id);
+  });
 
   return (
     <div className="space-y-6">
@@ -134,9 +181,9 @@ const ReviewList: React.FC<ReviewListProps> = ({
             <div className="flex justify-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
             </div>
-          ) : reviews.length > 0 ? (
+          ) : visibleReviews.length > 0 ? (
             <div className="space-y-6">
-              {reviews.map((review) => (
+              {visibleReviews.map((review) => (
                 <div key={review.id} className="border rounded-lg p-4">
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-3">
@@ -154,28 +201,41 @@ const ReviewList: React.FC<ReviewListProps> = ({
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star
-                          key={star}
-                          className={`h-4 w-4 ${star <= review.rating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"}`}
-                        />
-                      ))}
+                    <div className="flex items-center gap-2">
+                      {getStatusBadge(review.status)}
+                      <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star
+                            key={star}
+                            className={`h-4 w-4 ${star <= review.rating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"}`}
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
                   <div className="mt-3 whitespace-pre-line">
                     {review.review_text}
                   </div>
+                  {review.moderation_notes &&
+                    permissions.canManagePermissions && (
+                      <div className="mt-3 p-2 bg-muted rounded-md">
+                        <p className="text-xs font-medium">Moderation Notes:</p>
+                        <p className="text-sm">{review.moderation_notes}</p>
+                      </div>
+                    )}
                   {canModifyReview(review) && (
                     <div className="mt-4 flex justify-end gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => onEditReview(review)}
-                      >
-                        <Edit className="mr-2 h-3 w-3" />
-                        Edit
-                      </Button>
+                      {(review.status === "approved" ||
+                        user?.id === review.user_id) && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => onEditReview(review)}
+                        >
+                          <Edit className="mr-2 h-3 w-3" />
+                          Edit
+                        </Button>
+                      )}
                       <Button
                         variant="outline"
                         size="sm"

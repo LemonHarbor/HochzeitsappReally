@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
@@ -10,6 +10,8 @@ import {
   Heart,
   LogOut,
   DollarSign,
+  ChevronLeft,
+  Menu,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -24,6 +26,8 @@ interface SidebarProps {
   weddingName?: string;
   weddingDate?: Date;
   avatarUrl?: string;
+  collapsed?: boolean;
+  onToggle?: () => void;
 }
 
 const Sidebar = ({
@@ -32,12 +36,20 @@ const Sidebar = ({
   weddingName = "Smith-Johnson Wedding",
   weddingDate = new Date("2024-06-15"),
   avatarUrl,
+  collapsed = false,
+  onToggle,
 }: SidebarProps) => {
   // Get user info from auth context
   const auth = useAuth();
   const user = auth?.user || null;
   const logout = auth?.logout || (() => {});
   const { t } = useLanguage();
+  const [isCollapsed, setIsCollapsed] = useState(collapsed);
+
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+    if (onToggle) onToggle();
+  };
 
   // Use provided values or fall back to auth context values
   const displayName = userName || (user ? user.name : "Guest");
@@ -108,10 +120,36 @@ const Sidebar = ({
   ];
 
   return (
-    <div className="w-64 h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+    <div
+      className={cn(
+        "h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col transition-all duration-300",
+        isCollapsed ? "w-16" : "w-64",
+      )}
+    >
+      {/* Toggle button */}
+      <div className="flex justify-end p-2">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="md:hidden"
+          onClick={toggleSidebar}
+        >
+          {isCollapsed ? (
+            <Menu className="h-4 w-4" />
+          ) : (
+            <ChevronLeft className="h-4 w-4" />
+          )}
+        </Button>
+      </div>
+
       {/* User profile section */}
-      <div className="p-4 flex flex-col items-center">
-        <Avatar className="h-16 w-16 mb-2">
+      <div
+        className={cn(
+          "flex flex-col items-center",
+          isCollapsed ? "p-2" : "p-4",
+        )}
+      >
+        <Avatar className={cn("mb-2", isCollapsed ? "h-10 w-10" : "h-16 w-16")}>
           <AvatarImage src={displayAvatar} alt={displayName} />
           <AvatarFallback className="bg-primary text-primary-foreground">
             {displayName
@@ -120,45 +158,52 @@ const Sidebar = ({
               .join("")}
           </AvatarFallback>
         </Avatar>
-        <h2 className="text-lg font-semibold text-center">{displayName}</h2>
-        <span className="text-sm text-muted-foreground">{displayRole}</span>
+        {!isCollapsed && (
+          <>
+            <h2 className="text-lg font-semibold text-center">{displayName}</h2>
+            <span className="text-sm text-muted-foreground">{displayRole}</span>
+          </>
+        )}
       </div>
 
       <Separator />
 
       {/* Wedding info */}
-      <div className="p-4 bg-muted/50">
-        <div className="flex flex-col items-center text-center">
-          <div className="flex items-center gap-1 mb-1">
-            <Heart className="h-4 w-4 text-rose-500" />
-            <h3 className="font-medium">{weddingName}</h3>
+      {!isCollapsed && (
+        <>
+          <div className="p-4 bg-muted/50">
+            <div className="flex flex-col items-center text-center">
+              <div className="flex items-center gap-1 mb-1">
+                <Heart className="h-4 w-4 text-rose-500" />
+                <h3 className="font-medium">{weddingName}</h3>
+              </div>
+              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                <Calendar className="h-3.5 w-3.5" />
+                <span>{formattedDate}</span>
+              </div>
+              <div className="mt-2 text-sm font-medium">
+                {daysUntil > 0 ? (
+                  <span className="text-primary">
+                    {t("misc.daysUntilWedding", { days: daysUntil })}
+                  </span>
+                ) : daysUntil === 0 ? (
+                  <span className="text-primary font-bold">
+                    {t("misc.weddingToday")}
+                  </span>
+                ) : (
+                  <span className="text-muted-foreground">
+                    {t("misc.weddingCompleted")}
+                  </span>
+                )}
+              </div>
+            </div>
           </div>
-          <div className="flex items-center gap-1 text-sm text-muted-foreground">
-            <Calendar className="h-3.5 w-3.5" />
-            <span>{formattedDate}</span>
-          </div>
-          <div className="mt-2 text-sm font-medium">
-            {daysUntil > 0 ? (
-              <span className="text-primary">
-                {t("misc.daysUntilWedding", { days: daysUntil })}
-              </span>
-            ) : daysUntil === 0 ? (
-              <span className="text-primary font-bold">
-                {t("misc.weddingToday")}
-              </span>
-            ) : (
-              <span className="text-muted-foreground">
-                {t("misc.weddingCompleted")}
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
-
-      <Separator />
+          <Separator />
+        </>
+      )}
 
       {/* Navigation */}
-      <nav className="flex-1 p-4 overflow-y-auto">
+      <nav className="flex-1 p-2 overflow-y-auto">
         <ul className="space-y-2">
           {navItems.map((item) => (
             <li key={item.path}>
@@ -169,14 +214,16 @@ const Sidebar = ({
                     className={({ isActive }) =>
                       cn(
                         "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                        isCollapsed ? "justify-center" : "",
                         isActive
                           ? "bg-primary text-primary-foreground"
                           : "hover:bg-muted",
                       )
                     }
+                    title={isCollapsed ? item.name : undefined}
                   >
                     {item.icon}
-                    {item.name}
+                    {!isCollapsed && item.name}
                   </NavLink>
                 </PermissionGuard>
               ) : item.role ? (
@@ -187,14 +234,16 @@ const Sidebar = ({
                     className={({ isActive }) =>
                       cn(
                         "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                        isCollapsed ? "justify-center" : "",
                         isActive
                           ? "bg-primary text-primary-foreground"
                           : "hover:bg-muted",
                       )
                     }
+                    title={isCollapsed ? item.name : undefined}
                   >
                     {item.icon}
-                    {item.name}
+                    {!isCollapsed && item.name}
                   </NavLink>
                 )
               ) : (
@@ -203,14 +252,16 @@ const Sidebar = ({
                   className={({ isActive }) =>
                     cn(
                       "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                      isCollapsed ? "justify-center" : "",
                       isActive
                         ? "bg-primary text-primary-foreground"
                         : "hover:bg-muted",
                     )
                   }
+                  title={isCollapsed ? item.name : undefined}
                 >
                   {item.icon}
-                  {item.name}
+                  {!isCollapsed && item.name}
                 </NavLink>
               )}
             </li>
@@ -219,15 +270,19 @@ const Sidebar = ({
       </nav>
 
       {/* Logout button */}
-      <div className="p-4 mt-auto">
+      <div className={cn("p-4 mt-auto", isCollapsed && "p-2")}>
         <Button
           variant="outline"
-          className="w-full justify-start"
+          className={cn(
+            "w-full",
+            isCollapsed ? "justify-center" : "justify-start",
+          )}
           size="sm"
           onClick={() => logout()}
+          title={isCollapsed ? t("nav.logout") : undefined}
         >
-          <LogOut className="h-4 w-4 mr-2" />
-          {t("nav.logout")}
+          <LogOut className="h-4 w-4" />
+          {!isCollapsed && <span className="ml-2">{t("nav.logout")}</span>}
         </Button>
       </div>
     </div>
