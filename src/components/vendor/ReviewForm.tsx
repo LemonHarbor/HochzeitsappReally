@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Save, X, Star, ShieldCheck } from "lucide-react";
+import { Save, X, Star, ShieldCheck, Calendar } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/context/AuthContext";
 import {
@@ -11,6 +11,8 @@ import {
   getReviewByVendorAndUser,
 } from "@/services/reviewService";
 import { checkUserBookedVendor } from "@/services/verificationService";
+import { useLanguage } from "@/lib/language";
+import { DatePickerField } from "./DatePickerField";
 
 import {
   Form,
@@ -33,10 +35,11 @@ import {
 } from "@/components/ui/card";
 
 const formSchema = z.object({
-  rating: z.number().min(1).max(5),
+  rating: z.number().min(1, { message: "Rating is required" }).max(5),
   review_text: z
     .string()
     .min(10, { message: "Review must be at least 10 characters" }),
+  visit_date: z.date().optional(),
   is_verified: z.boolean().optional(),
   verification_type: z.string().optional(),
 });
@@ -62,6 +65,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
 }) => {
   const { toast } = useToast();
   const { user } = useAuth();
+  const { language, t } = useLanguage();
   const [hoveredRating, setHoveredRating] = React.useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [canBeVerified, setCanBeVerified] = React.useState(false);
@@ -75,6 +79,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
     defaultValues: {
       rating: initialData.rating || 0,
       review_text: initialData.review_text || "",
+      visit_date: initialData.visit_date,
       is_verified: initialData.is_verified || false,
       verification_type: initialData.verification_type || "",
     },
@@ -110,6 +115,41 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
 
   const watchedRating = form.watch("rating");
 
+  // Get rating description based on language
+  const getRatingDescription = (rating: number) => {
+    if (language === "de") {
+      switch (rating) {
+        case 1:
+          return "Schlecht";
+        case 2:
+          return "Ausreichend";
+        case 3:
+          return "Gut";
+        case 4:
+          return "Sehr gut";
+        case 5:
+          return "Ausgezeichnet";
+        default:
+          return "";
+      }
+    } else {
+      switch (rating) {
+        case 1:
+          return "Poor";
+        case 2:
+          return "Fair";
+        case 3:
+          return "Good";
+        case 4:
+          return "Very Good";
+        case 5:
+          return "Excellent";
+        default:
+          return "";
+      }
+    }
+  };
+
   // Handle form submission
   const handleSubmit = async (values: FormValues) => {
     try {
@@ -118,8 +158,14 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
       if (!user) {
         toast({
           variant: "destructive",
-          title: "Authentication Error",
-          description: "You must be logged in to submit a review.",
+          title:
+            language === "de"
+              ? "Authentifizierungsfehler"
+              : "Authentication Error",
+          description:
+            language === "de"
+              ? "Sie müssen angemeldet sein, um eine Bewertung abzugeben."
+              : "You must be logged in to submit a review.",
         });
         return;
       }
@@ -133,8 +179,11 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
         if (existingReview) {
           toast({
             variant: "destructive",
-            title: "Review Error",
-            description: "You have already reviewed this vendor.",
+            title: language === "de" ? "Bewertungsfehler" : "Review Error",
+            description:
+              language === "de"
+                ? "Sie haben diesen Anbieter bereits bewertet."
+                : "You have already reviewed this vendor.",
           });
           return;
         }
@@ -150,6 +199,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
           user_id: user.id,
           rating: values.rating,
           review_text: values.review_text,
+          visit_date: values.visit_date,
           is_verified: values.is_verified,
           verification_type: values.verification_type || null,
         };
@@ -161,10 +211,20 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
         }
 
         toast({
-          title: isEditing ? "Review Updated" : "Review Submitted",
+          title: isEditing
+            ? language === "de"
+              ? "Bewertung aktualisiert"
+              : "Review Updated"
+            : language === "de"
+              ? "Bewertung abgeschickt"
+              : "Review Submitted",
           description: isEditing
-            ? "Your review has been updated successfully."
-            : "Thank you for your feedback!",
+            ? language === "de"
+              ? "Ihre Bewertung wurde erfolgreich aktualisiert."
+              : "Your review has been updated successfully."
+            : language === "de"
+              ? "Vielen Dank für Ihr Feedback!"
+              : "Thank you for your feedback!",
         });
 
         // Reset form if not editing
@@ -175,8 +235,11 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Error",
-        description: `Failed to ${isEditing ? "update" : "submit"} review: ${error.message}`,
+        title: language === "de" ? "Fehler" : "Error",
+        description:
+          language === "de"
+            ? `Fehler beim ${isEditing ? "Aktualisieren" : "Absenden"} der Bewertung: ${error.message}`
+            : `Failed to ${isEditing ? "update" : "submit"} review: ${error.message}`,
       });
     } finally {
       setIsSubmitting(false);
@@ -186,11 +249,23 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   return (
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
-        <CardTitle>{isEditing ? "Edit Review" : "Write a Review"}</CardTitle>
+        <CardTitle>
+          {isEditing
+            ? language === "de"
+              ? "Bewertung bearbeiten"
+              : "Edit Review"
+            : language === "de"
+              ? "Bewertung schreiben"
+              : "Write a Review"}
+        </CardTitle>
         <CardDescription>
           {isEditing
-            ? "Update your review and rating"
-            : "Share your experience with this vendor"}
+            ? language === "de"
+              ? "Aktualisieren Sie Ihre Bewertung und Bewertungspunkte"
+              : "Update your review and rating"
+            : language === "de"
+              ? "Teilen Sie Ihre Erfahrung mit diesem Anbieter"
+              : "Share your experience with this vendor"}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -204,7 +279,9 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
               name="rating"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Rating</FormLabel>
+                  <FormLabel>
+                    {language === "de" ? "Bewertung" : "Rating"}
+                  </FormLabel>
                   <FormControl>
                     <div className="flex items-center space-x-2">
                       {[1, 2, 3, 4, 5].map((rating) => (
@@ -232,11 +309,36 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
                     </div>
                   </FormControl>
                   <FormDescription>
-                    {watchedRating === 1 && "Poor"}
-                    {watchedRating === 2 && "Fair"}
-                    {watchedRating === 3 && "Good"}
-                    {watchedRating === 4 && "Very Good"}
-                    {watchedRating === 5 && "Excellent"}
+                    {watchedRating > 0 && getRatingDescription(watchedRating)}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="visit_date"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    {language === "de" ? "Besuchsdatum" : "Visit Date"}
+                  </FormLabel>
+                  <FormControl>
+                    <DatePickerField
+                      value={field.value}
+                      onChange={field.onChange}
+                      placeholder={
+                        language === "de"
+                          ? "Wann haben Sie den Anbieter besucht?"
+                          : "When did you visit this vendor?"
+                      }
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {language === "de"
+                      ? "Optional: Hilft anderen Paaren, die Aktualität Ihrer Bewertung einzuschätzen."
+                      : "Optional: Helps other couples gauge the timeliness of your review."}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -248,17 +350,24 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
               name="review_text"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Your Review</FormLabel>
+                  <FormLabel>
+                    {language === "de" ? "Ihre Bewertung" : "Your Review"}
+                  </FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Share details of your experience with this vendor..."
+                      placeholder={
+                        language === "de"
+                          ? "Teilen Sie Details zu Ihrer Erfahrung mit diesem Anbieter..."
+                          : "Share details of your experience with this vendor..."
+                      }
                       className="min-h-[150px]"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    Your honest feedback helps other couples make informed
-                    decisions.
+                    {language === "de"
+                      ? "Ihr ehrliches Feedback hilft anderen Paaren, informierte Entscheidungen zu treffen."
+                      : "Your honest feedback helps other couples make informed decisions."}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -271,14 +380,14 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
                   <ShieldCheck className="h-5 w-5 text-green-600 flex-shrink-0" />
                   <div>
                     <p className="text-sm font-medium text-green-800">
-                      Your review will be marked as verified
+                      {language === "de"
+                        ? "Ihre Bewertung wird als verifiziert markiert"
+                        : "Your review will be marked as verified"}
                     </p>
                     <p className="text-xs text-green-700">
-                      We've confirmed you've{" "}
-                      {verificationType === "booking"
-                        ? "booked"
-                        : "purchased from"}{" "}
-                      this vendor
+                      {language === "de"
+                        ? `Wir haben bestätigt, dass Sie ${verificationType === "booking" ? "gebucht haben" : "gekauft haben von"} diesem Anbieter`
+                        : `We've confirmed you've ${verificationType === "booking" ? "booked" : "purchased from"} this vendor`}
                     </p>
                   </div>
                 </div>
@@ -293,15 +402,21 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
                 disabled={isSubmitting}
               >
                 <X className="mr-2 h-4 w-4" />
-                Cancel
+                {language === "de" ? "Abbrechen" : "Cancel"}
               </Button>
               <Button type="submit" disabled={isSubmitting}>
                 <Save className="mr-2 h-4 w-4" />
                 {isSubmitting
-                  ? "Saving..."
+                  ? language === "de"
+                    ? "Speichern..."
+                    : "Saving..."
                   : isEditing
-                    ? "Update Review"
-                    : "Submit Review"}
+                    ? language === "de"
+                      ? "Bewertung aktualisieren"
+                      : "Update Review"
+                    : language === "de"
+                      ? "Bewertung abschicken"
+                      : "Submit Review"}
               </Button>
             </CardFooter>
           </form>

@@ -25,7 +25,7 @@ interface CurrencySwitcherProps {
 
 export function CurrencySwitcher({ className }: CurrencySwitcherProps) {
   const { currency, setCurrency } = useCurrency();
-  const { t } = useLanguage();
+  const { language } = useLanguage();
 
   const handleCurrencyChange = (newCurrency: "USD" | "EUR") => {
     setCurrency(newCurrency);
@@ -47,24 +47,28 @@ export function CurrencySwitcher({ className }: CurrencySwitcherProps) {
                 ) : (
                   <Euro className="h-5 w-5" />
                 )}
-                <span className="sr-only">{t("settings.switchCurrency")}</span>
+                <span className="sr-only">
+                  {language === "de" ? "Währung wechseln" : "Switch currency"}
+                </span>
               </Button>
             </DropdownMenuTrigger>
           </TooltipTrigger>
           <TooltipContent>
-            <p>{t("settings.switchCurrency")}</p>
+            <p>{language === "de" ? "Währung wechseln" : "Switch currency"}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>{t("settings.selectCurrency")}</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          {language === "de" ? "Währung auswählen" : "Select currency"}
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => handleCurrencyChange("USD")}
           className={currency === "USD" ? "bg-accent" : ""}
         >
           <DollarSign className="h-4 w-4 mr-2" />
-          USD - US Dollar
+          USD - {language === "de" ? "US-Dollar" : "US Dollar"}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => handleCurrencyChange("EUR")}

@@ -8,9 +8,16 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useLanguage } from "@/lib/language";
+import { cn } from "@/lib/utils";
 
-export function DeveloperToggle({ className }: { className?: string }) {
+interface DeveloperToggleProps {
+  className?: string;
+}
+
+export function DeveloperToggle({ className }: DeveloperToggleProps) {
   const { isDeveloperMode, toggleDeveloperMode } = useDeveloperMode();
+  const { language } = useLanguage();
 
   return (
     <TooltipProvider>
@@ -20,7 +27,7 @@ export function DeveloperToggle({ className }: { className?: string }) {
             variant="ghost"
             size="icon"
             onClick={toggleDeveloperMode}
-            className={`${isDeveloperMode ? "text-green-500" : ""} ${className || ""}`}
+            className={cn(isDeveloperMode ? "text-green-500" : "", className)}
           >
             {isDeveloperMode ? (
               <Code2 className="h-5 w-5" />
@@ -32,9 +39,13 @@ export function DeveloperToggle({ className }: { className?: string }) {
         </TooltipTrigger>
         <TooltipContent>
           <p>
-            {isDeveloperMode
-              ? "Deaktiviere Entwicklermodus"
-              : "Aktiviere Entwicklermodus"}
+            {language === "de"
+              ? isDeveloperMode
+                ? "Entwicklermodus deaktivieren"
+                : "Entwicklermodus aktivieren"
+              : isDeveloperMode
+                ? "Disable Developer Mode"
+                : "Enable Developer Mode"}
           </p>
         </TooltipContent>
       </Tooltip>

@@ -4,6 +4,7 @@ export interface Review {
   user_id: string;
   rating: number;
   review_text: string;
+  visit_date?: Date | string;
   status?: ReviewStatus;
   moderation_notes?: string;
   moderated_by?: string;
@@ -25,6 +26,7 @@ export interface ReviewFormData {
   vendor_id: string;
   rating: number;
   review_text: string;
+  visit_date?: Date | string;
   status?: ReviewStatus;
   is_verified?: boolean;
   verification_type?: VerificationType;

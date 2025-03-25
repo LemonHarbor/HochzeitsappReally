@@ -119,18 +119,27 @@ export const createReview = async (
   userId: string,
 ): Promise<Review> => {
   try {
+    // Format the visit_date if it's a Date object
+    const formattedData = {
+      ...reviewData,
+      visit_date:
+        reviewData.visit_date instanceof Date
+          ? reviewData.visit_date.toISOString()
+          : reviewData.visit_date,
+    };
+
     const { data, error } = await supabase
       .from("vendor_reviews")
       .insert([
         {
-          ...reviewData,
+          ...formattedData,
           user_id: userId,
-          status: reviewData.status || "pending", // Default to pending for moderation
-          is_verified: reviewData.is_verified || false,
-          verification_type: reviewData.verification_type,
+          status: formattedData.status || "pending", // Default to pending for moderation
+          is_verified: formattedData.is_verified || false,
+          verification_type: formattedData.verification_type,
           verification_date:
-            reviewData.verification_date ||
-            (reviewData.is_verified ? new Date().toISOString() : null),
+            formattedData.verification_date ||
+            (formattedData.is_verified ? new Date().toISOString() : null),
         },
       ])
       .select()
@@ -150,10 +159,19 @@ export const updateReview = async (
   reviewData: Partial<ReviewFormData>,
 ): Promise<Review> => {
   try {
+    // Format the visit_date if it's a Date object
+    const formattedData = {
+      ...reviewData,
+      visit_date:
+        reviewData.visit_date instanceof Date
+          ? reviewData.visit_date.toISOString()
+          : reviewData.visit_date,
+    };
+
     const { data, error } = await supabase
       .from("vendor_reviews")
       .update({
-        ...reviewData,
+        ...formattedData,
         updated_at: new Date().toISOString(),
       })
       .eq("id", id)

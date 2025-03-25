@@ -1,0 +1,49 @@
+import React from "react";
+import { VendorCard } from "@/components/vendor/VendorCard";
+
+const mockVendor = {
+  id: "v1",
+  name: "Elegant Events Venue",
+  category: "venue",
+  contact_name: "Sarah Johnson",
+  address: "123 Wedding Lane, Celebration City",
+  phone: "(555) 123-4567",
+  email: "info@elegantevents.com",
+  website: "https://www.elegantevents.com",
+  description: "A beautiful venue for your special day",
+  status: "active",
+};
+
+const VendorCardDemo = () => {
+  return (
+    <div className="p-6 max-w-md mx-auto bg-background">
+      <h1 className="text-2xl font-bold mb-6">Vendor Card Component</h1>
+      <VendorCard 
+        vendor={mockVendor}
+        rating={4.7}
+        onViewDetails={() => alert("View details clicked")}
+      />
+      
+      <div className="mt-8">
+        <h2 className="text-xl font-semibold mb-4">Another Example</h2>
+        <VendorCard 
+          vendor={{
+            ...mockVendor,
+            id: "v2",
+            name: "Delicious Catering Co.",
+            category: "catering",
+            contact_name: "Michael Chen",
+            address: "456 Flavor Street, Tasty Town",
+            phone: "(555) 987-6543",
+            email: "info@deliciouscatering.com",
+            website: "https://www.deliciouscatering.com",
+          }}
+          rating={3.8}
+          onViewDetails={() => alert("View details clicked")}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default VendorCardDemo;
