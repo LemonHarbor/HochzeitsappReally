@@ -492,6 +492,7 @@ const BudgetPlanner = ({
                     className="h-2"
                     style={{
                       backgroundColor: `${category.color}33`,
+                      // @ts-ignore - Custom CSS property
                       "--progress-color":
                         category.spent > category.amount
                           ? "hsl(var(--destructive))"

@@ -214,6 +214,7 @@ const BudgetDashboard = ({
                         className="h-1.5"
                         style={{
                           backgroundColor: `${category.color}33`,
+                          // @ts-ignore - Custom CSS property
                           "--progress-color": category.color,
                         }}
                       />

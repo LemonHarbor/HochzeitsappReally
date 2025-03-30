@@ -126,7 +126,7 @@ export function VendorManager() {
               <div>
                 <label className="block text-sm font-medium mb-1">{t("vendors.category")}</label>
                 <select className="w-full px-3 py-2 border rounded-md">
-                  {Object.keys(t("budget.categories", { returnObjects: true })).map((category) => (
+                  {Object.keys(t("budget.categories", { returnObjects: true }) as object).map((category) => (
                     <option key={category} value={category}>
                       {t(`budget.categories.${category}`)}
                     </option>

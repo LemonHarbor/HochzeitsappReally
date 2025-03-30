@@ -123,7 +123,10 @@ export function MobileOptimizedGuestManager() {
         />
       </div>
       
-      <MobileResponsiveSection title={t("guests.statistics")}>
+      <MobileResponsiveSection 
+        title={t("guests.statistics")} 
+        description={t("guests.statisticsDescription")}
+      >
         <MobileResponsiveGrid columns={{ sm: 1, md: 3, lg: 3 }}>
           <MobileResponsiveGridItem className="bg-green-50">
             <h3 className="text-lg font-semibold mb-2">{t("guests.confirmedGuests")}</h3>
