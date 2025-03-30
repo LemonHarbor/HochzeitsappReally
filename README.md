@@ -1,30 +1,89 @@
-# React + TypeScript + Vite
+# LemonVows - Hochzeitsplanungs-App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Übersicht
 
-Currently, two official plugins are available:
+LemonVows ist eine umfassende Hochzeitsplanungs-App, die Paaren hilft, ihre Hochzeit zu organisieren und zu verwalten. Die App bietet Funktionen für Gästeverwaltung, Tischplanung, Budgetverfolgung, Zeitplanung und mehr.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Dokumentation
 
-## Expanding the ESLint configuration
+### Für Benutzer
+- [Anpassungsleitfaden](./docs/customization-guide.md) - Wie du die App an deine Bedürfnisse anpassen kannst
+- [Vercel Deployment Anleitung](./docs/vercel-deployment.md) - Wie du die App auf Vercel deployen kannst
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Für Entwickler
+- [Projektstruktur](#projektstruktur)
+- [Technologie-Stack](#technologie-stack)
+- [Lokale Entwicklung](#lokale-entwicklung)
+- [Deployment](#deployment)
 
-- Configure the top-level `parserOptions` property like this:
+## Projektstruktur
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```
+HochzeitsappReally/
+├── public/              # Statische Assets
+│   ├── icons/           # App-Icons
+│   ├── images/          # Bilder
+│   ├── manifest.json    # PWA-Manifest
+│   └── sw.js            # Service Worker
+├── src/                 # Quellcode
+│   ├── components/      # React-Komponenten
+│   ├── context/         # React-Kontexte
+│   ├── hooks/           # Custom React-Hooks
+│   ├── lib/             # Hilfsbibliotheken
+│   ├── pages/           # Hauptseiten
+│   ├── services/        # API-Dienste
+│   └── types/           # TypeScript-Typdefinitionen
+├── supabase/            # Supabase-Konfiguration
+├── .env                 # Umgebungsvariablen (Entwicklung)
+├── .env.production      # Umgebungsvariablen (Produktion)
+├── vercel.json          # Vercel-Konfiguration
+└── vite.config.ts       # Vite-Konfiguration
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Technologie-Stack
+
+- **Frontend**: React, TypeScript, Tailwind CSS
+- **Build-Tool**: Vite
+- **Backend/Datenbank**: Supabase
+- **Hosting**: Vercel
+- **UI-Komponenten**: Radix UI, Shadcn UI
+- **Authentifizierung**: Supabase Auth
+- **Echtzeit-Updates**: Supabase Realtime
+
+## Lokale Entwicklung
+
+### Voraussetzungen
+
+- Node.js (v18 oder höher)
+- npm oder yarn
+- Git
+
+### Installation
+
+1. Repository klonen:
+   ```
+   git clone https://github.com/LemonHarbor/HochzeitsappReally.git
+   cd HochzeitsappReally
+   ```
+
+2. Abhängigkeiten installieren:
+   ```
+   npm install
+   ```
+
+3. Umgebungsvariablen konfigurieren:
+   - Kopiere `.env.example` zu `.env`
+   - Füge deine Supabase-Anmeldedaten ein
+
+4. Entwicklungsserver starten:
+   ```
+   npm run dev
+   ```
+
+## Deployment
+
+Die App kann auf Vercel deployt werden. Folge der [Vercel Deployment Anleitung](./docs/vercel-deployment.md) für detaillierte Anweisungen.
+
+## Lizenz
+
+Alle Rechte vorbehalten.
