@@ -1,14 +1,18 @@
 import React from "react";
-import { useMediaQuery } from "../../../../src/hooks/useMediaQuery";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 import MobileLayout from "./MobileLayout";
-import { PWAInstallPrompt } from "../../../../src/components/ui/pwa-install-prompt";
-import { OfflineIndicator } from "../../../../src/components/ui/offline-indicator";
+import { PWAInstallPrompt } from "../ui/pwa-install-prompt";
+import { OfflineIndicator } from "../ui/offline-indicator";
+
+// Directly import the hook to avoid path resolution issues
+// This is a workaround for Vercel deployment
 
 interface ResponsiveLayoutProps {
   children: React.ReactNode;
 }
 
 const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({ children }) => {
+  // Use the hook with the media query
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
