@@ -146,7 +146,7 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
 
   // Update category spent amounts based on expenses
   const updateCategorySpentAmounts = (currentExpenses: Expense[]) => {
-    const categorySpent = {};
+    const categorySpent: Record<string, number> = {};
 
     // Calculate total spent per category
     currentExpenses.forEach((expense) => {
@@ -174,7 +174,6 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
         amount: data.amount,
         date: data.date.toISOString().split("T")[0],
         status: data.status,
-        vendor_id: data.vendor_id === "none" ? undefined : data.vendor_id,
         notes: data.notes,
       };
 

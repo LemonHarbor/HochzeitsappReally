@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useRealtimeSongRequests } from "@/hooks/useRealtimeMusic";
-import { addSongRequest, deleteSongRequest } from "@/services/musicService";
+import { createSongRequest, deleteSongRequest } from "@/services/musicService";
 import { Music, Plus, X, Loader2 } from "lucide-react";
 import MusicWishlistForm from "./MusicWishlistForm";
 import MusicWishlistItem from "./MusicWishlistItem";
@@ -41,10 +41,13 @@ const MusicWishlistSection: React.FC<MusicWishlistSectionProps> = ({
     setIsSubmitting(true);
 
     try {
-      await addSongRequest(guestId, {
+      await createSongRequest({
         title: data.title,
         artist: data.artist,
         notes: data.notes,
+        guest_id: guestId,
+        guest_name: "",
+        status: "pending"
       });
 
       toast({

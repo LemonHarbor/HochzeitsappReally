@@ -316,6 +316,27 @@ export async function generateShareableLink(boardId: string): Promise<string> {
   return `${window.location.origin}/mood-board/${boardId}`;
 }
 
+// Upload an image for a mood board
+export async function uploadMoodBoardImage(file: File): Promise<string> {
+  try {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+    const filePath = `mood-board-images/${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('images')
+      .upload(filePath, file);
+
+    if (uploadError) throw uploadError;
+
+    const { data } = supabase.storage.from('images').getPublicUrl(filePath);
+    return data.publicUrl;
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    throw error;
+  }
+}
+
 export default {
   getMoodBoards,
   getMoodBoard,
@@ -329,4 +350,5 @@ export default {
   shareMoodBoard,
   removeMoodBoardShare,
   generateShareableLink,
+  uploadMoodBoardImage,
 };
