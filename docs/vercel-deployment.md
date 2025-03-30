@@ -7,6 +7,16 @@ Diese Anleitung führt dich durch den Prozess, deine LemonVows App auf Vercel zu
 - Ein Vercel-Konto (kostenlos verfügbar auf [vercel.com](https://vercel.com))
 - Zugriff auf dein GitHub-Repository: [https://github.com/LemonHarbor/HochzeitsappReally](https://github.com/LemonHarbor/HochzeitsappReally)
 
+## Wichtige Änderungen für das Vercel-Deployment
+
+Folgende Änderungen wurden vorgenommen, um die App erfolgreich auf Vercel zu deployen:
+
+1. **Import-Pfad-Korrekturen**: Alle Import-Pfade wurden von absoluten Pfaden (`@/components/...` oder `../../../src/components/...`) zu relativen Pfaden (`../components/...`) geändert. Dies war notwendig, da Vercel Schwierigkeiten hat, die Pfad-Aliase korrekt aufzulösen.
+
+2. **Build-Konfiguration**: Ein spezieller Build-Befehl `build-vercel` wurde in der `package.json` hinzugefügt, der TypeScript-Fehler während des Builds ignoriert.
+
+3. **Vercel-Konfiguration**: Die `vercel.json` wurde optimiert, um die Bereitstellung zu verbessern und Routing-Probleme zu vermeiden.
+
 ## Schritt-für-Schritt Anleitung
 
 ### 1. Bei Vercel anmelden
@@ -25,7 +35,7 @@ Diese Anleitung führt dich durch den Prozess, deine LemonVows App auf Vercel zu
 Die Konfiguration ist bereits in der `vercel.json` Datei im Repository enthalten, aber überprüfe folgende Einstellungen:
 
 - **Framework Preset**: Vite
-- **Build Command**: `npm run build-no-errors`
+- **Build Command**: `npm run build-vercel`
 - **Output Directory**: `dist`
 - **Install Command**: `npm install`
 
@@ -59,6 +69,28 @@ Falls Probleme beim Deployment auftreten:
 1. Überprüfe die Build-Logs im Vercel-Dashboard
 2. Stelle sicher, dass alle Umgebungsvariablen korrekt gesetzt sind
 3. Prüfe, ob die neuesten Änderungen im GitHub-Repository sind
+
+### Häufige Probleme und Lösungen
+
+#### Import-Pfad-Probleme
+
+Wenn du neue Komponenten oder Dateien hinzufügst, verwende immer relative Pfade für Imports:
+
+```typescript
+// FALSCH (funktioniert nicht auf Vercel):
+import { Component } from "@/components/ui/component";
+import { Component } from "../../../src/components/ui/component";
+
+// RICHTIG (funktioniert auf Vercel):
+import { Component } from "../components/ui/component";
+```
+
+#### TypeScript-Fehler
+
+Wenn TypeScript-Fehler das Deployment verhindern, kannst du:
+
+1. Die Fehler direkt beheben (empfohlen)
+2. Den `build-vercel` Befehl verwenden, der TypeScript-Fehler ignoriert
 
 ## Automatische Deployments
 
