@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useToast } from "../../../../src/components/ui/use-toast";
-import { Dialog, DialogContent } from "../../../../src/components/ui/dialog";
-import { useRealtimeVendors } from "../../../../src/hooks/useRealtimeVendors";
+import { useToast } from "@/components/ui/use-toast";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useRealtimeVendors } from "@/hooks/useRealtimeVendors";
 import {
   createVendor,
   updateVendor,
   deleteVendor,
   getExpensesByVendor,
-} from "../../../../src/services/vendorService";
-import { Vendor } from "../../../../src/types/vendor";
+} from "@/services/vendorService";
+import { Vendor } from "@/types/vendor";
 import VendorList from "./VendorList";
 import VendorForm from "./VendorForm";
 import VendorExpenses from "./VendorExpenses";
@@ -21,7 +21,7 @@ import VendorAppointments from "./VendorAppointments";
 import VendorComparisonTool from "./VendorComparisonTool";
 import VendorRecommendations from "./VendorRecommendations";
 import ExpiringContractsAlert from "./ExpiringContractsAlert";
-import { updateExpense } from "../../../../src/services/budgetService";
+import { updateExpense } from "@/services/budgetService";
 
 interface VendorManagerProps {
   onAddExpense?: (vendorId: string) => void;

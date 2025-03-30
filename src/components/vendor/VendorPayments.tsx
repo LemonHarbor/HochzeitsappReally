@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
-import { Button } from "../../../../src/components/ui/button";
-import { Badge } from "../../../../src/components/ui/badge";
-import { Progress } from "../../../../src/components/ui/progress";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import {
   Table,
   TableBody,
@@ -10,11 +10,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../../../src/components/ui/table";
+} from "@/components/ui/table";
 import { format, isAfter, isBefore, parseISO } from "date-fns";
-import { Vendor } from "../../../../src/types/vendor";
-import { Payment } from "../../../../src/types/payment";
-import { useCurrency } from "../../../../src/lib/currency";
+import { Vendor } from "@/types/vendor";
+import { Payment } from "@/types/payment";
+import { useCurrency } from "@/lib/currency";
 import {
   ArrowLeft,
   Plus,
@@ -26,16 +26,16 @@ import {
   Edit,
   AlertCircle,
 } from "lucide-react";
-import { useRealtimeVendorPayments } from "../../../../src/hooks/useRealtimeVendorPayments";
-import { Dialog, DialogContent } from "../../../../src/components/ui/dialog";
+import { useRealtimeVendorPayments } from "@/hooks/useRealtimeVendorPayments";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import PaymentForm from "./PaymentForm";
-import { useToast } from "../../../../src/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import {
   createPayment,
   updatePayment,
   deletePayment,
   getPaymentSummaryByVendor,
-} from "../../../../src/services/paymentService";
+} from "@/services/paymentService";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -45,7 +45,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "../../../../src/components/ui/alert-dialog";
+} from "@/components/ui/alert-dialog";
 
 interface VendorPaymentsProps {
   vendor: Vendor;

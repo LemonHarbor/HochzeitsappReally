@@ -9,7 +9,7 @@ import {
   CreditCard,
   Store,
 } from "lucide-react";
-import { useLanguage } from "../../../../src/lib/language";
+import { useLanguage } from "@/lib/language";
 
 export function MobileNavbar() {
   const navigate = useNavigate();

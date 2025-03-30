@@ -1,7 +1,7 @@
 import React from "react";
-import PhotoItem from "../../../../src/components/guest-area/PhotoItem";
-import { ThemeProvider } from "../../../../src/lib/theme";
-import { LanguageProvider } from "../../../../src/lib/language";
+import PhotoItem from "@/components/guest-area/PhotoItem";
+import { ThemeProvider } from "@/lib/theme";
+import { LanguageProvider } from "@/lib/language";
 
 const PhotoItemDemo = () => {
   // Sample photo data for demonstration

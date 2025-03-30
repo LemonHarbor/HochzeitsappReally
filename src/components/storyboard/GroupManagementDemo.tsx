@@ -1,7 +1,7 @@
 import React from "react";
-import GroupManagement from "../../../../src/components/table/GroupManagement";
-import { ThemeProvider } from "../../../../src/lib/theme";
-import { LanguageProvider } from "../../../../src/lib/language";
+import GroupManagement from "@/components/table/GroupManagement";
+import { ThemeProvider } from "@/lib/theme";
+import { LanguageProvider } from "@/lib/language";
 
 const GroupManagementDemo = () => {
   return (

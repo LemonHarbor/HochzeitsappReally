@@ -10,11 +10,11 @@ import {
   Menu,
   Store,
 } from "lucide-react";
-import { Button } from "../../../../src/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "../../../../src/components/ui/sheet";
-import { useAuth } from "../../../../src/context/AuthContext";
-import { useLanguage } from "../../../../src/lib/language";
-import { LanguageSwitcher } from "../../../../src/components/ui/language-switcher";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/lib/language";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 
 interface MobileLayoutProps {
   children: React.ReactNode;

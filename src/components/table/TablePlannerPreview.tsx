@@ -7,20 +7,20 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../../../src/components/ui/card";
-import { Button } from "../../../../src/components/ui/button";
-import { Badge } from "../../../../src/components/ui/badge";
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../../../../src/components/ui/tooltip";
+} from "@/components/ui/tooltip";
 import {
   useRealtimeTables,
   useRealtimeSeats,
-} from "../../../../src/hooks/useRealtimeUpdates";
-import { useLanguage } from "../../../../src/lib/language";
+} from "@/hooks/useRealtimeUpdates";
+import { useLanguage } from "@/lib/language";
 
 interface Table {
   id: string;

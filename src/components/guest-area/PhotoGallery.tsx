@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Card, CardContent } from "../../../../src/components/ui/card";
-import { Button } from "../../../../src/components/ui/button";
-import { Input } from "../../../../src/components/ui/input";
-import { Textarea } from "../../../../src/components/ui/textarea";
-import { useToast } from "../../../../src/components/ui/use-toast";
-import { useRealtimePhotos } from "../../../../src/hooks/useRealtimePhotos";
-import { uploadPhoto, deletePhoto } from "../../../../src/services/photoService";
-import { Photo } from "../../../../src/types/photo";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
+import { useRealtimePhotos } from "@/hooks/useRealtimePhotos";
+import { uploadPhoto, deletePhoto } from "@/services/photoService";
+import { Photo } from "@/types/photo";
 import { Camera, Upload, X, Loader2 } from "lucide-react";
 import PhotoItem from "./PhotoItem";
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
-import { Button } from "../../../../src/components/ui/button";
-import { Badge } from "../../../../src/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -9,21 +9,21 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../../../src/components/ui/table";
+} from "@/components/ui/table";
 import { format } from "date-fns";
-import { Vendor } from "../../../../src/types/vendor";
-import { useCurrency } from "../../../../src/lib/currency";
+import { Vendor } from "@/types/vendor";
+import { useCurrency } from "@/lib/currency";
 import { ArrowLeft, Receipt, Download, Filter, X } from "lucide-react";
-import { getExpensesByVendor } from "../../../../src/services/vendorService";
-import { useToast } from "../../../../src/components/ui/use-toast";
-import { Input } from "../../../../src/components/ui/input";
+import { getExpensesByVendor } from "@/services/vendorService";
+import { useToast } from "@/components/ui/use-toast";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../../src/components/ui/select";
+} from "@/components/ui/select";
 import {
   BarChart,
   Bar,

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { cn } from "../../../../src/lib/utils";
+import { cn } from "@/lib/utils";
 import {
   Home,
   Users,
@@ -13,12 +13,12 @@ import {
   ChevronLeft,
   Menu,
 } from "lucide-react";
-import { Button } from "../../../../src/components/ui/button";
-import { Separator } from "../../../../src/components/ui/separator";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../../src/components/ui/avatar";
-import { useAuth } from "../../../../src/context/AuthContext";
-import { useLanguage } from "../../../../src/lib/language";
-import { PermissionGuard } from "../../../../src/components/ui/permission-guard";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/lib/language";
+import { PermissionGuard } from "@/components/ui/permission-guard";
 
 interface SidebarProps {
   userName?: string;

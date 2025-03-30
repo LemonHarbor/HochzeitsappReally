@@ -1,7 +1,7 @@
 import React from "react";
-import GuestRelationships from "../../../../src/components/guest/GuestRelationships";
-import { ThemeProvider } from "../../../../src/lib/theme";
-import { LanguageProvider } from "../../../../src/lib/language";
+import GuestRelationships from "@/components/guest/GuestRelationships";
+import { ThemeProvider } from "@/lib/theme";
+import { LanguageProvider } from "@/lib/language";
 
 const RelationshipDemo = () => {
   return (

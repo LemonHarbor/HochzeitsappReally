@@ -1,5 +1,5 @@
 import React from "react";
-import BudgetDashboard from "../../../../src/components/budget/BudgetDashboard";
+import BudgetDashboard from "@/components/budget/BudgetDashboard";
 
 const BudgetDashboardDemo = () => {
   // Sample data for the demo

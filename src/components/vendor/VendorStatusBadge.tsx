@@ -1,5 +1,5 @@
 import React from "react";
-import { Badge } from "../../../../src/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 
 interface VendorStatusBadgeProps {
   status: "active" | "pending" | "inactive";

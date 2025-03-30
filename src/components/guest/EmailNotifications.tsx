@@ -1,27 +1,27 @@
 import React, { useState } from "react";
-import { Button } from "../../../../src/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../src/components/ui/tabs";
-import { Badge } from "../../../../src/components/ui/badge";
-import { Checkbox } from "../../../../src/components/ui/checkbox";
-import { Label } from "../../../../src/components/ui/label";
-import { Input } from "../../../../src/components/ui/input";
-import { Textarea } from "../../../../src/components/ui/textarea";
-import { useToast } from "../../../../src/components/ui/use-toast";
-import { Calendar } from "../../../../src/components/ui/calendar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../../../../src/components/ui/popover";
+} from "@/components/ui/popover";
 import { format } from "date-fns";
 import { CalendarIcon, Mail, Send, Users, Clock } from "lucide-react";
-import { cn } from "../../../../src/lib/utils";
+import { cn } from "@/lib/utils";
 import {
   sendRsvpReminder,
   sendBulkRsvpReminders,
   sendInvitation,
-} from "../../../../src/services/emailService";
+} from "@/services/emailService";
 
 interface Guest {
   id: string;

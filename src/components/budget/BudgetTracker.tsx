@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../src/components/ui/tabs";
-import { Dialog, DialogContent } from "../../../../src/components/ui/dialog";
-import { Button } from "../../../../src/components/ui/button";
-import BudgetDashboard from "../../../../src/components/budget/BudgetDashboard";
-import ExpenseList from "../../../../src/components/budget/ExpenseList";
-import ExpenseForm from "../../../../src/components/budget/ExpenseForm";
-import BudgetPlanner from "../../../../src/components/budget/BudgetPlanner";
-import BudgetForm from "../../../../src/components/budget/BudgetForm";
-import BudgetReports from "../../../../src/components/budget/BudgetReports";
-import VendorManager from "../../../../src/components/vendor/VendorManager";
-import { useToast } from "../../../../src/components/ui/use-toast";
-import { useLanguage } from "../../../../src/lib/language";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import BudgetDashboard from "@/components/budget/BudgetDashboard";
+import ExpenseList from "@/components/budget/ExpenseList";
+import ExpenseForm from "@/components/budget/ExpenseForm";
+import BudgetPlanner from "@/components/budget/BudgetPlanner";
+import BudgetForm from "@/components/budget/BudgetForm";
+import BudgetReports from "@/components/budget/BudgetReports";
+import VendorManager from "@/components/vendor/VendorManager";
+import { useToast } from "@/components/ui/use-toast";
+import { useLanguage } from "@/lib/language";
 import {
   getExpenses,
   getBudgetCategories,
@@ -22,9 +22,9 @@ import {
   deleteBudgetCategory,
   updateTotalBudget,
   uploadReceipt,
-} from "../../../../src/services/budgetService";
-import { linkVendorToExpense } from "../../../../src/services/vendorService";
-import { exportBudgetReportCSV } from "../../../../src/services/reportService";
+} from "@/services/budgetService";
+import { linkVendorToExpense } from "@/services/vendorService";
+import { exportBudgetReportCSV } from "@/services/reportService";
 
 interface Expense {
   id?: string;

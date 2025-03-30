@@ -1,16 +1,16 @@
 import React from "react";
-import { Card, CardContent, CardFooter } from "../../../../src/components/ui/card";
-import { Button } from "../../../../src/components/ui/button";
-import { Badge } from "../../../../src/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../../src/components/ui/avatar";
-import { SongRequest } from "../../../../src/types/music";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { SongRequest } from "@/types/music";
 import { Music, Trash2, MoreVertical } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../../../../src/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 
 interface MusicWishlistItemProps {
   song: SongRequest;

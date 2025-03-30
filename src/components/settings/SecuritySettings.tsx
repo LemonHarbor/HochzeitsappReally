@@ -6,9 +6,9 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from "../../../../src/components/ui/card";
-import { Button } from "../../../../src/components/ui/button";
-import { Input } from "../../../../src/components/ui/input";
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,8 +19,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../../../../src/components/ui/alert-dialog";
-import { useToast } from "../../../../src/components/ui/use-toast";
+} from "@/components/ui/alert-dialog";
+import { useToast } from "@/components/ui/use-toast";
 import { Shield, KeyRound, Eye, EyeOff, AlertTriangle } from "lucide-react";
 
 interface SecuritySettingsProps {

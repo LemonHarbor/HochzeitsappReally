@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../src/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ReviewList from "./ReviewList";
 import ReviewModeration from "./ReviewModeration";
-import { Review } from "../../../../src/types/review";
-import { getReviewsByVendor, moderateReview } from "../../../../src/services/reviewService";
-import { useAuth } from "../../../../src/context/AuthContext";
+import { Review } from "@/types/review";
+import { getReviewsByVendor, moderateReview } from "@/services/reviewService";
+import { useAuth } from "@/context/AuthContext";
 
 interface VendorReviewModerationProps {
   vendorId: string;

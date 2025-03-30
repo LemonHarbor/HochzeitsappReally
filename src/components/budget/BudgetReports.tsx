@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../src/components/ui/tabs";
-import { Button } from "../../../../src/components/ui/button";
-import { useCurrency } from "../../../../src/lib/currency";
-import { useLanguage } from "../../../../src/lib/language";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { useCurrency } from "@/lib/currency";
+import { useLanguage } from "@/lib/language";
 import {
   Download,
   Calendar,

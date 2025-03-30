@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Music, Save, X } from "lucide-react";
-import { useToast } from "../../../../src/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 
 import {
   Form,
@@ -13,10 +13,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../../../src/components/ui/form";
-import { Input } from "../../../../src/components/ui/input";
-import { Button } from "../../../../src/components/ui/button";
-import { Textarea } from "../../../../src/components/ui/textarea";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Card,
   CardContent,
@@ -24,7 +24,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "../../../../src/components/ui/card";
+} from "@/components/ui/card";
 
 const formSchema = z.object({
   title: z

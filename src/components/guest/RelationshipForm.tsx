@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Users, Heart, UserPlus, AlertTriangle } from "lucide-react";
-import { useToast } from "../../../../src/components/ui/use-toast";
-import { useLanguage } from "../../../../src/lib/language";
+import { useToast } from "@/components/ui/use-toast";
+import { useLanguage } from "@/lib/language";
 
 import {
   Form,
@@ -14,15 +14,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../../../src/components/ui/form";
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../../src/components/ui/select";
-import { Button } from "../../../../src/components/ui/button";
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -30,8 +30,8 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "../../../../src/components/ui/card";
-import { Slider } from "../../../../src/components/ui/slider";
+} from "@/components/ui/card";
+import { Slider } from "@/components/ui/slider";
 
 const formSchema = z
   .object({

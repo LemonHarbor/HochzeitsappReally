@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
-import { Button } from "../../../../src/components/ui/button";
-import { Input } from "../../../../src/components/ui/input";
-import { Badge } from "../../../../src/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import VendorStatusBadge from "./VendorStatusBadge";
 import VendorStatusSelect from "./VendorStatusSelect";
 import {
@@ -12,14 +12,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../../../src/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../../src/components/ui/select";
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -27,7 +27,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../../../src/components/ui/table";
+} from "@/components/ui/table";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -37,7 +37,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "../../../../src/components/ui/alert-dialog";
+} from "@/components/ui/alert-dialog";
 import {
   Search,
   Plus,
@@ -58,14 +58,14 @@ import {
   BarChart2,
   Sparkles,
 } from "lucide-react";
-import { useLanguage } from "../../../../src/lib/language";
-import { Vendor } from "../../../../src/types/vendor";
-import { useCurrency } from "../../../../src/lib/currency";
+import { useLanguage } from "@/lib/language";
+import { Vendor } from "@/types/vendor";
+import { useCurrency } from "@/lib/currency";
 import {
   downloadVendorAsVCard,
   downloadVendorAsCSV,
   downloadVendorsAsCSV,
-} from "../../../../src/services/exportService";
+} from "@/services/exportService";
 
 interface VendorListProps {
   vendors?: Vendor[];

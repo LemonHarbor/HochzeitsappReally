@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
-import { Button } from "../../../../src/components/ui/button";
-import { Input } from "../../../../src/components/ui/input";
-import { Badge } from "../../../../src/components/ui/badge";
-import { Separator } from "../../../../src/components/ui/separator";
-import { useToast } from "../../../../src/components/ui/use-toast";
-import { useAuth } from "../../../../src/context/AuthContext";
-import { useRealtimeMoodBoards } from "../../../../src/hooks/useRealtimeMoodBoard";
-import { MoodBoard } from "../../../../src/types/moodboard";
-import { createMoodBoard, deleteMoodBoard } from "../../../../src/services/moodboardService";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/components/ui/use-toast";
+import { useAuth } from "@/context/AuthContext";
+import { useRealtimeMoodBoards } from "@/hooks/useRealtimeMoodBoard";
+import { MoodBoard } from "@/types/moodboard";
+import { createMoodBoard, deleteMoodBoard } from "@/services/moodboardService";
 import {
   Grid,
   Plus,
@@ -31,21 +31,21 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from "../../../../src/components/ui/dialog";
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../../src/components/ui/select";
+} from "@/components/ui/select";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../../../src/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -55,7 +55,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "../../../../src/components/ui/alert-dialog";
+} from "@/components/ui/alert-dialog";
 
 interface MoodBoardListProps {
   onCreateBoard?: () => void;

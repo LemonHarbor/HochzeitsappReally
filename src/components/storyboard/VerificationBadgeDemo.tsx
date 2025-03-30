@@ -1,6 +1,6 @@
 import React from "react";
-import VerificationBadge from "../../../../src/components/vendor/VerificationBadge";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import VerificationBadge from "@/components/vendor/VerificationBadge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const VerificationBadgeDemo = () => {
   return (

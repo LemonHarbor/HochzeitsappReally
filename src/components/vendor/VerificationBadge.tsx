@@ -1,14 +1,14 @@
 import React from "react";
-import { Badge } from "../../../../src/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../../../../src/components/ui/tooltip";
+} from "@/components/ui/tooltip";
 import { CheckCircle, ShieldCheck, FileCheck, Award } from "lucide-react";
-import { VerificationType } from "../../../../src/types/review";
-import { cn } from "../../../../src/lib/utils";
+import { VerificationType } from "@/types/review";
+import { cn } from "@/lib/utils";
 
 interface VerificationBadgeProps {
   type?: VerificationType;

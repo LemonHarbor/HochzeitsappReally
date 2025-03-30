@@ -1,15 +1,15 @@
 import React from "react";
-import { Checkbox } from "../../../../src/components/ui/checkbox";
-import { Badge } from "../../../../src/components/ui/badge";
-import { Button } from "../../../../src/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../../../../src/components/ui/tooltip";
-import { TimelineTask as TimelineTaskType } from "../../../../src/services/timelineService";
+} from "@/components/ui/tooltip";
+import { TimelineTask as TimelineTaskType } from "@/services/timelineService";
 
 interface TimelineTaskProps {
   task: TimelineTaskType;

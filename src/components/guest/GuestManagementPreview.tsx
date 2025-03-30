@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "../../../../src/components/ui/card";
-import { Button } from "../../../../src/components/ui/button";
-import { Input } from "../../../../src/components/ui/input";
-import { Badge } from "../../../../src/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../../src/components/ui/avatar";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Search, UserPlus, ChevronRight, Filter } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../src/components/ui/tabs";
-import { useRealtimeGuests } from "../../../../src/hooks/useRealtimeUpdates";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useRealtimeGuests } from "@/hooks/useRealtimeUpdates";
 
 interface Guest {
   id: string;

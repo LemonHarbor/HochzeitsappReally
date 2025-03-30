@@ -3,15 +3,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Save, X, Star, ShieldCheck, Calendar } from "lucide-react";
-import { useToast } from "../../../../src/components/ui/use-toast";
-import { useAuth } from "../../../../src/context/AuthContext";
+import { useToast } from "@/components/ui/use-toast";
+import { useAuth } from "@/context/AuthContext";
 import {
   createReview,
   updateReview,
   getReviewByVendorAndUser,
-} from "../../../../src/services/reviewService";
-import { checkUserBookedVendor } from "../../../../src/services/verificationService";
-import { useLanguage } from "../../../../src/lib/language";
+} from "@/services/reviewService";
+import { checkUserBookedVendor } from "@/services/verificationService";
+import { useLanguage } from "@/lib/language";
 import { DatePickerField } from "./DatePickerField";
 
 import {
@@ -22,9 +22,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../../../src/components/ui/form";
-import { Button } from "../../../../src/components/ui/button";
-import { Textarea } from "../../../../src/components/ui/textarea";
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Card,
   CardContent,
@@ -32,7 +32,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "../../../../src/components/ui/card";
+} from "@/components/ui/card";
 
 const formSchema = z.object({
   rating: z.number().min(1, { message: "Rating is required" }).max(5),

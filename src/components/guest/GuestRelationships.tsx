@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useToast } from "../../../../src/components/ui/use-toast";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../src/components/ui/tabs";
-import { useRealtimeGuests } from "../../../../src/hooks/useRealtimeUpdates";
-import { useRealtimeRelationships } from "../../../../src/hooks/useRealtimeRelationships";
+import { useToast } from "@/components/ui/use-toast";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useRealtimeGuests } from "@/hooks/useRealtimeUpdates";
+import { useRealtimeRelationships } from "@/hooks/useRealtimeRelationships";
 import RelationshipList from "./RelationshipList";
 import {
   createRelationship,
   updateRelationship,
   deleteRelationship,
-} from "../../../../src/services/relationshipService";
+} from "@/services/relationshipService";
 
 interface GuestRelationshipsProps {
   guestId?: string; // Optional: to filter relationships for a specific guest

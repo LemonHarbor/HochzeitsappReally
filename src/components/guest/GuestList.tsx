@@ -6,11 +6,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../../../src/components/ui/table";
-import { Button } from "../../../../src/components/ui/button";
-import { Input } from "../../../../src/components/ui/input";
-import { Badge } from "../../../../src/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../../src/components/ui/avatar";
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,14 +18,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../../../src/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../../src/components/ui/select";
+} from "@/components/ui/select";
 import {
   Search,
   MoreHorizontal,
@@ -36,10 +36,10 @@ import {
   X,
   Loader2,
 } from "lucide-react";
-import { useRealtimeGuests } from "../../../../src/hooks/useRealtimeUpdates";
-import { useToast } from "../../../../src/components/ui/use-toast";
-import { PermissionGuard } from "../../../../src/components/ui/permission-guard";
-import { useAuth } from "../../../../src/lib/auth";
+import { useRealtimeGuests } from "@/hooks/useRealtimeUpdates";
+import { useToast } from "@/components/ui/use-toast";
+import { PermissionGuard } from "@/components/ui/permission-guard";
+import { useAuth } from "@/lib/auth";
 
 interface Guest {
   id: string;

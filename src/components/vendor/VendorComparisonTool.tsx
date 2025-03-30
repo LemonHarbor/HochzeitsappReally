@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
-import { Button } from "../../../../src/components/ui/button";
-import { Badge } from "../../../../src/components/ui/badge";
-import { Separator } from "../../../../src/components/ui/separator";
-import { ScrollArea } from "../../../../src/components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../src/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Table,
   TableBody,
@@ -12,21 +12,21 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../../../src/components/ui/table";
+} from "@/components/ui/table";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../../src/components/ui/select";
-import { Vendor } from "../../../../src/types/vendor";
-import { useCurrency } from "../../../../src/lib/currency";
+} from "@/components/ui/select";
+import { Vendor } from "@/types/vendor";
+import { useCurrency } from "@/lib/currency";
 import {
   getVendorsByCategory,
   getVendorExpenseSummary,
-} from "../../../../src/services/vendorService";
-import { useToast } from "../../../../src/components/ui/use-toast";
+} from "@/services/vendorService";
+import { useToast } from "@/components/ui/use-toast";
 import {
   ArrowLeft,
   ExternalLink,

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "../../../../src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Download, X } from "lucide-react";
-import { Card, CardContent } from "../../../../src/components/ui/card";
-import { useLanguage } from "../../../../src/lib/language";
-import { isPWA } from "../../../../src/lib/mobile-utils";
+import { Card, CardContent } from "@/components/ui/card";
+import { useLanguage } from "@/lib/language";
+import { isPWA } from "@/lib/mobile-utils";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;

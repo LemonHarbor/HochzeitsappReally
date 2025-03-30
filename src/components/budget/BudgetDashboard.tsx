@@ -1,12 +1,12 @@
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
-import { Progress } from "../../../../src/components/ui/progress";
-import { Button } from "../../../../src/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Plus, Download, Filter, ArrowUpDown } from "lucide-react";
-import { useLanguage } from "../../../../src/lib/language";
-import { useCurrency } from "../../../../src/lib/currency";
-import { Badge } from "../../../../src/components/ui/badge";
+import { useLanguage } from "@/lib/language";
+import { useCurrency } from "@/lib/currency";
+import { Badge } from "@/components/ui/badge";
 
 interface Expense {
   id: string;

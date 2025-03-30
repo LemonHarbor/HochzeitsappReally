@@ -1,5 +1,5 @@
 import React from "react";
-import { useLanguage } from "../../../../src/lib/language";
+import { useLanguage } from "@/lib/language";
 
 export function MobileOptimizedLayout({ children }) {
   const { t } = useLanguage();

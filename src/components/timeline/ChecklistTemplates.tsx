@@ -5,15 +5,15 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../../../../src/components/ui/card";
-import { Button } from "../../../../src/components/ui/button";
-import { ScrollArea } from "../../../../src/components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../src/components/ui/tabs";
-import { Badge } from "../../../../src/components/ui/badge";
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Clock, Plus, Search } from "lucide-react";
-import { Input } from "../../../../src/components/ui/input";
-import { checklistTemplates } from "../../../../src/data/checklistTemplates";
-import { ChecklistTemplate, TemplateTask } from "../../../../src/types/timeline";
+import { Input } from "@/components/ui/input";
+import { checklistTemplates } from "@/data/checklistTemplates";
+import { ChecklistTemplate, TemplateTask } from "@/types/timeline";
 
 interface ChecklistTemplatesProps {
   onSelectTemplate: (template: ChecklistTemplate) => void;

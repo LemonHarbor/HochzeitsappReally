@@ -1,8 +1,8 @@
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
-import { Button } from "../../../../src/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Globe } from "lucide-react";
-import { useLanguage } from "../../../../src/lib/language";
+import { useLanguage } from "@/lib/language";
 
 const LanguageSwitcherDemo = () => {
   const { language, setLanguage, t } = useLanguage();

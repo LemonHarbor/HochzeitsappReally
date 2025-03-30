@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import AIOptimizationDialog from "../../../../src/components/table/AIOptimizationDialog";
-import { Button } from "../../../../src/components/ui/button";
+import AIOptimizationDialog from "@/components/table/AIOptimizationDialog";
+import { Button } from "@/components/ui/button";
 import { Wand2 } from "lucide-react";
-import { ThemeProvider } from "../../../../src/lib/theme";
-import { LanguageProvider } from "../../../../src/lib/language";
+import { ThemeProvider } from "@/lib/theme";
+import { LanguageProvider } from "@/lib/language";
 
 const AIOptimizationDemo = () => {
   const [showDialog, setShowDialog] = useState(false);

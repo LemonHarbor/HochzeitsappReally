@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Save, X } from "lucide-react";
-import { useToast } from "../../../../src/components/ui/use-toast";
-import { useLanguage } from "../../../../src/lib/language";
+import { useToast } from "@/components/ui/use-toast";
+import { useLanguage } from "@/lib/language";
 
 import {
   Form,
@@ -14,17 +14,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../../../src/components/ui/form";
-import { Input } from "../../../../src/components/ui/input";
-import { Button } from "../../../../src/components/ui/button";
-import { Textarea } from "../../../../src/components/ui/textarea";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../../src/components/ui/select";
+} from "@/components/ui/select";
 import {
   Card,
   CardContent,
@@ -32,7 +32,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "../../../../src/components/ui/card";
+} from "@/components/ui/card";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),

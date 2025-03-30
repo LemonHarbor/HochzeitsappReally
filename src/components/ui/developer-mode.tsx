@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "../../../../src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,20 +7,20 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../../../../src/components/ui/dialog";
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../../src/components/ui/select";
-import { Input } from "../../../../src/components/ui/input";
-import { Label } from "../../../../src/components/ui/label";
-import { useToast } from "../../../../src/components/ui/use-toast";
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../../src/context/AuthContext";
-import { supabase } from "../../../../src/lib/supabase";
+import { useAuth } from "@/context/AuthContext";
+import { supabase } from "@/lib/supabase";
 import { Code, UserCog, Users, User } from "lucide-react";
 
 export function DeveloperMode() {

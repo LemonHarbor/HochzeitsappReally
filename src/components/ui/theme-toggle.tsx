@@ -1,14 +1,14 @@
 import React from "react";
 import { Moon, Sun } from "lucide-react";
-import { Button } from "../../../../src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../../../../src/components/ui/tooltip";
-import { useTheme } from "../../../../src/lib/theme";
-import { cn } from "../../../../src/lib/utils";
+} from "@/components/ui/tooltip";
+import { useTheme } from "@/lib/theme";
+import { cn } from "@/lib/utils";
 
 interface ThemeToggleProps {
   className?: string;

@@ -1,8 +1,8 @@
 import React from "react";
-import TimelineGenerator from "../../../../src/components/timeline/TimelineGenerator";
-import { ThemeProvider } from "../../../../src/lib/theme";
-import { LanguageProvider } from "../../../../src/lib/language";
-import { AuthProvider } from "../../../../src/context/AuthContext";
+import TimelineGenerator from "@/components/timeline/TimelineGenerator";
+import { ThemeProvider } from "@/lib/theme";
+import { LanguageProvider } from "@/lib/language";
+import { AuthProvider } from "@/context/AuthContext";
 
 const TimelineExportDemo = () => {
   // Set initial wedding date to 6 months from now for demo purposes

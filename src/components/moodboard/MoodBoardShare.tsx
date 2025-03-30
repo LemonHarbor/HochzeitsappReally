@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../../../../src/components/ui/button";
-import { Input } from "../../../../src/components/ui/input";
-import { Badge } from "../../../../src/components/ui/badge";
-import { useToast } from "../../../../src/components/ui/use-toast";
-import { useAuth } from "../../../../src/context/AuthContext";
-import { useRealtimeMoodBoard } from "../../../../src/hooks/useRealtimeMoodBoard";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/components/ui/use-toast";
+import { useAuth } from "@/context/AuthContext";
+import { useRealtimeMoodBoard } from "@/hooks/useRealtimeMoodBoard";
 import {
   shareMoodBoard,
   updateMoodBoard,
   generateShareableLink,
   removeMoodBoardShare,
-} from "../../../../src/services/moodboardService";
+} from "@/services/moodboardService";
 import {
   ArrowLeft,
   Copy,
@@ -30,14 +30,14 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../../../../src/components/ui/card";
+} from "@/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../../src/components/ui/select";
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -45,7 +45,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../../../src/components/ui/table";
+} from "@/components/ui/table";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -55,10 +55,10 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "../../../../src/components/ui/alert-dialog";
-import { Switch } from "../../../../src/components/ui/switch";
-import { Label } from "../../../../src/components/ui/label";
-import { supabase } from "../../../../src/lib/supabase";
+} from "@/components/ui/alert-dialog";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { supabase } from "@/lib/supabase";
 
 interface MoodBoardShareProps {
   boardId: string;

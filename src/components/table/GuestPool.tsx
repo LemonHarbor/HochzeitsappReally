@@ -2,27 +2,27 @@ import React, { useState } from "react";
 import { Search, Filter, UserPlus, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { useDrag } from "react-dnd";
-import { useLanguage } from "../../../../src/lib/language";
+import { useLanguage } from "@/lib/language";
 
-import { Input } from "../../../../src/components/ui/input";
-import { Button } from "../../../../src/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
-import { Badge } from "../../../../src/components/ui/badge";
-import { Avatar, AvatarImage, AvatarFallback } from "../../../../src/components/ui/avatar";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../../../../src/components/ui/tooltip";
-import { Checkbox } from "../../../../src/components/ui/checkbox";
+} from "@/components/ui/tooltip";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../../src/components/ui/select";
+} from "@/components/ui/select";
 
 interface Guest {
   id: string;

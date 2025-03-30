@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { DollarSign, Euro, Save, X } from "lucide-react";
-import { useCurrency } from "../../../../src/lib/currency";
-import { useToast } from "../../../../src/components/ui/use-toast";
-import { useLanguage } from "../../../../src/lib/language";
+import { useCurrency } from "@/lib/currency";
+import { useToast } from "@/components/ui/use-toast";
+import { useLanguage } from "@/lib/language";
 
 import {
   Form,
@@ -15,9 +15,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../../../src/components/ui/form";
-import { Input } from "../../../../src/components/ui/input";
-import { Button } from "../../../../src/components/ui/button";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -25,7 +25,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "../../../../src/components/ui/card";
+} from "@/components/ui/card";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),

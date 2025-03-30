@@ -5,10 +5,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../../src/components/ui/select";
-import { updateVendor } from "../../../../src/services/vendorService";
-import { useToast } from "../../../../src/components/ui/use-toast";
-import { Vendor } from "../../../../src/types/vendor";
+} from "@/components/ui/select";
+import { updateVendor } from "@/services/vendorService";
+import { useToast } from "@/components/ui/use-toast";
+import { Vendor } from "@/types/vendor";
 
 interface VendorStatusSelectProps {
   vendor: Vendor;

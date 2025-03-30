@@ -9,7 +9,7 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from "../../../../src/components/ui/card";
+} from "@/components/ui/card";
 import {
   Form,
   FormField,
@@ -18,9 +18,9 @@ import {
   FormControl,
   FormMessage,
   FormDescription,
-} from "../../../../src/components/ui/form";
-import { Input } from "../../../../src/components/ui/input";
-import { Button } from "../../../../src/components/ui/button";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Key, ArrowRight, Info } from "lucide-react";
 
 const formSchema = z.object({

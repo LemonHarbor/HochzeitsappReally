@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Button } from "../../../../src/components/ui/button";
-import { Textarea } from "../../../../src/components/ui/textarea";
-import { useToast } from "../../../../src/components/ui/use-toast";
-import { useLanguage } from "../../../../src/lib/language";
-import { useAuth } from "../../../../src/context/AuthContext";
-import { supabase } from "../../../../src/lib/supabase";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
+import { useLanguage } from "@/lib/language";
+import { useAuth } from "@/context/AuthContext";
+import { supabase } from "@/lib/supabase";
 
 interface RSVPFormProps {
   guestId?: string;

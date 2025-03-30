@@ -5,9 +5,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../../../../src/components/ui/card";
+} from "@/components/ui/card";
 import VerificationBadge, { VerificationType } from "./VerificationBadge";
-import { useLanguage } from "../../../../src/lib/language";
+import { useLanguage } from "@/lib/language";
 
 interface ReviewVerificationSectionProps {
   className?: string;

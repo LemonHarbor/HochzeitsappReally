@@ -1,8 +1,8 @@
 import React from "react";
-import BudgetReports from "../../../../src/components/budget/BudgetReports";
-import { ThemeProvider } from "../../../../src/lib/theme";
-import { LanguageProvider } from "../../../../src/lib/language";
-import { CurrencyProvider } from "../../../../src/lib/currency";
+import BudgetReports from "@/components/budget/BudgetReports";
+import { ThemeProvider } from "@/lib/theme";
+import { LanguageProvider } from "@/lib/language";
+import { CurrencyProvider } from "@/lib/currency";
 
 const BudgetReportsDemo = () => {
   // Sample data for demonstration

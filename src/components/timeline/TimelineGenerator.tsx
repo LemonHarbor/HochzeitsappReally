@@ -2,21 +2,21 @@ import React, { useState, useEffect } from "react";
 import { Calendar, Download, FileDown } from "lucide-react";
 import { format, differenceInMonths, addMonths } from "date-fns";
 import { de } from "date-fns/locale";
-import { Button } from "../../../../src/components/ui/button";
-import { Calendar as CalendarComponent } from "../../../../src/components/ui/calendar";
+import { Button } from "@/components/ui/button";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../../../../src/components/ui/popover";
-import { Checkbox } from "../../../../src/components/ui/checkbox";
-import { Label } from "../../../../src/components/ui/label";
-import { Progress } from "../../../../src/components/ui/progress";
-import { Separator } from "../../../../src/components/ui/separator";
-import { useToast } from "../../../../src/components/ui/use-toast";
-import { useLanguage } from "../../../../src/lib/language";
-import { useAuth } from "../../../../src/context/AuthContext";
-import { cn } from "../../../../src/lib/utils";
+} from "@/components/ui/popover";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/components/ui/use-toast";
+import { useLanguage } from "@/lib/language";
+import { useAuth } from "@/context/AuthContext";
+import { cn } from "@/lib/utils";
 import TimelineView from "./TimelineView";
 import {
   generateTimeline,
@@ -24,7 +24,7 @@ import {
   saveTimeline,
   loadTimeline,
   getCompletedTasks,
-} from "../../../../src/services/timelineService";
+} from "@/services/timelineService";
 
 interface TimelineGeneratorProps {
   initialWeddingDate?: Date;

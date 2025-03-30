@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Button } from "../../../../src/components/ui/button";
-import { Dialog, DialogContent } from "../../../../src/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ArrowLeft } from "lucide-react";
-import { Vendor } from "../../../../src/types/vendor";
-import { Contract } from "../../../../src/types/contract";
-import { useRealtimeContracts } from "../../../../src/hooks/useRealtimeContracts";
-import { useToast } from "../../../../src/components/ui/use-toast";
+import { Vendor } from "@/types/vendor";
+import { Contract } from "@/types/contract";
+import { useRealtimeContracts } from "@/hooks/useRealtimeContracts";
+import { useToast } from "@/components/ui/use-toast";
 import ContractList from "./ContractList";
 import ContractForm from "./ContractForm";
 import ContractDetails from "./ContractDetails";
@@ -13,7 +13,7 @@ import {
   createContract,
   updateContract,
   deleteContract,
-} from "../../../../src/services/contractService";
+} from "@/services/contractService";
 
 interface VendorContractsProps {
   vendor: Vendor;

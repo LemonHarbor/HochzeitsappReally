@@ -1,6 +1,6 @@
 import React from "react";
 import { DollarSign, Euro } from "lucide-react";
-import { Button } from "../../../../src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,16 +8,16 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../../../src/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../../../../src/components/ui/tooltip";
-import { useCurrency } from "../../../../src/lib/currency";
-import { useLanguage } from "../../../../src/lib/language";
-import { cn } from "../../../../src/lib/utils";
+} from "@/components/ui/tooltip";
+import { useCurrency } from "@/lib/currency";
+import { useLanguage } from "@/lib/language";
+import { cn } from "@/lib/utils";
 
 interface CurrencySwitcherProps {
   className?: string;

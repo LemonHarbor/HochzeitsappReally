@@ -1,8 +1,8 @@
 import React from "react";
-import ImportExportGuests from "../../../../src/components/guest/ImportExportGuests";
-import { ThemeProvider } from "../../../../src/lib/theme";
-import { LanguageProvider } from "../../../../src/lib/language";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import ImportExportGuests from "@/components/guest/ImportExportGuests";
+import { ThemeProvider } from "@/lib/theme";
+import { LanguageProvider } from "@/lib/language";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const ImportExportDemo = () => {
   return (

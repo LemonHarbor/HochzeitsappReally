@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "../../../../src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,7 +7,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../../../src/components/ui/card";
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -15,11 +15,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "../../../../src/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../src/components/ui/tabs";
-import { Alert, AlertDescription, AlertTitle } from "../../../../src/components/ui/alert";
-import { Progress } from "../../../../src/components/ui/progress";
-import { useToast } from "../../../../src/components/ui/use-toast";
+} from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Download,
   Upload,
@@ -37,7 +37,7 @@ import {
   downloadGuestsAsJSON,
   downloadGuestsAsExcel,
   downloadCSVTemplate,
-} from "../../../../src/services/importExportService";
+} from "@/services/importExportService";
 
 interface ImportExportGuestsProps {
   onImportComplete?: () => void;

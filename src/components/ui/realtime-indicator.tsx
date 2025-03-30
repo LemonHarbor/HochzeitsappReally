@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Wifi, WifiOff } from "lucide-react";
-import { supabase } from "../../../../src/lib/supabase";
-import { cn } from "../../../../src/lib/utils";
+import { supabase } from "@/lib/supabase";
+import { cn } from "@/lib/utils";
 
 interface RealtimeIndicatorProps {
   className?: string;
