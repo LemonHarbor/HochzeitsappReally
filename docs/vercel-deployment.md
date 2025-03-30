@@ -15,7 +15,11 @@ Folgende Änderungen wurden vorgenommen, um die App erfolgreich auf Vercel zu de
 
 2. **Build-Konfiguration**: Ein spezieller Build-Befehl `build-vercel` wurde in der `package.json` hinzugefügt, der TypeScript-Fehler während des Builds ignoriert.
 
-3. **Vercel-Konfiguration**: Die `vercel.json` wurde optimiert, um die Bereitstellung zu verbessern und Routing-Probleme zu vermeiden.
+3. **Vercel-Konfiguration**: Die `vercel.json` wurde erstellt, um die Bereitstellung zu optimieren. Diese Datei enthält spezifische Anweisungen für Vercel, wie die App gebaut und bereitgestellt werden soll.
+
+4. **Vite-Konfiguration**: In der `vite.config.js` wurden explizite Pfad-Aliase hinzugefügt, um sicherzustellen, dass alle Imports korrekt aufgelöst werden.
+
+5. **Komponenten-Anpassungen**: Einige Komponenten wie `ResponsiveLayout.tsx` wurden speziell angepasst, um Vercel-spezifische Import-Probleme zu beheben.
 
 ## Schritt-für-Schritt Anleitung
 
@@ -35,13 +39,13 @@ Folgende Änderungen wurden vorgenommen, um die App erfolgreich auf Vercel zu de
 Die Konfiguration ist bereits in der `vercel.json` Datei im Repository enthalten, aber überprüfe folgende Einstellungen:
 
 - **Framework Preset**: Vite
-- **Build Command**: `npm run build-vercel`
+- **Build Command**: `npm run build-vercel` (wichtig: nicht den Standard-Build-Befehl verwenden)
 - **Output Directory**: `dist`
 - **Install Command**: `npm install`
 
 ### 4. Umgebungsvariablen einrichten
 
-Die folgenden Umgebungsvariablen sind bereits in der `vercel.json` Datei definiert, aber du kannst sie bei Bedarf im Vercel-Dashboard anpassen:
+Die folgenden Umgebungsvariablen sollten im Vercel-Dashboard unter "Settings" > "Environment Variables" eingerichtet werden:
 
 - `VITE_SUPABASE_URL`: Deine Supabase-Projekt-URL
 - `VITE_SUPABASE_ANON_KEY`: Dein Supabase anonymer Schlüssel
@@ -84,6 +88,40 @@ import { Component } from "../../../src/components/ui/component";
 // RICHTIG (funktioniert auf Vercel):
 import { Component } from "../components/ui/component";
 ```
+
+#### Vercel.json Konfiguration
+
+Die `vercel.json` Datei enthält wichtige Konfigurationen für das Deployment:
+
+```json
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "buildCommand": "npm run build-vercel",
+        "outputDirectory": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
+```
+
+Diese Konfiguration stellt sicher, dass:
+- Der richtige Build-Befehl verwendet wird
+- Die SPA-Routing korrekt funktioniert
+- Die Umgebungsvariablen richtig gesetzt sind
 
 #### TypeScript-Fehler
 
