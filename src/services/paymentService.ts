@@ -1,5 +1,5 @@
-import { supabase } from "../../../src/lib/supabase";
-import { Payment, PaymentFormData } from "../../../src/types/payment";
+import { supabase } from "@/lib/supabase";
+import * from "@/types/payment";
 
 // Get all payments
 export const getPayments = async (): Promise<Payment[]> => {

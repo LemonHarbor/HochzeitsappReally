@@ -1,5 +1,5 @@
-import { supabase } from "../../../src/lib/supabase";
-import { Contract, ContractFormData } from "../../../src/types/contract";
+import { supabase } from "@/lib/supabase";
+import * from "@/types/contract";
 
 // Get all contracts
 export const getContracts = async (): Promise<Contract[]> => {

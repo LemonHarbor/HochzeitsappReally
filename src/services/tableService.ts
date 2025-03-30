@@ -1,5 +1,5 @@
-import { supabase, tablesQuery, seatsQuery } from "../../../src/lib/supabase";
-import { RealtimeTable, RealtimeSeat } from "../../../src/lib/realtime";
+import { supabase } from "@/lib/supabase";
+import * from "@/lib/realtime";
 
 export interface TableFormData {
   name: string;

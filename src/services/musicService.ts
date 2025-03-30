@@ -15,7 +15,7 @@ export interface SongRequest {
 }
 
 // Service functions
-import { supabase } from "../../../src/lib/supabase";
+import { supabase } from "@/lib/supabase";
 
 // Get all song requests
 export async function getSongRequests(): Promise<SongRequest[]> {

@@ -1,5 +1,5 @@
-import { supabase } from "../../../src/lib/supabase";
-import { ReviewVote } from "../../../src/types/review";
+import { supabase } from "@/lib/supabase";
+import * from "@/types/review";
 
 // Vote on a review (helpful or not helpful)
 export const voteOnReview = async (

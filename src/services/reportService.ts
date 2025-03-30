@@ -1,4 +1,4 @@
-import { supabase } from "../../../src/lib/supabase";
+import { supabase } from "@/lib/supabase";
 import { format } from "date-fns";
 
 // Generate and export budget report data

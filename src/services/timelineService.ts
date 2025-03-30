@@ -1,4 +1,4 @@
-import { supabase } from "../../../src/lib/supabase";
+import { supabase } from "@/lib/supabase";
 import { addMonths, format, differenceInMonths } from "date-fns";
 
 export interface TimelineTask {

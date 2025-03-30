@@ -1,5 +1,5 @@
-import { supabase } from "../../../src/lib/supabase";
-import { Appointment } from "../../../src/types/appointment";
+import { supabase } from "@/lib/supabase";
+import * from "@/types/appointment";
 
 // Get all appointments
 export const getAppointments = async (): Promise<Appointment[]> => {

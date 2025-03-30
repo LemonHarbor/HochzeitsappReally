@@ -1,4 +1,4 @@
-import { supabase } from "../../../src/lib/supabase";
+import { supabase } from "@/lib/supabase";
 
 // Email types
 export type EmailType = "rsvp_reminder" | "seating_update" | "invitation";

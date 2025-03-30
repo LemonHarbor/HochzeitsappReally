@@ -57,7 +57,7 @@ const mockMoodBoards: MoodBoard[] = [
 ];
 
 // Service functions
-import { supabase } from "../../../src/lib/supabase";
+import { supabase } from "@/lib/supabase";
 
 // Get all mood boards for a user
 export async function getMoodBoards(userId: string): Promise<MoodBoard[]> {
