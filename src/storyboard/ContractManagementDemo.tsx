@@ -1,12 +1,12 @@
 import React from "react";
-import { ThemeProvider } from "../../../src/lib/theme";
-import { LanguageProvider } from "../../../src/lib/language";
-import { CurrencyProvider } from "../../../src/lib/currency";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../src/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../src/components/ui/tabs";
-import ContractList from "../../../src/components/vendor/ContractList";
-import ContractForm from "../../../src/components/vendor/ContractForm";
-import ExpiringContractsAlert from "../../../src/components/vendor/ExpiringContractsAlert";
+import { ThemeProvider } from "@/lib/theme";
+import { LanguageProvider } from "@/lib/language";
+import { CurrencyProvider } from "@/lib/currency";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ContractList from "@/components/vendor/ContractList";
+import ContractForm from "@/components/vendor/ContractForm";
+import ExpiringContractsAlert from "@/components/vendor/ExpiringContractsAlert";
 
 const ContractManagementDemo = () => {
   // Sample contract data

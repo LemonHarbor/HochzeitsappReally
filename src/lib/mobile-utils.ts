@@ -1,4 +1,4 @@
-import { useMediaQuery } from "../../../src/hooks/useMediaQuery";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 // Check if the device is a mobile device
 export const isMobileDevice = () => {

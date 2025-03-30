@@ -1,8 +1,8 @@
 import React from "react";
-import { ThemeProvider } from "../../../src/lib/theme";
-import { LanguageProvider } from "../../../src/lib/language";
-import { CurrencyProvider } from "../../../src/lib/currency";
-import VendorAppointments from "../../../src/components/vendor/VendorAppointments";
+import { ThemeProvider } from "@/lib/theme";
+import { LanguageProvider } from "@/lib/language";
+import { CurrencyProvider } from "@/lib/currency";
+import VendorAppointments from "@/components/vendor/VendorAppointments";
 
 const VendorAppointmentsDemo = () => {
   // Sample vendor data

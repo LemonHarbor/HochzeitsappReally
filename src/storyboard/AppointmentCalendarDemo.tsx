@@ -1,8 +1,8 @@
 import React from "react";
-import { ThemeProvider } from "../../../src/lib/theme";
-import { LanguageProvider } from "../../../src/lib/language";
-import { CurrencyProvider } from "../../../src/lib/currency";
-import AppointmentCalendar from "../../../src/components/vendor/AppointmentCalendar";
+import { ThemeProvider } from "@/lib/theme";
+import { LanguageProvider } from "@/lib/language";
+import { CurrencyProvider } from "@/lib/currency";
+import AppointmentCalendar from "@/components/vendor/AppointmentCalendar";
 import { addDays, subDays } from "date-fns";
 
 const AppointmentCalendarDemo = () => {

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../src/components/ui/tabs";
-import { Card, CardContent } from "../../../src/components/ui/card";
-import LoginForm from "../../../src/components/auth/LoginForm";
-import RegisterForm from "../../../src/components/auth/RegisterForm";
-import GuestAccessForm from "../../../src/components/auth/GuestAccessForm";
-import { useAuth } from "../../../src/context/AuthContext";
-import { useTheme } from "../../../src/lib/theme";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
+import LoginForm from "@/components/auth/LoginForm";
+import RegisterForm from "@/components/auth/RegisterForm";
+import GuestAccessForm from "@/components/auth/GuestAccessForm";
+import { useAuth } from "@/context/AuthContext";
+import { useTheme } from "@/lib/theme";
 
 const AuthPage = () => {
   const [activeTab, setActiveTab] = useState("login");

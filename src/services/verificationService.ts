@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import * from "@/types/review";
+import { Review, VerificationType } from "@/types/review";
 
 // Verify a review
 export const verifyReview = async (

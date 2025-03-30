@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import * from "@/types/vendor";
+import { Vendor, VendorFormData } from "@/types/vendor";
 import { getVendorsByCategory } from "./vendorService";
 import { getVendorAverageRating } from "./reviewService";
 

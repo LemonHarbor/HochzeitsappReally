@@ -1,15 +1,15 @@
 import React from "react";
-import { ThemeProvider } from "../../../src/lib/theme";
-import { LanguageProvider } from "../../../src/lib/language";
-import { CurrencyProvider } from "../../../src/lib/currency";
-import { DeveloperPanel } from "../../../src/components/ui/developer-panel";
+import { ThemeProvider } from "@/lib/theme";
+import { LanguageProvider } from "@/lib/language";
+import { CurrencyProvider } from "@/lib/currency";
+import { DeveloperPanel } from "@/components/ui/developer-panel";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
   CardDescription,
-} from "../../../src/components/ui/card";
+} from "@/components/ui/card";
 
 const DeveloperPanelDemo = () => {
   return (

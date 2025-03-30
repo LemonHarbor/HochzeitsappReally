@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import * from "@/types/relationship";
+import { GuestRelationship, RelationshipFormData } from "@/types/relationship";
 
 // Get all relationships for a guest
 export const getGuestRelationships = async (guestId: string) => {

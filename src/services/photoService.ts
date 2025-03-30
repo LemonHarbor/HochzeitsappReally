@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import * from "@/types/photo";
+import { Photo, PhotoComment } from "@/types/photo";
 
 // Get all photos
 export const getPhotos = async (): Promise<Photo[]> => {
