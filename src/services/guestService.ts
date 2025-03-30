@@ -1,5 +1,5 @@
-import { supabase, guestsQuery } from "../../../src/lib/supabase";
-import { RealtimeGuest } from "../../../src/lib/realtime";
+import { supabase, guestsQuery } from "@/lib/supabase";
+import { RealtimeGuest } from "@/lib/realtime";
 
 export interface GuestFormData {
   firstName: string;
