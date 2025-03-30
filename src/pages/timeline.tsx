@@ -1,6 +1,6 @@
 import React from "react";
-import { Layout } from "../../../src/components/layout";
-import TimelineGenerator from "../../../src/components/timeline/TimelineGenerator";
+import { Layout } from "../components/layout";
+import TimelineGenerator from "../components/timeline/TimelineGenerator";
 
 const TimelinePage = () => {
   return (
