@@ -1,0 +1,267 @@
+{
+  "app": {
+    "title": "LemonVows - Wedding Planner",
+    "description": "Your comprehensive wedding planning app"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "guestAccess": "Guest Access",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "signIn": "Sign In",
+    "dontHaveAccount": "Don't have an account?",
+    "termsText": "By signing in, you agree to our",
+    "termsLink": "Terms of Service",
+    "andText": "and",
+    "privacyLink": "Privacy Policy",
+    "guestCode": "Access Code",
+    "enterGuestCode": "Enter the access code provided by the couple",
+    "accessWedding": "Access Wedding"
+  },
+  "navigation": {
+    "home": "Home",
+    "guests": "Guests",
+    "tables": "Table Planner",
+    "budget": "Budget",
+    "timeline": "Timeline",
+    "vendors": "Vendors",
+    "vendorComparison": "Vendor Comparison",
+    "settings": "Settings",
+    "guestArea": "Guest Area",
+    "logout": "Logout"
+  },
+  "home": {
+    "welcome": "Welcome to your wedding planning",
+    "daysLeft": "Days until the wedding",
+    "quickActions": "Quick Actions",
+    "addGuest": "Add Guest",
+    "manageBudget": "Manage Budget",
+    "updateTimeline": "Update Timeline",
+    "recentActivity": "Recent Activity",
+    "upcomingTasks": "Upcoming Tasks"
+  },
+  "guests": {
+    "title": "Guest Management",
+    "addGuest": "Add Guest",
+    "importGuests": "Import Guests",
+    "exportGuests": "Export Guests",
+    "searchGuests": "Search Guests",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "rsvpStatus": "RSVP Status",
+    "mealPreference": "Meal Preference",
+    "group": "Group",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirmed": "Confirmed",
+    "declined": "Declined",
+    "pending": "Pending",
+    "totalGuests": "Total Guests",
+    "confirmedGuests": "Confirmed Guests",
+    "declinedGuests": "Declined Guests",
+    "pendingGuests": "Pending Guests",
+    "statistics": "Guest Statistics"
+  },
+  "tables": {
+    "title": "Table Planner",
+    "addTable": "Add Table",
+    "tableName": "Table Name",
+    "capacity": "Capacity",
+    "assignedGuests": "Assigned Guests",
+    "unassignedGuests": "Unassigned Guests",
+    "saveLayout": "Save Layout",
+    "loadLayout": "Load Layout",
+    "resetLayout": "Reset Layout",
+    "tableType": "Table Type",
+    "round": "Round",
+    "rectangular": "Rectangular",
+    "custom": "Custom"
+  },
+  "budget": {
+    "title": "Budget Tracker",
+    "totalBudget": "Total Budget",
+    "spent": "Spent",
+    "remaining": "Remaining",
+    "addExpense": "Add Expense",
+    "category": "Category",
+    "amount": "Amount",
+    "date": "Date",
+    "vendor": "Vendor",
+    "notes": "Notes",
+    "paid": "Paid",
+    "categories": {
+      "venue": "Venue",
+      "catering": "Catering",
+      "photography": "Photography",
+      "videography": "Videography",
+      "music": "Music",
+      "flowers": "Flowers",
+      "attire": "Attire",
+      "rings": "Rings",
+      "invitations": "Invitations",
+      "transportation": "Transportation",
+      "accommodation": "Accommodation",
+      "decorations": "Decorations",
+      "gifts": "Gifts",
+      "other": "Other"
+    }
+  },
+  "timeline": {
+    "title": "Wedding Timeline",
+    "addEvent": "Add Event",
+    "eventName": "Event Name",
+    "startTime": "Start Time",
+    "endTime": "End Time",
+    "location": "Location",
+    "description": "Description",
+    "responsible": "Responsible",
+    "saveTimeline": "Save Timeline",
+    "printTimeline": "Print Timeline",
+    "shareTimeline": "Share Timeline"
+  },
+  "vendors": {
+    "title": "Vendor Management",
+    "addVendor": "Add Vendor",
+    "name": "Name",
+    "category": "Category",
+    "contact": "Contact",
+    "phone": "Phone",
+    "email": "Email",
+    "website": "Website",
+    "price": "Price",
+    "notes": "Notes",
+    "status": "Status",
+    "booked": "Booked",
+    "contacted": "Contacted",
+    "pending": "Pending",
+    "rejected": "Rejected"
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile",
+    "weddingDetails": "Wedding Details",
+    "appearance": "Appearance",
+    "language": "Language",
+    "notifications": "Notifications",
+    "privacy": "Privacy",
+    "exportData": "Export Data",
+    "importData": "Import Data",
+    "deleteAccount": "Delete Account",
+    "theme": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "languages": {
+      "de": "German",
+      "en": "English",
+      "fr": "French",
+      "es": "Spanish"
+    },
+    "weddingDate": "Wedding Date",
+    "weddingTime": "Wedding Time",
+    "weddingLocation": "Wedding Location",
+    "partnerNames": "Partner Names",
+    "currency": "Currency"
+  },
+  "guestArea": {
+    "title": "Welcome to the Wedding",
+    "rsvp": "RSVP",
+    "weddingDetails": "Wedding Details",
+    "location": "Venue",
+    "date": "Date",
+    "time": "Time",
+    "dresscode": "Dress Code",
+    "registry": "Gift Registry",
+    "accommodation": "Accommodation",
+    "transportation": "Transportation",
+    "contact": "Contact",
+    "faq": "Frequently Asked Questions"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "loading": "Loading...",
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Information",
+    "yes": "Yes",
+    "no": "No",
+    "back": "Back",
+    "next": "Next",
+    "finish": "Finish",
+    "close": "Close",
+    "admin": "Administration",
+    "manage": "Manage",
+    "dashboard": "Dashboard",
+    "help": "Help",
+    "apply": "Apply",
+    "reset": "Reset",
+    "all": "All"
+  },
+  "developer": {
+    "toggleMode": "Toggle Developer Mode"
+  },
+  "admin": {
+    "dashboard": {
+      "description": "Manage all aspects of your wedding planning",
+      "title": "Admin Dashboard"
+    },
+    "quickActions": "Quick Actions",
+    "sections": {
+      "guests": {
+        "description": "Manage your guest list, invitations, and RSVP status",
+        "itemCount": "{{count}} guests"
+      },
+      "tables": {
+        "description": "Create and edit your seating arrangement",
+        "itemCount": "{{count}} tables"
+      },
+      "budget": {
+        "description": "Track your expenses and manage your budget",
+        "itemCount": "{{count}} expenses"
+      },
+      "timeline": {
+        "description": "Plan the schedule for your wedding day",
+        "itemCount": "{{count}} events"
+      },
+      "vendors": {
+        "description": "Manage your vendors and contacts",
+        "itemCount": "{{count}} vendors"
+      },
+      "settings": {
+        "description": "Customize your app settings",
+        "itemCount": "General settings"
+      }
+    },
+    "statistics": "Statistics",
+    "weddingOverview": "Wedding Overview",
+    "viewAllStatistics": "View All Statistics",
+    "daysUntilWedding": "Days Until Wedding",
+    "tablePlannerCanvas": "Drag tables onto the canvas to create your seating plan",
+    "dragAndDropTables": "Drag and drop to position tables",
+    "assign": "Assign",
+    "tableList": "Table List",
+    "budgetBreakdown": "Budget Breakdown",
+    "topExpenses": "Top Expenses",
+    "upcomingPayments": "Upcoming Payments",
+    "expenseList": "Expense List",
+    "addVendor": "Add Vendor",
+    "timelineSchedule": "Timeline Schedule",
+    "expandAll": "Expand All",
+    "collapseAll": "Collapse All",
+    "addTimelineEvent": "Add Timeline Event",
+    "weddingDate": "Wedding Date"
+  }
+}

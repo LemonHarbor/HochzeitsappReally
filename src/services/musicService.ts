@@ -1,154 +1,166 @@
+// Type definitions for music service
+export interface SongRequest {
+  id: string;
+  title: string;
+  artist: string;
+  guest_id: string | null;
+  guest_name: string;
+  notes: string | null;
+  status: "pending" | "approved" | "rejected";
+  created_at: string | null;
+  updated_at: string | null;
+  guests?: {
+    name: string;
+  };
+}
+
+// Service functions
 import { supabase } from "@/lib/supabase";
-import { SongRequest, SongRequestFormData } from "@/types/music";
 
 // Get all song requests
-export const getSongRequests = async (): Promise<SongRequest[]> => {
+export async function getSongRequests(): Promise<SongRequest[]> {
   try {
     const { data, error } = await supabase
-      .from("music_wishlist")
-      .select("*, guests(name)")
+      .from("song_requests")
+      .select(`
+        *,
+        guests (
+          name
+        )
+      `)
       .order("created_at", { ascending: false });
 
     if (error) throw error;
 
-    // Format the data to include guest name
-    return (
-      data?.map((song) => ({
-        ...song,
-        guest_name: song.guests?.name || "Unknown Guest",
-      })) || []
-    );
+    // Transform the data to match the SongRequest interface
+    return data.map(item => ({
+      ...item,
+      status: (item.status || "pending") as "pending" | "approved" | "rejected"
+    })) as SongRequest[];
   } catch (error) {
     console.error("Error fetching song requests:", error);
-    throw error;
+    return [];
   }
-};
+}
 
 // Get song requests by guest ID
-export const getSongRequestsByGuestId = async (
-  guestId: string,
-): Promise<SongRequest[]> => {
+export async function getSongRequestsByGuest(
+  guestId: string
+): Promise<SongRequest[]> {
   try {
     const { data, error } = await supabase
-      .from("music_wishlist")
-      .select("*, guests(name)")
+      .from("song_requests")
+      .select(`
+        *,
+        guests (
+          name
+        )
+      `)
       .eq("guest_id", guestId)
       .order("created_at", { ascending: false });
 
     if (error) throw error;
 
-    // Format the data to include guest name
-    return (
-      data?.map((song) => ({
-        ...song,
-        guest_name: song.guests?.name || "Unknown Guest",
-      })) || []
-    );
+    // Transform the data to match the SongRequest interface
+    return data.map(item => ({
+      ...item,
+      status: (item.status || "pending") as "pending" | "approved" | "rejected"
+    })) as SongRequest[];
   } catch (error) {
-    console.error("Error fetching guest song requests:", error);
-    throw error;
+    console.error("Error fetching song requests by guest:", error);
+    return [];
   }
-};
+}
 
-// Add a song request
-export const addSongRequest = async (
-  guestId: string,
-  songData: SongRequestFormData,
-): Promise<SongRequest> => {
+// Create a new song request
+export async function createSongRequest(
+  request: Omit<SongRequest, "id" | "created_at" | "updated_at">
+): Promise<SongRequest> {
   try {
     const { data, error } = await supabase
-      .from("music_wishlist")
+      .from("song_requests")
       .insert([
         {
-          guest_id: guestId,
-          title: songData.title,
-          artist: songData.artist,
-          notes: songData.notes || null,
+          ...request,
+          status: request.status || "pending",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
         },
       ])
-      .select("*, guests(name)")
+      .select(`
+        *,
+        guests (
+          name
+        )
+      `)
       .single();
 
     if (error) throw error;
 
+    // Transform the data to match the SongRequest interface
     return {
       ...data,
-      guest_name: data.guests?.name || "Unknown Guest",
-    };
+      status: (data.status || "pending") as "pending" | "approved" | "rejected"
+    } as SongRequest;
   } catch (error) {
-    console.error("Error adding song request:", error);
+    console.error("Error creating song request:", error);
     throw error;
   }
-};
+}
 
 // Update a song request
-export const updateSongRequest = async (
-  songId: string,
-  songData: Partial<SongRequestFormData>,
-): Promise<SongRequest> => {
+export async function updateSongRequest(
+  requestId: string,
+  updates: Partial<SongRequest>
+): Promise<SongRequest> {
   try {
     const { data, error } = await supabase
-      .from("music_wishlist")
+      .from("song_requests")
       .update({
-        ...songData,
+        ...updates,
         updated_at: new Date().toISOString(),
       })
-      .eq("id", songId)
-      .select("*, guests(name)")
+      .eq("id", requestId)
+      .select(`
+        *,
+        guests (
+          name
+        )
+      `)
       .single();
 
     if (error) throw error;
 
+    // Transform the data to match the SongRequest interface
     return {
       ...data,
-      guest_name: data.guests?.name || "Unknown Guest",
-    };
+      status: (data.status || "pending") as "pending" | "approved" | "rejected"
+    } as SongRequest;
   } catch (error) {
     console.error("Error updating song request:", error);
     throw error;
   }
-};
+}
 
 // Delete a song request
-export const deleteSongRequest = async (songId: string): Promise<boolean> => {
+export async function deleteSongRequest(requestId: string): Promise<void> {
   try {
     const { error } = await supabase
-      .from("music_wishlist")
+      .from("song_requests")
       .delete()
-      .eq("id", songId);
+      .eq("id", requestId);
 
     if (error) throw error;
-    return true;
   } catch (error) {
     console.error("Error deleting song request:", error);
     throw error;
   }
-};
+}
 
-// Update song status (for admin/couple use)
-export const updateSongStatus = async (
-  songId: string,
-  status: "pending" | "approved" | "rejected",
-): Promise<SongRequest> => {
-  try {
-    const { data, error } = await supabase
-      .from("music_wishlist")
-      .update({
-        status,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", songId)
-      .select("*, guests(name)")
-      .single();
-
-    if (error) throw error;
-
-    return {
-      ...data,
-      guest_name: data.guests?.name || "Unknown Guest",
-    };
-  } catch (error) {
-    console.error("Error updating song status:", error);
-    throw error;
-  }
+export default {
+  getSongRequests,
+  getSongRequestsByGuest,
+  createSongRequest,
+  updateSongRequest,
+  deleteSongRequest,
 };

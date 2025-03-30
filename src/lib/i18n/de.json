@@ -1,0 +1,266 @@
+{
+  "app": {
+    "title": "LemonVows - Hochzeitsplaner",
+    "description": "Ihre umfassende Hochzeitsplanungs-App"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "guestAccess": "Gastzugang",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "forgotPassword": "Passwort vergessen?",
+    "signIn": "Anmelden",
+    "dontHaveAccount": "Noch kein Konto?",
+    "termsText": "Mit der Anmeldung akzeptieren Sie unsere",
+    "termsLink": "Nutzungsbedingungen",
+    "andText": "und",
+    "privacyLink": "Datenschutzrichtlinien",
+    "guestCode": "Zugangscode",
+    "enterGuestCode": "Geben Sie den Zugangscode ein, den Sie vom Hochzeitspaar erhalten haben",
+    "accessWedding": "Zugang zur Hochzeit"
+  },
+  "navigation": {
+    "home": "Startseite",
+    "guests": "Gäste",
+    "tables": "Tischplan",
+    "budget": "Budget",
+    "timeline": "Zeitplan",
+    "vendors": "Dienstleister",
+    "vendorComparison": "Dienstleistervergleich",
+    "settings": "Einstellungen",
+    "guestArea": "Gästebereich",
+    "logout": "Abmelden"
+  },
+  "home": {
+    "welcome": "Willkommen bei Ihrer Hochzeitsplanung",
+    "daysLeft": "Tage bis zur Hochzeit",
+    "quickActions": "Schnellzugriff",
+    "addGuest": "Gast hinzufügen",
+    "manageBudget": "Budget verwalten",
+    "updateTimeline": "Zeitplan aktualisieren",
+    "recentActivity": "Letzte Aktivitäten",
+    "upcomingTasks": "Anstehende Aufgaben"
+  },
+  "guests": {
+    "title": "Gästeverwaltung",
+    "addGuest": "Gast hinzufügen",
+    "importGuests": "Gäste importieren",
+    "exportGuests": "Gäste exportieren",
+    "searchGuests": "Gäste suchen",
+    "name": "Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "rsvpStatus": "RSVP-Status",
+    "mealPreference": "Essenspräferenz",
+    "group": "Gruppe",
+    "actions": "Aktionen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "confirmed": "Bestätigt",
+    "declined": "Abgelehnt",
+    "pending": "Ausstehend",
+    "totalGuests": "Gesamtzahl der Gäste",
+    "confirmedGuests": "Bestätigte Gäste",
+    "declinedGuests": "Abgelehnte Gäste",
+    "pendingGuests": "Ausstehende Gäste"
+  },
+  "tables": {
+    "title": "Tischplaner",
+    "addTable": "Tisch hinzufügen",
+    "tableName": "Tischname",
+    "capacity": "Kapazität",
+    "assignedGuests": "Zugewiesene Gäste",
+    "unassignedGuests": "Nicht zugewiesene Gäste",
+    "saveLayout": "Layout speichern",
+    "loadLayout": "Layout laden",
+    "resetLayout": "Layout zurücksetzen",
+    "tableType": "Tischtyp",
+    "round": "Rund",
+    "rectangular": "Rechteckig",
+    "custom": "Benutzerdefiniert"
+  },
+  "budget": {
+    "title": "Budgetverfolgung",
+    "totalBudget": "Gesamtbudget",
+    "spent": "Ausgegeben",
+    "remaining": "Verbleibend",
+    "addExpense": "Ausgabe hinzufügen",
+    "category": "Kategorie",
+    "amount": "Betrag",
+    "date": "Datum",
+    "vendor": "Dienstleister",
+    "notes": "Notizen",
+    "paid": "Bezahlt",
+    "categories": {
+      "venue": "Veranstaltungsort",
+      "catering": "Catering",
+      "photography": "Fotografie",
+      "videography": "Videografie",
+      "music": "Musik",
+      "flowers": "Blumen",
+      "attire": "Kleidung",
+      "rings": "Ringe",
+      "invitations": "Einladungen",
+      "transportation": "Transport",
+      "accommodation": "Unterkunft",
+      "decorations": "Dekorationen",
+      "gifts": "Geschenke",
+      "other": "Sonstiges"
+    }
+  },
+  "timeline": {
+    "title": "Hochzeitszeitplan",
+    "addEvent": "Ereignis hinzufügen",
+    "eventName": "Ereignisname",
+    "startTime": "Startzeit",
+    "endTime": "Endzeit",
+    "location": "Ort",
+    "description": "Beschreibung",
+    "responsible": "Verantwortlich",
+    "saveTimeline": "Zeitplan speichern",
+    "printTimeline": "Zeitplan drucken",
+    "shareTimeline": "Zeitplan teilen"
+  },
+  "vendors": {
+    "title": "Dienstleisterverwaltung",
+    "addVendor": "Dienstleister hinzufügen",
+    "name": "Name",
+    "category": "Kategorie",
+    "contact": "Kontakt",
+    "phone": "Telefon",
+    "email": "E-Mail",
+    "website": "Website",
+    "price": "Preis",
+    "notes": "Notizen",
+    "status": "Status",
+    "booked": "Gebucht",
+    "contacted": "Kontaktiert",
+    "pending": "Ausstehend",
+    "rejected": "Abgelehnt"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "profile": "Profil",
+    "weddingDetails": "Hochzeitsdetails",
+    "appearance": "Erscheinungsbild",
+    "language": "Sprache",
+    "notifications": "Benachrichtigungen",
+    "privacy": "Datenschutz",
+    "exportData": "Daten exportieren",
+    "importData": "Daten importieren",
+    "deleteAccount": "Konto löschen",
+    "theme": {
+      "light": "Hell",
+      "dark": "Dunkel",
+      "system": "Systemeinstellung"
+    },
+    "languages": {
+      "de": "Deutsch",
+      "en": "Englisch",
+      "fr": "Französisch",
+      "es": "Spanisch"
+    },
+    "weddingDate": "Hochzeitsdatum",
+    "weddingTime": "Hochzeitszeit",
+    "weddingLocation": "Hochzeitsort",
+    "partnerNames": "Namen der Partner",
+    "currency": "Währung"
+  },
+  "guestArea": {
+    "title": "Willkommen zur Hochzeit",
+    "rsvp": "RSVP",
+    "weddingDetails": "Hochzeitsdetails",
+    "location": "Veranstaltungsort",
+    "date": "Datum",
+    "time": "Uhrzeit",
+    "dresscode": "Dresscode",
+    "registry": "Geschenkeliste",
+    "accommodation": "Unterkunft",
+    "transportation": "Transport",
+    "contact": "Kontakt",
+    "faq": "Häufig gestellte Fragen"
+  },
+  "common": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "add": "Hinzufügen",
+    "search": "Suchen",
+    "filter": "Filtern",
+    "sort": "Sortieren",
+    "loading": "Wird geladen...",
+    "success": "Erfolg",
+    "error": "Fehler",
+    "warning": "Warnung",
+    "info": "Information",
+    "yes": "Ja",
+    "no": "Nein",
+    "back": "Zurück",
+    "next": "Weiter",
+    "finish": "Fertigstellen",
+    "close": "Schließen",
+    "admin": "Administration",
+    "manage": "Verwalten",
+    "dashboard": "Dashboard",
+    "help": "Hilfe",
+    "apply": "Anwenden",
+    "reset": "Zurücksetzen",
+    "all": "Alle"
+  },
+  "developer": {
+    "toggleMode": "Entwicklermodus umschalten"
+  },
+  "admin": {
+    "dashboard": {
+      "description": "Verwalten Sie alle Aspekte Ihrer Hochzeitsplanung",
+      "title": "Admin-Dashboard"
+    },
+    "quickActions": "Schnellzugriff",
+    "sections": {
+      "guests": {
+        "description": "Verwalten Sie Ihre Gästeliste, Einladungen und RSVP-Status",
+        "itemCount": "{{count}} Gäste"
+      },
+      "tables": {
+        "description": "Erstellen und bearbeiten Sie Ihren Tischplan",
+        "itemCount": "{{count}} Tische"
+      },
+      "budget": {
+        "description": "Verfolgen Sie Ihre Ausgaben und verwalten Sie Ihr Budget",
+        "itemCount": "{{count}} Ausgaben"
+      },
+      "timeline": {
+        "description": "Planen Sie den Ablauf Ihres Hochzeitstages",
+        "itemCount": "{{count}} Ereignisse"
+      },
+      "vendors": {
+        "description": "Verwalten Sie Ihre Dienstleister und Kontakte",
+        "itemCount": "{{count}} Dienstleister"
+      },
+      "settings": {
+        "description": "Passen Sie Ihre App-Einstellungen an",
+        "itemCount": "Allgemeine Einstellungen"
+      }
+    },
+    "statistics": "Statistiken",
+    "weddingOverview": "Hochzeitsübersicht",
+    "viewAllStatistics": "Alle Statistiken anzeigen",
+    "daysUntilWedding": "Tage bis zur Hochzeit",
+    "tablePlannerCanvas": "Ziehen Sie Tische auf die Fläche, um Ihren Tischplan zu erstellen",
+    "dragAndDropTables": "Ziehen und ablegen, um Tische zu positionieren",
+    "assign": "Zuweisen",
+    "tableList": "Tischliste",
+    "budgetBreakdown": "Budgetaufschlüsselung",
+    "topExpenses": "Größte Ausgaben",
+    "upcomingPayments": "Anstehende Zahlungen",
+    "expenseList": "Ausgabenliste",
+    "addVendor": "Dienstleister hinzufügen",
+    "timelineSchedule": "Zeitplan",
+    "expandAll": "Alle ausklappen",
+    "collapseAll": "Alle einklappen",
+    "addTimelineEvent": "Ereignis hinzufügen",
+    "weddingDate": "Hochzeitsdatum"
+  }
+}

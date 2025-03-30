@@ -498,7 +498,6 @@ const BudgetReports: React.FC<BudgetReportsProps> = ({
                   <Bar
                     dataKey="variance"
                     name="Budget Variance"
-                    fill="#10b981"
                     // Use red for negative variance (over budget)
                     fill={(entry) =>
                       entry.variance < 0 ? "#ef4444" : "#10b981"

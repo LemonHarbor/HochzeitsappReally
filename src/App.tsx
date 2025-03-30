@@ -14,7 +14,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { useAuth } from "@/context/AuthContext";
 import { DeveloperPanel } from "@/components/ui/developer-panel";
 import ResponsiveLayout from "./components/layout/ResponsiveLayout";
-import routes from "tempo-routes";
+import routes from "./lib/routes";
 
 function App() {
   const { isAuthenticated, user } = useAuth();

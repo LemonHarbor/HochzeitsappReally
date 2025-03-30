@@ -206,13 +206,13 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
       
       toast({
         title: "Board Shared",
-        description: `The board has been shared with ${userData.email}.",
+        description: `The board has been shared with ${userData.email}.`
       });
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: `Failed to share board: ${error.message}`,
+        description: `Failed to share board: ${error.message}`
       });
     }
   };
@@ -239,7 +239,7 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
       toast({
         variant: "destructive",
         title: "Error",
-        description: `Failed to remove sharing: ${error.message}`,
+        description: `Failed to remove sharing: ${error.message}`
       });
     }
   };
@@ -272,7 +272,7 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
       toast({
         variant: "destructive",
         title: "Error",
-        description: `Failed to update public access: ${error.message}`,
+        description: `Failed to update public access: ${error.message}`
       });
     }
   };
@@ -347,59 +347,46 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
                   <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
                 </div>
               ) : sharedUsers.length > 0 ? (
-                <div className="border rounded-md">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>User</TableHead>
-                        <TableHead>Permission</TableHead>
-                        <TableHead className="w-[50px]"></TableHead>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>User</TableHead>
+                      <TableHead>Permission</TableHead>
+                      <TableHead></TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {sharedUsers.map((sharedUser) => (
+                      <TableRow key={sharedUser.id}>
+                        <TableCell>
+                          <div className="flex flex-col">
+                            <span className="font-medium">{sharedUser.name || "Unnamed User"}</span>
+                            <span className="text-sm text-muted-foreground">{sharedUser.email}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant="outline">
+                            {sharedUser.permission === "view" && "Can view"}
+                            {sharedUser.permission === "edit" && "Can edit"}
+                            {sharedUser.permission === "admin" && "Admin"}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => setUserToRemove(sharedUser.id)}
+                          >
+                            <Trash2 className="h-4 w-4 text-destructive" />
+                          </Button>
+                        </TableCell>
                       </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {sharedUsers.map((sharedUser) => (
-                        <TableRow key={sharedUser.id}>
-                          <TableCell>
-                            <div className="font-medium">{sharedUser.name}</div>
-                            <div className="text-sm text-muted-foreground">
-                              {sharedUser.email}
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <Badge
-                              variant={
-                                sharedUser.permission === "admin"
-                                  ? "default"
-                                  : sharedUser.permission === "edit"
-                                  ? "secondary"
-                                  : "outline"
-                              }
-                            >
-                              {sharedUser.permission === "admin"
-                                ? "Admin"
-                                : sharedUser.permission === "edit"
-                                ? "Can edit"
-                                : "Can view"}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => setUserToRemove(sharedUser.id)}
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
+                    ))}
+                  </TableBody>
+                </Table>
               ) : (
-                <div className="text-center py-6 text-muted-foreground">
-                  <Users className="h-8 w-8 mx-auto mb-2" />
-                  <p>This board isn't shared with anyone yet</p>
+                <div className="text-center py-4 text-muted-foreground">
+                  No users have been shared with yet.
                 </div>
               )}
             </div>
@@ -411,20 +398,25 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
           <CardHeader>
             <CardTitle>Public Access</CardTitle>
             <CardDescription>
-              Create a shareable link that anyone can use to view this board
+              Allow anyone with the link to view this mood board
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label htmlFor="public-access">Public access</Label>
+                  <p className="text-sm text-muted-foreground">
+                    {isPublic
+                      ? "Anyone with the link can view this board"
+                      : "Only invited users can access this board"}
+                  </p>
+                </div>
                 <Switch
                   id="public-access"
                   checked={isPublic}
                   onCheckedChange={handleTogglePublic}
                 />
-                <Label htmlFor="public-access">
-                  {isPublic ? "Public access enabled" : "Public access disabled"}
-                </Label>
               </div>
 
               {isPublic && (
@@ -441,4 +433,38 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
                       onClick={handleCopyLink}
                     >
                       {linkCopied ? (
-                        <Check className
+                        <Check className="h-4 w-4 mr-2" />
+                      ) : (
+                        <Copy className="h-4 w-4 mr-2" />
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Confirmation dialog for removing a user */}
+      <AlertDialog open={!!userToRemove} onOpenChange={() => setUserToRemove(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Remove User</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to remove this user's access to the mood board?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleRemoveUser}>
+              Remove
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
+  );
+};
+
+export default MoodBoardShare;
