@@ -1,13 +1,11 @@
 // Service Worker für LemonVows PWA
-
 const CACHE_NAME = 'lemonvows-cache-v1';
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/icons/icon-144x144.png',
-  '/src/main.tsx',
-  '/src/index.css'
+  '/icons/icon-144x144.png'
+  // Entfernt: '/src/main.tsx', '/src/index.css' - diese werden im Build gebündelt
 ];
 
 // Installation des Service Workers

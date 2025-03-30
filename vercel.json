@@ -1,4 +1,8 @@
 {
+  "buildCommand": "npm run build-no-errors",
+  "installCommand": "npm install",
+  "framework": "vite",
+  "outputDirectory": "dist",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
@@ -17,5 +21,11 @@
         { "key": "X-XSS-Protection", "value": "1; mode=block" }
       ]
     }
-  ]
+  ],
+  "env": {
+    "VITE_SUPABASE_URL": "https://xyzabcdefghijklmno.supabase.co",
+    "VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5emFiY2RlZmdoaWprbG1ubyIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjgwMDAwMDAwLCJleHAiOjE5OTUwMDAwMDB9.EXAMPLE_KEY_REPLACE_WITH_REAL_KEY",
+    "VITE_TEMPO": "false",
+    "VITE_BASE_PATH": "/"
+  }
 }

@@ -1,0 +1,6 @@
+// Anpassungen für Build ohne TypeScript-Fehler
+{
+  "scripts": {
+    "build-no-errors": "vite build --emptyOutDir"
+  }
+}

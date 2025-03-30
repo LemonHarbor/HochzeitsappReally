@@ -37,7 +37,7 @@ export const tablesQuery = {
   updatePosition: (id: string, position: any, rotation: number) =>
     supabase
       .from("tables")
-      .update({ position, rotation, updated_at: new Date() })
+      .update({ position, rotation, updated_at: new Date().toISOString() })
       .eq("id", id)
       .select(),
 };
@@ -54,13 +54,13 @@ export const seatsQuery = {
   assignGuest: (id: string, guestId: string) =>
     supabase
       .from("seats")
-      .update({ guest_id: guestId, updated_at: new Date() })
+      .update({ guest_id: guestId, updated_at: new Date().toISOString() })
       .eq("id", id)
       .select(),
   removeGuest: (id: string) =>
     supabase
       .from("seats")
-      .update({ guest_id: null, updated_at: new Date() })
+      .update({ guest_id: null, updated_at: new Date().toISOString() })
       .eq("id", id)
       .select(),
 };
