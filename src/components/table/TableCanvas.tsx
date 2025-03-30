@@ -11,19 +11,19 @@ import {
   ZoomOut,
   Loader2,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
+import { Card, CardContent } from "../../../../src/components/ui/card";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
-import { updateTablePosition } from "@/services/tableService";
-import { useToast } from "@/components/ui/use-toast";
-import { useAuth } from "@/context/AuthContext";
-import { useLanguage } from "@/lib/language";
+} from "../../../../src/components/ui/tooltip";
+import { cn } from "../../../../src/lib/utils";
+import { updateTablePosition } from "../../../../src/services/tableService";
+import { useToast } from "../../../../src/components/ui/use-toast";
+import { useAuth } from "../../../../src/context/AuthContext";
+import { useLanguage } from "../../../../src/lib/language";
 
 interface Guest {
   id: string;

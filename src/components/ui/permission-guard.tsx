@@ -1,6 +1,6 @@
 import React from "react";
-import { useAuth, Permissions } from "@/context/AuthContext";
-import { useDeveloperMode } from "@/lib/developer";
+import { useAuth, Permissions } from "../../../../src/context/AuthContext";
+import { useDeveloperMode } from "../../../../src/lib/developer";
 
 interface PermissionGuardProps {
   children: React.ReactNode;

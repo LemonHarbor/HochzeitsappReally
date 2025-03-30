@@ -5,9 +5,9 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "../../../../src/components/ui/dialog";
 import ChecklistTemplates from "./ChecklistTemplates";
-import { ChecklistTemplate, TemplateTask } from "@/types/timeline";
+import { ChecklistTemplate, TemplateTask } from "../../../../src/types/timeline";
 
 interface TemplateSelectionDialogProps {
   open: boolean;

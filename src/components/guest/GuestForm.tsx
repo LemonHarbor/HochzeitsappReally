@@ -20,27 +20,27 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+} from "../../../../src/components/ui/form";
+import { Input } from "../../../../src/components/ui/input";
+import { Textarea } from "../../../../src/components/ui/textarea";
+import { Button } from "../../../../src/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "../../../../src/components/ui/select";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useLanguage } from "@/lib/language";
+} from "../../../../src/components/ui/card";
+import { Switch } from "../../../../src/components/ui/switch";
+import { RadioGroup, RadioGroupItem } from "../../../../src/components/ui/radio-group";
+import { useLanguage } from "../../../../src/lib/language";
 
 // Form schema validation
 const formSchema = z.object({

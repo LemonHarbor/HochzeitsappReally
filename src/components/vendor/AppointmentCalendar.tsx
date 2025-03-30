@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Appointment } from "@/types/appointment";
-import { Vendor } from "@/types/vendor";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
+import { Badge } from "../../../../src/components/ui/badge";
+import { Appointment } from "../../../../src/types/appointment";
+import { Vendor } from "../../../../src/types/vendor";
 import {
   format,
   startOfMonth,

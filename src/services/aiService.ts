@@ -1,7 +1,7 @@
-import { supabase } from "@/lib/supabase";
-import { Guest } from "@/types/guest";
-import { Table } from "@/types/table";
-import { Seat } from "@/types/seat";
+import { supabase } from "../../../src/lib/supabase";
+import { Guest } from "../../../src/types/guest";
+import { Table } from "../../../src/types/table";
+import { Seat } from "../../../src/types/seat";
 
 // Define types for optimization parameters
 export interface OptimizationParams {

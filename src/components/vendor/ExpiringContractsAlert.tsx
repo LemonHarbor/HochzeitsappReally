@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
+import { Badge } from "../../../../src/components/ui/badge";
 import { AlertTriangle, X, ExternalLink } from "lucide-react";
 import { format, parseISO } from "date-fns";
-import { getExpiringContracts } from "@/services/contractService";
-import { Contract } from "@/types/contract";
+import { getExpiringContracts } from "../../../../src/services/contractService";
+import { Contract } from "../../../../src/types/contract";
 
 interface ExpiringContractsAlertProps {
   onViewContract?: (url: string) => void;

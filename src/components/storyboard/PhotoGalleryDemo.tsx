@@ -1,7 +1,7 @@
 import React from "react";
-import PhotoGallery from "@/components/guest-area/PhotoGallery";
-import { ThemeProvider } from "@/lib/theme";
-import { LanguageProvider } from "@/lib/language";
+import PhotoGallery from "../../../../src/components/guest-area/PhotoGallery";
+import { ThemeProvider } from "../../../../src/lib/theme";
+import { LanguageProvider } from "../../../../src/lib/language";
 
 const PhotoGalleryDemo = () => {
   return (

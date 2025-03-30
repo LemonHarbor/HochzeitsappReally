@@ -1,5 +1,5 @@
 import React from "react";
-import ExpenseList from "@/components/budget/ExpenseList";
+import ExpenseList from "../../../../src/components/budget/ExpenseList";
 
 const ExpenseListDemo = () => {
   // Sample data for the demo

@@ -1,6 +1,6 @@
 import React from "react";
-import { LanguageSwitcher } from "@/components/ui/language-switcher";
-import { useLanguage } from "@/lib/language";
+import { LanguageSwitcher } from "../components/ui/language-switcher";
+import { useLanguage } from "../lib/language";
 
 export function LoginPage() {
   const { t } = useLanguage();

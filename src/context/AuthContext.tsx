@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
-import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "../lib/supabase";
+import { useToast } from "../components/ui/use-toast";
 
 export type UserRole =
   | "couple"

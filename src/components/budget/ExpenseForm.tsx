@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "../../../../src/components/ui/card";
 import {
   Form,
   FormControl,
@@ -17,29 +17,29 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+} from "../../../../src/components/ui/form";
+import { Input } from "../../../../src/components/ui/input";
+import { Button } from "../../../../src/components/ui/button";
+import { Textarea } from "../../../../src/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Calendar } from "@/components/ui/calendar";
+} from "../../../../src/components/ui/select";
+import { Calendar } from "../../../../src/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from "../../../../src/components/ui/popover";
 import { format } from "date-fns";
 import { CalendarIcon, Upload, X } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useLanguage } from "@/lib/language";
-import { useRealtimeVendors } from "@/hooks/useRealtimeVendors";
-import { useCurrency } from "@/lib/currency";
+import { cn } from "../../../../src/lib/utils";
+import { useLanguage } from "../../../../src/lib/language";
+import { useRealtimeVendors } from "../../../../src/hooks/useRealtimeVendors";
+import { useCurrency } from "../../../../src/lib/currency";
 
 // Define the form schema
 const formSchema = z.object({

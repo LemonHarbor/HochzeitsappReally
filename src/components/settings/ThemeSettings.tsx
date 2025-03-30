@@ -6,20 +6,20 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+} from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../src/components/ui/tabs";
+import { Separator } from "../../../../src/components/ui/separator";
+import { Label } from "../../../../src/components/ui/label";
+import { Input } from "../../../../src/components/ui/input";
 import {
   colorThemes,
   setActiveTheme,
   getActiveTheme,
   ColorTheme,
   setCustomColor,
-} from "@/lib/themes";
-import { useToast } from "@/components/ui/use-toast";
+} from "../../../../src/lib/themes";
+import { useToast } from "../../../../src/components/ui/use-toast";
 
 interface ThemeSettingsProps {
   onPurchaseTheme?: (themeId: string) => Promise<boolean>;

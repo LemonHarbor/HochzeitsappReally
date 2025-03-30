@@ -6,16 +6,16 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Progress } from "@/components/ui/progress";
+} from "../../../../src/components/ui/dialog";
+import { Button } from "../../../../src/components/ui/button";
+import { Switch } from "../../../../src/components/ui/switch";
+import { Label } from "../../../../src/components/ui/label";
+import { Separator } from "../../../../src/components/ui/separator";
+import { Progress } from "../../../../src/components/ui/progress";
 import { Wand2, AlertCircle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { optimizeSeating, OptimizationParams } from "@/services/aiService";
-import { useToast } from "@/components/ui/use-toast";
+import { Alert, AlertDescription, AlertTitle } from "../../../../src/components/ui/alert";
+import { optimizeSeating, OptimizationParams } from "../../../../src/services/aiService";
+import { useToast } from "../../../../src/components/ui/use-toast";
 
 interface AIOptimizationDialogProps {
   open: boolean;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
+import { Badge } from "../../../../src/components/ui/badge";
 import VendorStatusBadge from "./VendorStatusBadge";
 import VendorStatusSelect from "./VendorStatusSelect";
 import {
@@ -11,10 +11,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "../../../../src/components/ui/table";
 import { format } from "date-fns";
-import { Vendor } from "@/types/vendor";
-import { useCurrency } from "@/lib/currency";
+import { Vendor } from "../../../../src/types/vendor";
+import { useCurrency } from "../../../../src/lib/currency";
 import {
   ArrowLeft,
   Edit,
@@ -34,11 +34,11 @@ import {
   MessageSquare,
   Sparkles,
 } from "lucide-react";
-import { useRealtimeVendorExpenses } from "@/hooks/useRealtimeVendorExpenses";
+import { useRealtimeVendorExpenses } from "../../../../src/hooks/useRealtimeVendorExpenses";
 import {
   downloadVendorAsVCard,
   downloadVendorAsCSV,
-} from "@/services/exportService";
+} from "../../../../src/services/exportService";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -48,15 +48,15 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from "../../../../src/components/ui/alert-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "../../../../src/components/ui/dropdown-menu";
 import RatingStars from "./RatingStars";
-import { getVendorAverageRating } from "@/services/reviewService";
+import { getVendorAverageRating } from "../../../../src/services/reviewService";
 
 interface VendorDetailProps {
   vendor: Vendor;

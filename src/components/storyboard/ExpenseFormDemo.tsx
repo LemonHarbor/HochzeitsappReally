@@ -1,5 +1,5 @@
 import React from "react";
-import ExpenseForm from "@/components/budget/ExpenseForm";
+import ExpenseForm from "../../../../src/components/budget/ExpenseForm";
 
 const ExpenseFormDemo = () => {
   // Sample initial data for the form

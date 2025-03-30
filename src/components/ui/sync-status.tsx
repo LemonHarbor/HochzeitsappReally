@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Check, RefreshCw, AlertCircle } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { useLanguage } from "@/lib/language";
+import { Badge } from "../../../../src/components/ui/badge";
+import { useLanguage } from "../../../../src/lib/language";
 
 type SyncStatus = "synced" | "syncing" | "error";
 

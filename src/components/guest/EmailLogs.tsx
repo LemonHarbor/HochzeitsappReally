@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import { Badge } from "../../../../src/components/ui/badge";
+import { Input } from "../../../../src/components/ui/input";
+import { Button } from "../../../../src/components/ui/button";
 import {
   Table,
   TableBody,
@@ -10,10 +10,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "../../../../src/components/ui/table";
 import { format } from "date-fns";
 import { Search, X, Mail, AlertCircle, CheckCircle } from "lucide-react";
-import { getEmailLogs, EmailLog } from "@/services/emailService";
+import { getEmailLogs, EmailLog } from "../../../../src/services/emailService";
 
 interface EmailLogsProps {
   recipientEmail?: string;

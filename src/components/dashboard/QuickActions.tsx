@@ -13,11 +13,11 @@ import {
   Store,
   DollarSign,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { useLanguage } from "@/lib/language";
-import { useAuth } from "@/context/AuthContext";
-import { PermissionGuard } from "@/components/ui/permission-guard";
+import { Button } from "../../../../src/components/ui/button";
+import { cn } from "../../../../src/lib/utils";
+import { useLanguage } from "../../../../src/lib/language";
+import { useAuth } from "../../../../src/context/AuthContext";
+import { PermissionGuard } from "../../../../src/components/ui/permission-guard";
 
 interface QuickAction {
   id: string;

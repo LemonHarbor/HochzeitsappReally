@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import { useRealtimeSongRequests } from "@/hooks/useRealtimeMusic";
-import { createSongRequest, deleteSongRequest } from "@/services/musicService";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
+import { useToast } from "../../../../src/components/ui/use-toast";
+import { useRealtimeSongRequests } from "../../../../src/hooks/useRealtimeMusic";
+import { createSongRequest, deleteSongRequest } from "../../../../src/services/musicService";
 import { Music, Plus, X, Loader2 } from "lucide-react";
 import MusicWishlistForm from "./MusicWishlistForm";
 import MusicWishlistItem from "./MusicWishlistItem";

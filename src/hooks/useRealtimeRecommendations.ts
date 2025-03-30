@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
-import { useToast } from "@/components/ui/use-toast";
-import { Vendor } from "@/types/vendor";
-import { getRecommendedVendors } from "@/services/recommendationService";
+import { supabase } from "../../../src/lib/supabase";
+import { useToast } from "../../../src/components/ui/use-toast";
+import { Vendor } from "../../../src/types/vendor";
+import { getRecommendedVendors } from "../../../src/services/recommendationService";
 
 // Hook for real-time vendor recommendations
 export function useRealtimeRecommendations(

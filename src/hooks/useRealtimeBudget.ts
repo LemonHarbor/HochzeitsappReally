@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
-import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "../../../src/lib/supabase";
+import { useToast } from "../../../src/components/ui/use-toast";
 
 // Hook for real-time budget category updates
 export function useRealtimeBudgetCategories(initialCategories: any[] = []) {

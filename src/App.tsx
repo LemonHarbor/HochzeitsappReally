@@ -11,8 +11,8 @@ import LoginPage from "./pages/login";
 import VendorManagement from "./pages/vendor-management";
 import VendorComparison from "./pages/vendor-comparison";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
-import { useAuth } from "@/context/AuthContext";
-import { DeveloperPanel } from "@/components/ui/developer-panel";
+import { useAuth } from "./context/AuthContext";
+import { DeveloperPanel } from "./components/ui/developer-panel";
 import ResponsiveLayout from "./components/layout/ResponsiveLayout";
 import routes from "./lib/routes";
 

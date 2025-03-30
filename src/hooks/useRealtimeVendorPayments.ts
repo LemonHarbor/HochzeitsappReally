@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
-import { useToast } from "@/components/ui/use-toast";
-import { Payment } from "@/types/payment";
+import { supabase } from "../../../src/lib/supabase";
+import { useToast } from "../../../src/components/ui/use-toast";
+import { Payment } from "../../../src/types/payment";
 
 // Hook for real-time vendor payment updates
 export function useRealtimeVendorPayments(vendorId?: string) {

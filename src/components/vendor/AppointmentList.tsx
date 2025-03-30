@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
+import { Badge } from "../../../../src/components/ui/badge";
+import { Input } from "../../../../src/components/ui/input";
 import {
   Table,
   TableBody,
@@ -10,9 +10,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "../../../../src/components/ui/table";
 import { format, parseISO, isAfter, isBefore, isToday } from "date-fns";
-import { Appointment } from "@/types/appointment";
+import { Appointment } from "../../../../src/types/appointment";
 import {
   Calendar,
   Clock,
@@ -33,13 +33,13 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "../../../../src/components/ui/select";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "../../../../src/components/ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -49,8 +49,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { downloadAppointmentAsICal } from "@/services/appointmentService";
+} from "../../../../src/components/ui/alert-dialog";
+import { downloadAppointmentAsICal } from "../../../../src/services/appointmentService";
 
 interface AppointmentListProps {
   appointments: Appointment[];

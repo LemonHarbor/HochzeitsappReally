@@ -1,10 +1,10 @@
 import React from "react";
-import { ThemeProvider } from "@/lib/theme";
-import { LanguageProvider } from "@/lib/language";
-import { CurrencyProvider } from "@/lib/currency";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import VendorStatusBadge from "@/components/vendor/VendorStatusBadge";
-import VendorStatusSelect from "@/components/vendor/VendorStatusSelect";
+import { ThemeProvider } from "../../../src/lib/theme";
+import { LanguageProvider } from "../../../src/lib/language";
+import { CurrencyProvider } from "../../../src/lib/currency";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../src/components/ui/card";
+import VendorStatusBadge from "../../../src/components/vendor/VendorStatusBadge";
+import VendorStatusSelect from "../../../src/components/vendor/VendorStatusSelect";
 
 const VendorStatusManagementDemo = () => {
   // Sample vendor data

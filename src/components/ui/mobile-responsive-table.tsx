@@ -1,5 +1,5 @@
 import React from "react";
-import { useLanguage } from "@/lib/language";
+import { useLanguage } from "../../../../src/lib/language";
 
 export function MobileResponsiveTable({ columns, data, actions = [] }) {
   const { t } = useLanguage();

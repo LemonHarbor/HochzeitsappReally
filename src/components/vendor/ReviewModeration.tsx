@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
+import { Avatar, AvatarFallback } from "../../../../src/components/ui/avatar";
+import { Separator } from "../../../../src/components/ui/separator";
+import { Badge } from "../../../../src/components/ui/badge";
+import { Textarea } from "../../../../src/components/ui/textarea";
 import { formatDistanceToNow } from "date-fns";
-import { Review, ReviewStatus } from "@/types/review";
-import { useAuth } from "@/context/AuthContext";
+import { Review, ReviewStatus } from "../../../../src/types/review";
+import { useAuth } from "../../../../src/context/AuthContext";
 import {
   Star,
   CheckCircle,
@@ -24,7 +24,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from "../../../../src/components/ui/alert-dialog";
 import {
   Dialog,
   DialogContent,
@@ -32,9 +32,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { getPendingReviews, moderateReview } from "@/services/reviewService";
+} from "../../../../src/components/ui/dialog";
+import { Label } from "../../../../src/components/ui/label";
+import { getPendingReviews, moderateReview } from "../../../../src/services/reviewService";
 
 interface ReviewModerationProps {
   onReviewModerated?: (review: Review) => void;

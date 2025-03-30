@@ -1,10 +1,10 @@
 import React, { useState, useRef } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
+import { Input } from "../../../../src/components/ui/input";
+import { Slider } from "../../../../src/components/ui/slider";
+import { Progress } from "../../../../src/components/ui/progress";
+import { Badge } from "../../../../src/components/ui/badge";
 import {
   AlertCircle,
   Save,
@@ -13,10 +13,10 @@ import {
   DollarSign,
   Euro,
 } from "lucide-react";
-import { useLanguage } from "@/lib/language";
-import { useCurrency } from "@/lib/currency";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useToast } from "@/components/ui/use-toast";
+import { useLanguage } from "../../../../src/lib/language";
+import { useCurrency } from "../../../../src/lib/currency";
+import { Alert, AlertDescription, AlertTitle } from "../../../../src/components/ui/alert";
+import { useToast } from "../../../../src/components/ui/use-toast";
 
 interface BudgetCategory {
   id: string;

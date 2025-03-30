@@ -1,8 +1,8 @@
 import React from "react";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useMediaQuery } from "../../../../src/hooks/useMediaQuery";
 import MobileLayout from "./MobileLayout";
-import { PWAInstallPrompt } from "@/components/ui/pwa-install-prompt";
-import { OfflineIndicator } from "@/components/ui/offline-indicator";
+import { PWAInstallPrompt } from "../../../../src/components/ui/pwa-install-prompt";
+import { OfflineIndicator } from "../../../../src/components/ui/offline-indicator";
 
 interface ResponsiveLayoutProps {
   children: React.ReactNode;

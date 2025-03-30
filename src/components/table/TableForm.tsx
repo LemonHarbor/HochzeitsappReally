@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Square, Circle, Table as TableIcon, Users } from "lucide-react";
-import { useLanguage } from "@/lib/language";
+import { useLanguage } from "../../../../src/lib/language";
 
 import {
   Form,
@@ -13,16 +13,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "../../../../src/components/ui/form";
+import { Input } from "../../../../src/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+} from "../../../../src/components/ui/select";
+import { Button } from "../../../../src/components/ui/button";
 import {
   Card,
   CardHeader,
@@ -30,8 +30,8 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from "@/components/ui/card";
-import { getAllGroups } from "@/services/tableService";
+} from "../../../../src/components/ui/card";
+import { getAllGroups } from "../../../../src/services/tableService";
 
 const formSchema = z.object({
   name: z

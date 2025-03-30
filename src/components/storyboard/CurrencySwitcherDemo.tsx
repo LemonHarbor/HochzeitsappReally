@@ -1,9 +1,9 @@
 import React from "react";
-import { CurrencySwitcher } from "@/components/ui/currency-switcher";
-import { ThemeProvider } from "@/lib/theme";
-import { LanguageProvider } from "@/lib/language";
-import { CurrencyProvider } from "@/lib/currency";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CurrencySwitcher } from "../../../../src/components/ui/currency-switcher";
+import { ThemeProvider } from "../../../../src/lib/theme";
+import { LanguageProvider } from "../../../../src/lib/language";
+import { CurrencyProvider } from "../../../../src/lib/currency";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
 
 const CurrencySwitcherDemo = () => {
   return (

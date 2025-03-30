@@ -1,5 +1,5 @@
 import React from "react";
-import VendorComparisonTool from "@/components/vendor/VendorComparisonTool";
+import VendorComparisonTool from "../components/vendor/VendorComparisonTool";
 import { useNavigate } from "react-router-dom";
 
 const VendorComparisonPage = () => {

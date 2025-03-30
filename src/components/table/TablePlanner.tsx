@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { useToast } from "@/components/ui/use-toast";
-import { useLanguage } from "@/lib/language";
-import { Button } from "@/components/ui/button";
+import { useToast } from "../../../../src/components/ui/use-toast";
+import { useLanguage } from "../../../../src/lib/language";
+import { Button } from "../../../../src/components/ui/button";
 import { PlusCircle, Save, Trash2, Wand2, Users } from "lucide-react";
 import {
   AlertDialog,
@@ -14,8 +14,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+} from "../../../../src/components/ui/alert-dialog";
+import { Dialog, DialogContent } from "../../../../src/components/ui/dialog";
 import TableCanvas from "./TableCanvas";
 import TableControls from "./TableControls";
 import GuestPool from "./GuestPool";
@@ -26,7 +26,7 @@ import {
   useRealtimeTables,
   useRealtimeGuests,
   useRealtimeSeats,
-} from "@/hooks/useRealtimeUpdates";
+} from "../../../../src/hooks/useRealtimeUpdates";
 import {
   createTable,
   updateTable,
@@ -34,7 +34,7 @@ import {
   assignGuestToSeat,
   removeGuestFromSeat,
   assignTableToGroup,
-} from "@/services/tableService";
+} from "../../../../src/services/tableService";
 
 interface TablePlannerProps {
   onSaveArrangement?: () => void;

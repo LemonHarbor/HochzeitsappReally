@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
-import { useToast } from "@/components/ui/use-toast";
-import { GuestRelationship } from "@/types/relationship";
+import { supabase } from "../../../src/lib/supabase";
+import { useToast } from "../../../src/components/ui/use-toast";
+import { GuestRelationship } from "../../../src/types/relationship";
 
 // Hook for real-time relationship updates
 export function useRealtimeRelationships(guestId?: string) {

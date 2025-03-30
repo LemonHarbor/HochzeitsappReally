@@ -4,8 +4,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "../../../../src/components/ui/button";
+import { Input } from "../../../../src/components/ui/input";
 import {
   Form,
   FormControl,
@@ -13,7 +13,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "../../../../src/components/ui/form";
 import {
   Card,
   CardHeader,
@@ -21,7 +21,7 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from "@/components/ui/card";
+} from "../../../../src/components/ui/card";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),

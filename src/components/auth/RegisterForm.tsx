@@ -11,9 +11,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+} from "../../../../src/components/ui/form";
+import { Input } from "../../../../src/components/ui/input";
+import { Button } from "../../../../src/components/ui/button";
 import {
   Card,
   CardHeader,
@@ -21,15 +21,15 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from "@/components/ui/card";
+} from "../../../../src/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useLanguage } from "@/lib/language";
+} from "../../../../src/components/ui/select";
+import { useLanguage } from "../../../../src/lib/language";
 
 const formSchema = z
   .object({

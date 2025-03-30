@@ -1,6 +1,6 @@
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import { Badge } from "../../../../src/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -8,11 +8,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+} from "../../../../src/components/ui/table";
+import { Button } from "../../../../src/components/ui/button";
 import { format } from "date-fns";
-import { Vendor } from "@/types/vendor";
-import { useCurrency } from "@/lib/currency";
+import { Vendor } from "../../../../src/types/vendor";
+import { useCurrency } from "../../../../src/lib/currency";
 import {
   ArrowLeft,
   Receipt,
@@ -20,7 +20,7 @@ import {
   Download,
   BarChart,
 } from "lucide-react";
-import { useRealtimeVendorExpenses } from "@/hooks/useRealtimeVendorExpenses";
+import { useRealtimeVendorExpenses } from "../../../../src/hooks/useRealtimeVendorExpenses";
 
 interface VendorExpensesProps {
   vendor: Vendor;

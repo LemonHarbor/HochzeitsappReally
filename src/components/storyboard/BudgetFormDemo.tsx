@@ -1,7 +1,7 @@
 import React from "react";
-import BudgetForm from "@/components/budget/BudgetForm";
-import { ThemeProvider } from "@/lib/theme";
-import { LanguageProvider } from "@/lib/language";
+import BudgetForm from "../../../../src/components/budget/BudgetForm";
+import { ThemeProvider } from "../../../../src/lib/theme";
+import { LanguageProvider } from "../../../../src/lib/language";
 
 const BudgetFormDemo = () => {
   // Sample initial data for the form

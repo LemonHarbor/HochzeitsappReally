@@ -5,16 +5,16 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
+} from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
+import { Switch } from "../../../../src/components/ui/switch";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "../../../../src/components/ui/select";
 import {
   Table,
   TableBody,
@@ -22,8 +22,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
+} from "../../../../src/components/ui/table";
+import { Input } from "../../../../src/components/ui/input";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,7 +33,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from "../../../../src/components/ui/alert-dialog";
 import {
   UserPlus,
   UserMinus,
@@ -44,8 +44,8 @@ import {
   ShieldCheck,
   Users,
 } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
-import { useAuth } from "@/context/AuthContext";
+import { useToast } from "../../../../src/components/ui/use-toast";
+import { useAuth } from "../../../../src/context/AuthContext";
 
 interface Permission {
   id: string;

@@ -1,7 +1,7 @@
 import React from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import TableCanvas from "@/components/table/TableCanvas";
+import TableCanvas from "../../../../src/components/table/TableCanvas";
 
 const TableCanvasDemo = () => {
   // Sample table data

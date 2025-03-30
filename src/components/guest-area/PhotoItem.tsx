@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
-import { useToast } from "@/components/ui/use-toast";
-import { Photo } from "@/types/photo";
-import { useRealtimePhotoComments } from "@/hooks/useRealtimePhotos";
-import { addPhotoComment, deletePhotoComment } from "@/services/photoService";
+import { Card, CardContent, CardFooter } from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
+import { Input } from "../../../../src/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "../../../../src/components/ui/avatar";
+import { Separator } from "../../../../src/components/ui/separator";
+import { useToast } from "../../../../src/components/ui/use-toast";
+import { Photo } from "../../../../src/types/photo";
+import { useRealtimePhotoComments } from "../../../../src/hooks/useRealtimePhotos";
+import { addPhotoComment, deletePhotoComment } from "../../../../src/services/photoService";
 import {
   MessageSquare,
   Send,
@@ -21,14 +21,14 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "../../../../src/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogDescription,
   DialogClose,
-} from "@/components/ui/dialog";
+} from "../../../../src/components/ui/dialog";
 
 interface PhotoItemProps {
   photo: Photo;

@@ -13,9 +13,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+} from "../../../../src/components/ui/form";
+import { Input } from "../../../../src/components/ui/input";
+import { Button } from "../../../../src/components/ui/button";
 import {
   Card,
   CardContent,
@@ -23,22 +23,22 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "../../../../src/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
+} from "../../../../src/components/ui/select";
+import { Textarea } from "../../../../src/components/ui/textarea";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { cn } from "@/lib/utils";
+} from "../../../../src/components/ui/popover";
+import { Calendar } from "../../../../src/components/ui/calendar";
+import { cn } from "../../../../src/lib/utils";
 
 const formSchema = z.object({
   firstName: z

@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
-import { useToast } from "@/components/ui/use-toast";
-import { MoodBoard, MoodBoardItem, MoodBoardComment } from "@/types/moodboard";
+import { supabase } from "../../../src/lib/supabase";
+import { useToast } from "../../../src/components/ui/use-toast";
+import { MoodBoard, MoodBoardItem, MoodBoardComment } from "../../../src/types/moodboard";
 import {
   getMoodBoardById,
   getMoodBoardItems,
   getMoodBoardComments,
-} from "@/services/moodboardService";
+} from "../../../src/services/moodboardService";
 
 // Hook for real-time mood board updates
 export function useRealtimeMoodBoard(boardId?: string) {

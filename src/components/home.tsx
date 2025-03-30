@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Layout } from "@/components/layout";
-import { useLanguage } from "@/lib/language";
-import { useRealTimeRSVPStats } from "@/hooks/useRealtimeUpdates";
-import { useRealtimeVendors } from "@/hooks/useRealtimeVendors";
-import { Vendor } from "@/types/vendor";
+import { Layout } from "../components/layout";
+import { useLanguage } from "../lib/language";
+import { useRealTimeRSVPStats } from "../hooks/useRealtimeUpdates";
+import { useRealtimeVendors } from "../hooks/useRealtimeVendors";
+import { Vendor } from "../types/vendor";
 import { DashboardHeader } from "./home/DashboardHeader";
 import { DashboardStats } from "./home/DashboardStats";
 import { DashboardActions } from "./home/DashboardActions";

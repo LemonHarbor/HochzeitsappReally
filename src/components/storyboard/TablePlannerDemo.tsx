@@ -1,10 +1,10 @@
 import React from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
 import { PlusCircle, TableProperties, Users } from "lucide-react";
-import { useLanguage } from "@/lib/language";
+import { useLanguage } from "../../../../src/lib/language";
 
 const TablePlannerDemo = () => {
   const { t } = useLanguage();

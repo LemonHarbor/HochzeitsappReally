@@ -1,13 +1,13 @@
 import React from "react";
-import { useLanguage } from "@/lib/language";
-import { MobileResponsiveTable } from "@/components/ui/mobile-responsive-table";
+import { useLanguage } from "../../../../src/lib/language";
+import { MobileResponsiveTable } from "../../../../src/components/ui/mobile-responsive-table";
 import { 
   MobileResponsiveSection, 
   MobileResponsiveGrid, 
   MobileResponsiveGridItem,
   MobileResponsiveButton,
   MobileResponsiveActionBar
-} from "@/components/ui/mobile-responsive-components";
+} from "../../../../src/components/ui/mobile-responsive-components";
 
 export function MobileOptimizedGuestManager() {
   const { t } = useLanguage();

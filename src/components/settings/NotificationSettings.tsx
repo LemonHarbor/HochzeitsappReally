@@ -6,8 +6,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
+} from "../../../../src/components/ui/card";
+import { Switch } from "../../../../src/components/ui/switch";
 import {
   Form,
   FormControl,
@@ -15,9 +15,9 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from "@/components/ui/form";
+} from "../../../../src/components/ui/form";
 import { useForm } from "react-hook-form";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "../../../../src/components/ui/use-toast";
 
 interface NotificationSetting {
   email: boolean;

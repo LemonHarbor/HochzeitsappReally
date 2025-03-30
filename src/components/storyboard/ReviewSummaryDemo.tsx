@@ -1,5 +1,5 @@
 import React from "react";
-import ReviewSummary from "@/components/vendor/ReviewSummary";
+import ReviewSummary from "../../../../src/components/vendor/ReviewSummary";
 
 const mockReviews = [
   {

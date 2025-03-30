@@ -1,7 +1,7 @@
 import React from "react";
-import TimelineGenerator from "@/components/timeline/TimelineGenerator";
-import { ThemeProvider } from "@/lib/theme";
-import { LanguageProvider } from "@/lib/language";
+import TimelineGenerator from "../../../../src/components/timeline/TimelineGenerator";
+import { ThemeProvider } from "../../../../src/lib/theme";
+import { LanguageProvider } from "../../../../src/lib/language";
 
 const TimelineGeneratorDemo = () => {
   // Set initial wedding date to 9 months from now for demo purposes

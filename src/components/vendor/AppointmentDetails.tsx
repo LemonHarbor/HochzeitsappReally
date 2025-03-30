@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
+import { Badge } from "../../../../src/components/ui/badge";
 import {
   format,
   parseISO,
@@ -10,7 +10,7 @@ import {
   addMinutes,
   isBefore,
 } from "date-fns";
-import { Appointment } from "@/types/appointment";
+import { Appointment } from "../../../../src/types/appointment";
 import {
   Calendar,
   Clock,
@@ -27,8 +27,8 @@ import {
   downloadAppointmentAsICal,
   setAppointmentReminder,
   cancelAppointmentReminder,
-} from "@/services/appointmentService";
-import { Textarea } from "@/components/ui/textarea";
+} from "../../../../src/services/appointmentService";
+import { Textarea } from "../../../../src/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
@@ -36,17 +36,17 @@ import {
   DialogTitle,
   DialogFooter,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "../../../../src/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { toast } from "@/components/ui/use-toast";
+} from "../../../../src/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "../../../../src/components/ui/radio-group";
+import { Label } from "../../../../src/components/ui/label";
+import { toast } from "../../../../src/components/ui/use-toast";
 
 interface AppointmentDetailsProps {
   appointment: Appointment;

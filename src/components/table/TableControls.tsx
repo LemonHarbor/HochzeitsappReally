@@ -1,22 +1,22 @@
 import React, { useState } from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent } from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
-import { Slider } from "@/components/ui/slider";
+} from "../../../../src/components/ui/select";
+import { Separator } from "../../../../src/components/ui/separator";
+import { Switch } from "../../../../src/components/ui/switch";
+import { Slider } from "../../../../src/components/ui/slider";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "../../../../src/components/ui/tooltip";
 import {
   Plus,
   Circle,
@@ -28,7 +28,7 @@ import {
   Trash2,
   HelpCircle,
 } from "lucide-react";
-import { useLanguage } from "@/lib/language";
+import { useLanguage } from "../../../../src/lib/language";
 
 interface TableControlsProps {
   onAddTable?: (shape: string) => void;

@@ -1,5 +1,5 @@
 import React from "react";
-import BudgetPlanner from "@/components/budget/BudgetPlanner";
+import BudgetPlanner from "../../../../src/components/budget/BudgetPlanner";
 
 const BudgetPlannerDemo = () => {
   // Sample data for the demo

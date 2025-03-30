@@ -1,15 +1,15 @@
 import React from "react";
-import { ThemeProvider } from "@/lib/theme";
-import { LanguageProvider } from "@/lib/language";
-import { CurrencyProvider } from "@/lib/currency";
-import { DeveloperMode } from "@/components/ui/developer-mode";
+import { ThemeProvider } from "../../../src/lib/theme";
+import { LanguageProvider } from "../../../src/lib/language";
+import { CurrencyProvider } from "../../../src/lib/currency";
+import { DeveloperMode } from "../../../src/components/ui/developer-mode";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/components/ui/card";
+} from "../../../src/components/ui/card";
 
 const DeveloperModeDemo = () => {
   return (

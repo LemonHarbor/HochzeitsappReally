@@ -1,15 +1,15 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../../../src/components/ui/button";
 import { Code, Code2 } from "lucide-react";
-import { useDeveloperMode } from "@/lib/developer";
+import { useDeveloperMode } from "../../../../src/lib/developer";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useLanguage } from "@/lib/language";
-import { cn } from "@/lib/utils";
+} from "../../../../src/components/ui/tooltip";
+import { useLanguage } from "../../../../src/lib/language";
+import { cn } from "../../../../src/lib/utils";
 
 interface DeveloperToggleProps {
   className?: string;

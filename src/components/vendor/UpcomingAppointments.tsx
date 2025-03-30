@@ -1,9 +1,9 @@
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Appointment } from "@/types/appointment";
-import { Vendor } from "@/types/vendor";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
+import { Badge } from "../../../../src/components/ui/badge";
+import { Appointment } from "../../../../src/types/appointment";
+import { Vendor } from "../../../../src/types/vendor";
 import {
   format,
   parseISO,
@@ -12,7 +12,7 @@ import {
   differenceInDays,
 } from "date-fns";
 import { Calendar, Clock, MapPin, CalendarDays, Plus } from "lucide-react";
-import { useRealtimeUpcomingAppointments } from "@/hooks/useRealtimeAppointments";
+import { useRealtimeUpcomingAppointments } from "../../../../src/hooks/useRealtimeAppointments";
 
 interface UpcomingAppointmentsProps {
   vendors?: Vendor[];

@@ -1,4 +1,4 @@
-import { Vendor } from "@/types/vendor";
+import { Vendor } from "../../../src/types/vendor";
 import { format } from "date-fns";
 
 // Export vendor contact to vCard format

@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { Layout } from "@/components/layout";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Layout } from "../../../src/components/layout";
+import { Button } from "../../../src/components/ui/button";
+import { Dialog, DialogContent } from "../../../src/components/ui/dialog";
 import { Plus, Users } from "lucide-react";
-import GuestList from "@/components/guest/GuestList";
-import GuestForm from "@/components/guest/GuestForm";
-import RSVPStats from "@/components/guest/RSVPStats";
-import GuestRelationships from "@/components/guest/GuestRelationships";
-import EmailNotifications from "@/components/guest/EmailNotifications";
-import EmailLogs from "@/components/guest/EmailLogs";
-import { useToast } from "@/components/ui/use-toast";
-import { useRealtimeGuests } from "@/hooks/useRealtimeUpdates";
-import { createGuest, updateGuest, deleteGuest } from "@/services/guestService";
+import GuestList from "../../../src/components/guest/GuestList";
+import GuestForm from "../../../src/components/guest/GuestForm";
+import RSVPStats from "../../../src/components/guest/RSVPStats";
+import GuestRelationships from "../../../src/components/guest/GuestRelationships";
+import EmailNotifications from "../../../src/components/guest/EmailNotifications";
+import EmailLogs from "../../../src/components/guest/EmailLogs";
+import { useToast } from "../../../src/components/ui/use-toast";
+import { useRealtimeGuests } from "../../../src/hooks/useRealtimeUpdates";
+import { createGuest, updateGuest, deleteGuest } from "../../../src/services/guestService";
 
 // Define types for guest data
 interface Guest {

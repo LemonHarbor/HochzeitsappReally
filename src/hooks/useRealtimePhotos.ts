@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
-import { useToast } from "@/components/ui/use-toast";
-import { Photo, PhotoComment } from "@/types/photo";
+import { supabase } from "../../../src/lib/supabase";
+import { useToast } from "../../../src/components/ui/use-toast";
+import { Photo, PhotoComment } from "../../../src/types/photo";
 
 // Hook for real-time photo updates
 export function useRealtimePhotos(guestId?: string) {

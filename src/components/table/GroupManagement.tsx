@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "../../../../src/components/ui/button";
+import { Input } from "../../../../src/components/ui/input";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/ui/dialog";
+} from "../../../../src/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
+} from "../../../../src/components/ui/select";
+import { Badge } from "../../../../src/components/ui/badge";
 import { Plus, X, UserPlus, Users } from "lucide-react";
-import { useAuth } from "@/context/AuthContext";
-import { useLanguage } from "@/lib/language";
-import { useToast } from "@/components/ui/use-toast";
+import { useAuth } from "../../../../src/context/AuthContext";
+import { useLanguage } from "../../../../src/lib/language";
+import { useToast } from "../../../../src/components/ui/use-toast";
 import {
   createGroup,
   getAllGroups,
   deleteGroup,
-} from "@/services/tableService";
+} from "../../../../src/services/tableService";
 
 export interface Group {
   id: string;

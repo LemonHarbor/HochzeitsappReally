@@ -1,7 +1,7 @@
 import React from "react";
-import MusicWishlistSection from "@/components/guest-area/MusicWishlistSection";
-import { ThemeProvider } from "@/lib/theme";
-import { LanguageProvider } from "@/lib/language";
+import MusicWishlistSection from "../../../../src/components/guest-area/MusicWishlistSection";
+import { ThemeProvider } from "../../../../src/lib/theme";
+import { LanguageProvider } from "../../../../src/lib/language";
 
 const MusicWishlistDemo = () => {
   return (

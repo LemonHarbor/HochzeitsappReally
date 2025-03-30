@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
 import {
   CalendarDays,
   Users,
@@ -8,7 +8,7 @@ import {
   TableProperties,
   Gift,
 } from "lucide-react";
-import { useRealTimeRSVPStats } from "@/hooks/useRealtimeUpdates";
+import { useRealTimeRSVPStats } from "../../../../src/hooks/useRealtimeUpdates";
 
 interface StatCardProps {
   title: string;

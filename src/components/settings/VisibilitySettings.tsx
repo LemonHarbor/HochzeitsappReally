@@ -5,10 +5,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+} from "../../../../src/components/ui/card";
+import { Switch } from "../../../../src/components/ui/switch";
+import { Button } from "../../../../src/components/ui/button";
+import { useToast } from "../../../../src/components/ui/use-toast";
 import { Eye, EyeOff, Save } from "lucide-react";
 
 interface FeatureVisibility {

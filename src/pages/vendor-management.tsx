@@ -1,12 +1,12 @@
 import React from "react";
-import { Layout } from "@/components/layout";
-import VendorManager from "@/components/vendor/VendorManager";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Layout } from "../../../src/components/layout";
+import VendorManager from "../../../src/components/vendor/VendorManager";
+import { Dialog, DialogContent } from "../../../src/components/ui/dialog";
 import { useState, useEffect } from "react";
-import ExpenseForm from "@/components/budget/ExpenseForm";
-import { useToast } from "@/components/ui/use-toast";
-import { createExpense, updateExpense } from "@/services/budgetService";
-import { linkVendorToExpense } from "@/services/vendorService";
+import ExpenseForm from "../../../src/components/budget/ExpenseForm";
+import { useToast } from "../../../src/components/ui/use-toast";
+import { createExpense, updateExpense } from "../../../src/services/budgetService";
+import { linkVendorToExpense } from "../../../src/services/vendorService";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const VendorManagement = () => {

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Button } from "../../../../src/components/ui/button";
+import { Dialog, DialogContent } from "../../../../src/components/ui/dialog";
 import { ArrowLeft } from "lucide-react";
-import { Vendor } from "@/types/vendor";
-import { Review } from "@/types/review";
-import { useRealtimeReviews } from "@/hooks/useRealtimeReviews";
-import { useToast } from "@/components/ui/use-toast";
-import { useAuth } from "@/context/AuthContext";
+import { Vendor } from "../../../../src/types/vendor";
+import { Review } from "../../../../src/types/review";
+import { useRealtimeReviews } from "../../../../src/hooks/useRealtimeReviews";
+import { useToast } from "../../../../src/components/ui/use-toast";
+import { useAuth } from "../../../../src/context/AuthContext";
 import ReviewList from "./ReviewList";
 import ReviewForm from "./ReviewForm";
 import {
@@ -16,8 +16,8 @@ import {
   getVendorAverageRating,
   getVendorRatingDistribution,
   getReviewByVendorAndUser,
-} from "@/services/reviewService";
-import { checkUserBookedVendor } from "@/services/verificationService";
+} from "../../../../src/services/reviewService";
+import { checkUserBookedVendor } from "../../../../src/services/verificationService";
 
 interface VendorReviewsProps {
   vendor: Vendor;

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
-import { useToast } from "@/components/ui/use-toast";
-import { Vendor } from "@/types/vendor";
-import { getVendorsWithExpenseSummaries } from "@/services/vendorService";
+import { supabase } from "../../../src/lib/supabase";
+import { useToast } from "../../../src/components/ui/use-toast";
+import { Vendor } from "../../../src/types/vendor";
+import { getVendorsWithExpenseSummaries } from "../../../src/services/vendorService";
 
 // Hook for real-time vendor updates
 export function useRealtimeVendors(category?: string) {

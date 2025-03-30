@@ -1,11 +1,11 @@
 import React from "react";
-import { ThemeProvider } from "@/lib/theme";
-import { LanguageProvider } from "@/lib/language";
-import { CurrencyProvider } from "@/lib/currency";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import VendorManager from "@/components/vendor/VendorManager";
-import ExpenseForm from "@/components/budget/ExpenseForm";
+import { ThemeProvider } from "../../../src/lib/theme";
+import { LanguageProvider } from "../../../src/lib/language";
+import { CurrencyProvider } from "../../../src/lib/currency";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../src/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../src/components/ui/tabs";
+import VendorManager from "../../../src/components/vendor/VendorManager";
+import ExpenseForm from "../../../src/components/budget/ExpenseForm";
 
 const VendorExpenseIntegrationDemo = () => {
   return (

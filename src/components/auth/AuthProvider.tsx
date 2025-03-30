@@ -9,8 +9,8 @@ import {
   logoutUser,
   getCurrentUser,
   UserRole,
-} from "@/lib/auth";
-import { useToast } from "@/components/ui/use-toast";
+} from "../../../../src/lib/auth";
+import { useToast } from "../../../../src/components/ui/use-toast";
 
 interface AuthProviderProps {
   children: React.ReactNode;

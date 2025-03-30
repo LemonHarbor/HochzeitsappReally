@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
+import { Badge } from "../../../../src/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -9,9 +9,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "../../../../src/components/ui/table";
 import { format, isAfter, isBefore, parseISO } from "date-fns";
-import { Contract } from "@/types/contract";
+import { Contract } from "../../../../src/types/contract";
 import {
   FileText,
   Calendar,
@@ -26,20 +26,20 @@ import {
   X,
   Plus,
 } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Input } from "../../../../src/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "../../../../src/components/ui/select";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "../../../../src/components/ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -49,7 +49,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from "../../../../src/components/ui/alert-dialog";
 
 interface ContractListProps {
   contracts: Contract[];

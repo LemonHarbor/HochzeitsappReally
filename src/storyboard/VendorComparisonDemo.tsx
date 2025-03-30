@@ -1,8 +1,8 @@
 import React from "react";
-import { ThemeProvider } from "@/lib/theme";
-import { LanguageProvider } from "@/lib/language";
-import { CurrencyProvider } from "@/lib/currency";
-import VendorComparisonTool from "@/components/vendor/VendorComparisonTool";
+import { ThemeProvider } from "../../../src/lib/theme";
+import { LanguageProvider } from "../../../src/lib/language";
+import { CurrencyProvider } from "../../../src/lib/currency";
+import VendorComparisonTool from "../../../src/components/vendor/VendorComparisonTool";
 
 const VendorComparisonDemo = () => {
   return (

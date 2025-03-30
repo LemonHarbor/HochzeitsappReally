@@ -1,5 +1,5 @@
-import { supabase } from "@/lib/supabase";
-import { Vendor, VendorFormData } from "@/types/vendor";
+import { supabase } from "../../../src/lib/supabase";
+import { Vendor, VendorFormData } from "../../../src/types/vendor";
 
 // Get all vendors
 export const getVendors = async (): Promise<Vendor[]> => {

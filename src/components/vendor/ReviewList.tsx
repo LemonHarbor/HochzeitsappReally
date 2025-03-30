@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
+import { Avatar, AvatarFallback } from "../../../../src/components/ui/avatar";
+import { Separator } from "../../../../src/components/ui/separator";
+import { Progress } from "../../../../src/components/ui/progress";
+import { Badge } from "../../../../src/components/ui/badge";
 import { format, formatDistanceToNow } from "date-fns";
-import { Review, ReviewStatus, VerificationType } from "@/types/review";
-import { useAuth } from "@/context/AuthContext";
+import { Review, ReviewStatus, VerificationType } from "../../../../src/types/review";
+import { useAuth } from "../../../../src/context/AuthContext";
 import {
   Star,
   Edit,
@@ -35,7 +35,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from "../../../../src/components/ui/alert-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -45,13 +45,13 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuLabel,
   DropdownMenuGroup,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
+} from "../../../../src/components/ui/dropdown-menu";
+import { Input } from "../../../../src/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from "../../../../src/components/ui/popover";
 import ReviewVoteButtons from "./ReviewVoteButtons";
 import VerificationBadge from "./VerificationBadge";
 

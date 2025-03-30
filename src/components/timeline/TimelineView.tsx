@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { format, parseISO } from "date-fns";
 import { de } from "date-fns/locale";
 import { Check, Plus, ChevronDown, ChevronUp } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { useLanguage } from "@/lib/language";
-import { TimelineMilestone } from "@/services/timelineService";
+import { Button } from "../../../../src/components/ui/button";
+import { Input } from "../../../../src/components/ui/input";
+import { Badge } from "../../../../src/components/ui/badge";
+import { useLanguage } from "../../../../src/lib/language";
+import { TimelineMilestone } from "../../../../src/services/timelineService";
 import TimelineTask from "./TimelineTask";
 
 interface TimelineViewProps {

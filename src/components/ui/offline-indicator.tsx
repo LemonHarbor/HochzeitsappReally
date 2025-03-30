@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Wifi, WifiOff } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useLanguage } from "@/lib/language";
+import { Alert, AlertDescription, AlertTitle } from "../../../../src/components/ui/alert";
+import { useLanguage } from "../../../../src/lib/language";
 
 export function OfflineIndicator() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);

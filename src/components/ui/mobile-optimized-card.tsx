@@ -1,5 +1,5 @@
 import React from "react";
-import { useLanguage } from "@/lib/language";
+import { useLanguage } from "../../../../src/lib/language";
 
 export function MobileOptimizedCard({ title, children, icon, className = "" }) {
   const { t } = useLanguage();

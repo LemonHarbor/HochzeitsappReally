@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
-import { useToast } from "@/components/ui/use-toast";
-import { TimelineMilestone, TimelineTask } from "@/services/timelineService";
+import { supabase } from "../../../src/lib/supabase";
+import { useToast } from "../../../src/components/ui/use-toast";
+import { TimelineMilestone, TimelineTask } from "../../../src/services/timelineService";
 
 // Hook for real-time timeline updates
 export function useRealtimeTimeline(userId: string) {

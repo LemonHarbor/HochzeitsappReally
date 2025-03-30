@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Save, X, Upload, Plus, Trash2 } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
-import { useLanguage } from "@/lib/language";
+import { useToast } from "../../../../src/components/ui/use-toast";
+import { useLanguage } from "../../../../src/lib/language";
 
 import {
   Form,
@@ -14,17 +14,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+} from "../../../../src/components/ui/form";
+import { Input } from "../../../../src/components/ui/input";
+import { Button } from "../../../../src/components/ui/button";
+import { Textarea } from "../../../../src/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "../../../../src/components/ui/select";
 import {
   Card,
   CardContent,
@@ -32,16 +32,16 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/components/ui/card";
-import { Calendar } from "@/components/ui/calendar";
+} from "../../../../src/components/ui/card";
+import { Calendar } from "../../../../src/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from "../../../../src/components/ui/popover";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../../../src/lib/utils";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),

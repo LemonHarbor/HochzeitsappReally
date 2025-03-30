@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
-import { useToast } from "@/components/ui/use-toast";
-import { Review } from "@/types/review";
+import { supabase } from "../../../src/lib/supabase";
+import { useToast } from "../../../src/components/ui/use-toast";
+import { Review } from "../../../src/types/review";
 import {
   getReviewsByVendor,
   getPendingReviews,
-} from "@/services/reviewService";
+} from "../../../src/services/reviewService";
 
 // Hook for real-time review updates
 export function useRealtimeReviews(

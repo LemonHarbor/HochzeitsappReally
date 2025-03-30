@@ -1,8 +1,8 @@
 import React from "react";
-import VendorManager from "@/components/vendor/VendorManager";
-import { ThemeProvider } from "@/lib/theme";
-import { LanguageProvider } from "@/lib/language";
-import { CurrencyProvider } from "@/lib/currency";
+import VendorManager from "../../../../src/components/vendor/VendorManager";
+import { ThemeProvider } from "../../../../src/lib/theme";
+import { LanguageProvider } from "../../../../src/lib/language";
+import { CurrencyProvider } from "../../../../src/lib/currency";
 
 const VendorManagementDemo = () => {
   return (

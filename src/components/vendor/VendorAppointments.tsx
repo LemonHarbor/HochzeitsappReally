@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "../../../../src/components/ui/button";
+import { Dialog, DialogContent } from "../../../../src/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../src/components/ui/tabs";
 import { ArrowLeft } from "lucide-react";
-import { Vendor } from "@/types/vendor";
-import { Appointment } from "@/types/appointment";
-import { useRealtimeAppointments } from "@/hooks/useRealtimeAppointments";
-import { useToast } from "@/components/ui/use-toast";
+import { Vendor } from "../../../../src/types/vendor";
+import { Appointment } from "../../../../src/types/appointment";
+import { useRealtimeAppointments } from "../../../../src/hooks/useRealtimeAppointments";
+import { useToast } from "../../../../src/components/ui/use-toast";
 import AppointmentList from "./AppointmentList";
 import AppointmentForm from "./AppointmentForm";
 import AppointmentDetails from "./AppointmentDetails";
@@ -16,7 +16,7 @@ import {
   updateAppointment,
   deleteAppointment,
   completeAppointment,
-} from "@/services/appointmentService";
+} from "../../../../src/services/appointmentService";
 
 interface VendorAppointmentsProps {
   vendor: Vendor;

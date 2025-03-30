@@ -1,5 +1,5 @@
 import React from "react";
-import { useLanguage } from "@/lib/language";
+import { useLanguage } from "../../../../src/lib/language";
 
 export function TablePlanner() {
   const { t } = useLanguage();

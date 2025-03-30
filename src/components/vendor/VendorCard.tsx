@@ -1,8 +1,8 @@
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Vendor } from "@/types/vendor";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
+import { Badge } from "../../../../src/components/ui/badge";
+import { Vendor } from "../../../../src/types/vendor";
 import RatingStars from "./RatingStars";
 import { MapPin, Phone, Mail, ExternalLink } from "lucide-react";
 

@@ -1,8 +1,8 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Slider } from "@/components/ui/slider";
-import { VendorPreferences } from "@/services/recommendationService";
+import { Button } from "../../../../src/components/ui/button";
+import { Badge } from "../../../../src/components/ui/badge";
+import { Slider } from "../../../../src/components/ui/slider";
+import { VendorPreferences } from "../../../../src/services/recommendationService";
 
 interface VendorFilterPanelProps {
   preferences: VendorPreferences;

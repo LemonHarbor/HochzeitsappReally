@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { useToast } from "@/components/ui/use-toast";
-import { useAuth } from "@/context/AuthContext";
-import { useRealtimeMoodBoard } from "@/hooks/useRealtimeMoodBoard";
-import { MoodBoardItem } from "@/types/moodboard";
+import { Button } from "../../../../src/components/ui/button";
+import { Input } from "../../../../src/components/ui/input";
+import { Badge } from "../../../../src/components/ui/badge";
+import { Separator } from "../../../../src/components/ui/separator";
+import { useToast } from "../../../../src/components/ui/use-toast";
+import { useAuth } from "../../../../src/context/AuthContext";
+import { useRealtimeMoodBoard } from "../../../../src/hooks/useRealtimeMoodBoard";
+import { MoodBoardItem } from "../../../../src/types/moodboard";
 import {
   updateMoodBoard,
   addMoodBoardItem,
@@ -15,7 +15,7 @@ import {
   deleteMoodBoardItem,
   uploadMoodBoardImage,
   addMoodBoardComment,
-} from "@/services/moodboardService";
+} from "../../../../src/services/moodboardService";
 import {
   ArrowLeft,
   Plus,
@@ -39,7 +39,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "../../../../src/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -47,13 +47,13 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from "@/components/ui/dialog";
+} from "../../../../src/components/ui/dialog";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "../../../../src/components/ui/tooltip";
 import {
   Drawer,
   DrawerContent,
@@ -62,10 +62,10 @@ import {
   DrawerDescription,
   DrawerFooter,
   DrawerClose,
-} from "@/components/ui/drawer";
-import { Textarea } from "@/components/ui/textarea";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+} from "../../../../src/components/ui/drawer";
+import { Textarea } from "../../../../src/components/ui/textarea";
+import { ScrollArea } from "../../../../src/components/ui/scroll-area";
+import { Avatar, AvatarFallback } from "../../../../src/components/ui/avatar";
 import { format } from "date-fns";
 
 interface MoodBoardCanvasProps {

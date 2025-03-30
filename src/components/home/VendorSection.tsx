@@ -1,5 +1,5 @@
 import React from "react";
-import { Vendor } from "@/types/vendor";
+import { Vendor } from "../../../../src/types/vendor";
 import ReviewReminder from "../timeline/ReviewReminder";
 import VendorRecommendations from "../vendor/VendorRecommendations";
 import UpcomingAppointments from "../dashboard/UpcomingAppointments";

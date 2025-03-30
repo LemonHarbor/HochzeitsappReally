@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Vendor } from "@/types/vendor";
-import { useToast } from "@/components/ui/use-toast";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import { Button } from "../../../../src/components/ui/button";
+import { Badge } from "../../../../src/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../src/components/ui/tabs";
+import { Vendor } from "../../../../src/types/vendor";
+import { useToast } from "../../../../src/components/ui/use-toast";
 import RatingStars from "./RatingStars";
-import { getVendorAverageRating } from "@/services/reviewService";
+import { getVendorAverageRating } from "../../../../src/services/reviewService";
 import {
   getRecommendedVendors,
   getSimilarVendors,
   getPopularVendorsByCategory,
   VendorPreferences,
-} from "@/services/recommendationService";
+} from "../../../../src/services/recommendationService";
 import {
   Store,
   Star,
@@ -25,14 +25,14 @@ import {
   Filter,
   RefreshCw,
 } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
+import { Skeleton } from "../../../../src/components/ui/skeleton";
+import { Input } from "../../../../src/components/ui/input";
+import { Slider } from "../../../../src/components/ui/slider";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from "../../../../src/components/ui/popover";
 import { VendorCard } from "./VendorCard";
 import { VendorFilterPanel } from "./VendorFilterPanel";
 

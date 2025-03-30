@@ -1,7 +1,7 @@
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../src/components/ui/card";
+import { Progress } from "../../../../src/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../src/components/ui/tabs";
 import {
   CheckCircle,
   XCircle,
@@ -18,7 +18,7 @@ interface RSVPStatsProps {
   totalGuests?: number;
 }
 
-import { useRealTimeRSVPStats } from "@/hooks/useRealtimeUpdates";
+import { useRealTimeRSVPStats } from "../../../../src/hooks/useRealtimeUpdates";
 
 const RSVPStats = ({
   confirmedCount,

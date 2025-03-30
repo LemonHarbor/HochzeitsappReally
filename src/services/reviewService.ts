@@ -1,5 +1,5 @@
-import { supabase } from "@/lib/supabase";
-import { Review, ReviewFormData, ReviewStatus } from "@/types/review";
+import { supabase } from "../../../src/lib/supabase";
+import { Review, ReviewFormData, ReviewStatus } from "../../../src/types/review";
 
 // Get all reviews
 export const getReviews = async (): Promise<Review[]> => {

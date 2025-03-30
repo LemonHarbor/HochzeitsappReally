@@ -1,12 +1,12 @@
 import React from "react";
-import { ThemeProvider } from "@/lib/theme";
-import { LanguageProvider } from "@/lib/language";
-import { CurrencyProvider } from "@/lib/currency";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ContractList from "@/components/vendor/ContractList";
-import ContractForm from "@/components/vendor/ContractForm";
-import ExpiringContractsAlert from "@/components/vendor/ExpiringContractsAlert";
+import { ThemeProvider } from "../../../src/lib/theme";
+import { LanguageProvider } from "../../../src/lib/language";
+import { CurrencyProvider } from "../../../src/lib/currency";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../src/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../src/components/ui/tabs";
+import ContractList from "../../../src/components/vendor/ContractList";
+import ContractForm from "../../../src/components/vendor/ContractForm";
+import ExpiringContractsAlert from "../../../src/components/vendor/ExpiringContractsAlert";
 
 const ContractManagementDemo = () => {
   // Sample contract data
@@ -20,7 +20,7 @@ const ContractManagementDemo = () => {
       file_size: 2500000,
       signed_date: new Date(2024, 5, 15).toISOString(),
       expiration_date: new Date(2025, 5, 15).toISOString(),
-      status: "active",
+      status: "active" as "draft" | "pending" | "active" | "expired" | "cancelled",
       key_terms: {
         "Rental Fee": "$5,000",
         Deposit: "$1,000",
@@ -40,7 +40,7 @@ const ContractManagementDemo = () => {
       expiration_date: new Date(
         new Date().getTime() + 15 * 24 * 60 * 60 * 1000,
       ).toISOString(), // 15 days from now
-      status: "active",
+      status: "active" as "draft" | "pending" | "active" | "expired" | "cancelled",
       key_terms: {
         "Cost Per Person": "$85",
         "Minimum Guests": "100",
@@ -59,7 +59,7 @@ const ContractManagementDemo = () => {
       file_size: 1200000,
       signed_date: new Date(2024, 6, 15).toISOString(),
       expiration_date: new Date(2025, 0, 15).toISOString(),
-      status: "pending",
+      status: "pending" as "draft" | "pending" | "active" | "expired" | "cancelled",
       key_terms: {
         "Package Price": "$3,500",
         "Hours of Coverage": "8 hours",
@@ -75,7 +75,7 @@ const ContractManagementDemo = () => {
       file_type:
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       file_size: 950000,
-      status: "draft",
+      status: "draft" as "draft" | "pending" | "active" | "expired" | "cancelled",
       created_at: new Date(2024, 7, 1).toISOString(),
     },
   ];
@@ -129,7 +129,7 @@ const ContractManagementDemo = () => {
                       vendorId="vendor-1"
                       initialData={{
                         name: "",
-                        status: "draft",
+                        status: "draft" as "draft" | "pending" | "active" | "expired" | "cancelled",
                       }}
                     />
                   </CardContent>

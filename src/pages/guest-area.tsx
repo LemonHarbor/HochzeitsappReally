@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Layout } from "@/components/layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Layout } from "../components/layout";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { Calendar, Camera, Music } from "lucide-react";
-import RSVPForm from "@/components/guest-area/RSVPForm";
-import PhotoSharingSection from "@/components/guest-area/PhotoSharingSection";
-import MusicWishlistSection from "@/components/guest-area/MusicWishlistSection";
+import RSVPForm from "../components/guest-area/RSVPForm";
+import PhotoSharingSection from "../components/guest-area/PhotoSharingSection";
+import MusicWishlistSection from "../components/guest-area/MusicWishlistSection";
 
 const GuestArea = () => {
   // Mock guest ID for demo purposes - in a real app, this would come from auth context

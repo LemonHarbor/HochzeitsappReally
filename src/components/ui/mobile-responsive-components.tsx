@@ -1,5 +1,5 @@
 import React from "react";
-import { useLanguage } from "@/lib/language";
+import { useLanguage } from "../../../../src/lib/language";
 
 export function MobileResponsiveGrid({ children, columns = { sm: 1, md: 2, lg: 3 } }) {
   return (

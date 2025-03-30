@@ -1,9 +1,9 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../../../src/components/ui/button";
 import { ThumbsUp, ThumbsDown } from "lucide-react";
-import { useReviewVote } from "@/hooks/useReviewVotes";
-import { useAuth } from "@/context/AuthContext";
-import { cn } from "@/lib/utils";
+import { useReviewVote } from "../../../../src/hooks/useReviewVotes";
+import { useAuth } from "../../../../src/context/AuthContext";
+import { cn } from "../../../../src/lib/utils";
 
 interface ReviewVoteButtonsProps {
   reviewId: string;

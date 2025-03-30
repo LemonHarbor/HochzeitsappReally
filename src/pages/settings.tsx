@@ -1,17 +1,17 @@
 import React from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { cn } from "@/lib/utils";
-import ProfileSettings from "@/components/settings/ProfileSettings";
-import SecuritySettings from "@/components/settings/SecuritySettings";
-import PermissionSettings from "@/components/settings/PermissionSettings";
-import NotificationSettings from "@/components/settings/NotificationSettings";
-import ThemeSettings from "@/components/settings/ThemeSettings";
-import VisibilitySettings from "@/components/settings/VisibilitySettings";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "../components/ui/tabs";
+import { cn } from "../lib/utils";
+import ProfileSettings from "../components/settings/ProfileSettings";
+import SecuritySettings from "../components/settings/SecuritySettings";
+import PermissionSettings from "../components/settings/PermissionSettings";
+import NotificationSettings from "../components/settings/NotificationSettings";
+import ThemeSettings from "../components/settings/ThemeSettings";
+import VisibilitySettings from "../components/settings/VisibilitySettings";
 import { User, Shield, Users, Bell, Palette, Eye } from "lucide-react";
-import { Layout } from "@/components/layout/Layout";
-import { useLanguage } from "@/lib/language";
-import { useAuth } from "@/context/AuthContext";
-import { PermissionGuard } from "@/components/ui/permission-guard";
+import { Layout } from "../components/layout/Layout";
+import { useLanguage } from "../lib/language";
+import { useAuth } from "../context/AuthContext";
+import { PermissionGuard } from "../components/ui/permission-guard";
 
 const SettingsPage = () => {
   const { t } = useLanguage();

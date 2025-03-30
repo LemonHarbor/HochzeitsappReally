@@ -1,6 +1,6 @@
 import React from "react";
-import { Layout } from "@/components/layout";
-import TablePlanner from "@/components/table/TablePlanner";
+import { Layout } from "../components/layout";
+import TablePlanner from "../components/table/TablePlanner";
 
 const TablePlannerPage = () => {
   return (

@@ -1,17 +1,17 @@
 import React from "react";
 import { Menu, Bell, Search, Wifi, WifiOff } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { LanguageSwitcher } from "@/components/ui/language-switcher";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { CurrencySwitcher } from "@/components/ui/currency-switcher";
-import { RealtimeIndicator } from "@/components/ui/realtime-indicator";
-import { DeveloperToggle } from "@/components/ui/developer-toggle";
-import { useAuth } from "@/context/AuthContext";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { SyncStatus } from "@/components/ui/sync-status";
-import { Badge } from "@/components/ui/badge";
-import { useLanguage } from "@/lib/language";
+import { Button } from "../../../../src/components/ui/button";
+import { Input } from "../../../../src/components/ui/input";
+import { LanguageSwitcher } from "../../../../src/components/ui/language-switcher";
+import { ThemeToggle } from "../../../../src/components/ui/theme-toggle";
+import { CurrencySwitcher } from "../../../../src/components/ui/currency-switcher";
+import { RealtimeIndicator } from "../../../../src/components/ui/realtime-indicator";
+import { DeveloperToggle } from "../../../../src/components/ui/developer-toggle";
+import { useAuth } from "../../../../src/context/AuthContext";
+import { Avatar, AvatarFallback, AvatarImage } from "../../../../src/components/ui/avatar";
+import { SyncStatus } from "../../../../src/components/ui/sync-status";
+import { Badge } from "../../../../src/components/ui/badge";
+import { useLanguage } from "../../../../src/lib/language";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +19,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "../../../../src/components/ui/dropdown-menu";
 
 interface HeaderProps {
   onMenuToggle?: () => void;

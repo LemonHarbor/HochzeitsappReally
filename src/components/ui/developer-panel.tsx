@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useDeveloperMode } from "@/lib/developer";
-import { Button } from "@/components/ui/button";
+import { useDeveloperMode } from "../../lib/developer";
+import { Button } from "./button";
 import {
   Sheet,
   SheetContent,
@@ -10,15 +10,15 @@ import {
   SheetTrigger,
   SheetFooter,
   SheetClose,
-} from "@/components/ui/sheet";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
+} from "./sheet";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
+import { Input } from "./input";
+import { Label } from "./label";
+import { Switch } from "./switch";
+import { Badge } from "./badge";
+import { ScrollArea } from "./scroll-area";
 import { Code, Database, Settings, Bug, Wrench, RefreshCw } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "../../lib/supabase";
 
 export function DeveloperPanel() {
   const { isDeveloperMode } = useDeveloperMode();
