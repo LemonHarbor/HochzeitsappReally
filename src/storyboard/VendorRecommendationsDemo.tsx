@@ -17,7 +17,7 @@ const VendorRecommendationsDemo = () => {
     address: "123 Main Street, Anytown, USA",
     notes:
       "Beautiful venue with excellent service. Offers both indoor and outdoor ceremony options. Modern elegant design with garden views.",
-    status: "active",
+    status: "active" as "active" | "inactive" | "pending",
     created_at: new Date().toISOString(),
   };
 

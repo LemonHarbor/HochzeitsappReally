@@ -17,7 +17,7 @@ const VendorExpenseReportDemo = () => {
     address: "123 Main Street, Anytown, USA",
     notes:
       "Beautiful venue with excellent service. Offers both indoor and outdoor ceremony options.",
-    status: "active",
+    status: "active" as "active" | "inactive" | "pending",
     created_at: new Date().toISOString(),
   };
 
