@@ -1,38 +1,37 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import App from "./App";
-import "./index.css";
-import { Toaster } from "./components/ui/toaster";
-import { AuthProvider } from "./context/AuthContext";
-import { ThemeProvider } from "./lib/theme";
-import { LanguageProvider } from "./lib/language";
-import { CurrencyProvider } from "./lib/currency";
-import { DeveloperProvider } from "./lib/developer";
-import { applyTheme, getActiveTheme } from "./lib/themes";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
+import App from './App.tsx'
+import './index.css'
+import { DeveloperProvider } from './lib/developer.tsx'
 
-// Add error handling for routing issues
-window.addEventListener("error", (event) => {
-  console.error("Global error caught:", event.error);
-});
+// Add global click handler to help debug click issues
+document.addEventListener('click', (e) => {
+  console.log('Click detected at:', e.clientX, e.clientY);
+  console.log('Target:', e.target);
+}, true);
 
-// Apply the active color theme before rendering
-const activeTheme = getActiveTheme();
-applyTheme(activeTheme);
+// Make all elements clickable
+const makeElementsClickable = () => {
+  const elements = document.querySelectorAll('button, a, input, select, textarea, [role="button"]');
+  elements.forEach(el => {
+    if (el instanceof HTMLElement) {
+      el.style.pointerEvents = 'auto';
+      el.style.cursor = 'pointer';
+    }
+  });
+};
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
-    <ThemeProvider>
-      <LanguageProvider>
-        <CurrencyProvider>
-          <DeveloperProvider>
-            <AuthProvider>
-              <App />
-              <Toaster />
-            </AuthProvider>
-          </DeveloperProvider>
-        </CurrencyProvider>
-      </LanguageProvider>
-    </ThemeProvider>
-  </BrowserRouter>,
-);
+// Run on load and periodically
+window.addEventListener('load', makeElementsClickable);
+setInterval(makeElementsClickable, 2000);
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <DeveloperProvider>
+        <App />
+      </DeveloperProvider>
+    </BrowserRouter>
+  </React.StrictMode>,
+)

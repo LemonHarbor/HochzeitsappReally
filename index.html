@@ -1,80 +1,617 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="LemonVows by LemonHarbor - Ihre All-in-One Hochzeitsplanungs-App" />
+    <meta name="keywords" content="Hochzeitsplanung, Hochzeitsapp, Gästemanagement, Budgetplanung, Sitzplatzplanung" />
+    <meta property="og:title" content="LemonVows by LemonHarbor" />
+    <meta property="og:description" content="Planen Sie Ihre Traumhochzeit mit unserer All-in-One Hochzeitsplanungs-App" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://hochzeitsapp-really.vercel.app/" />
     <title>LemonVows by LemonHarbor</title>
-    <meta name="description" content="Plan your perfect wedding day with our comprehensive tools" />
-    <meta name="keywords" content="wedding planning, wedding app, guest management, budget planning, seating chart" />
-    
-    <!-- Fix for click interaction issues -->
     <style>
       * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
         pointer-events: auto !important;
       }
-      body, html {
-        overflow-x: hidden;
+      
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        background-color: #fff9f9;
+        color: #333;
+        line-height: 1.6;
+      }
+      
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      
+      header {
+        background-color: #fff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #e5a4a4;
+      }
+      
+      .logo span {
+        color: #333;
+      }
+      
+      nav ul {
+        display: flex;
+        list-style: none;
+      }
+      
+      nav ul li {
+        margin-left: 20px;
+      }
+      
+      nav ul li a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+      
+      nav ul li a:hover {
+        color: #e5a4a4;
+      }
+      
+      .hero {
+        background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 100px 0;
+        text-align: center;
+      }
+      
+      .hero h1 {
+        font-size: 48px;
+        margin-bottom: 20px;
+        color: #333;
+      }
+      
+      .hero p {
+        font-size: 20px;
+        margin-bottom: 30px;
+        color: #666;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      .btn {
+        display: inline-block;
+        background-color: #e5a4a4;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      
+      .btn:hover {
+        background-color: #d88c8c;
+      }
+      
+      .btn-secondary {
+        background-color: transparent;
+        border: 2px solid #e5a4a4;
+        color: #e5a4a4;
+        margin-left: 15px;
+      }
+      
+      .btn-secondary:hover {
+        background-color: #e5a4a4;
+        color: white;
+      }
+      
+      .features {
+        padding: 80px 0;
+        background-color: #fff;
+      }
+      
+      .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+      
+      .section-title h2 {
+        font-size: 36px;
+        color: #333;
+        margin-bottom: 15px;
+      }
+      
+      .section-title p {
+        color: #666;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+      }
+      
+      .feature-card {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s;
+      }
+      
+      .feature-card:hover {
+        transform: translateY(-10px);
+      }
+      
+      .feature-card h3 {
+        font-size: 22px;
+        margin: 20px 0 15px;
+        color: #333;
+      }
+      
+      .feature-card p {
+        color: #666;
+      }
+      
+      .feature-icon {
+        width: 60px;
+        height: 60px;
+        background-color: #fff9f9;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+      
+      .feature-icon i {
+        font-size: 24px;
+        color: #e5a4a4;
+      }
+      
+      .pricing {
+        padding: 80px 0;
+        background-color: #fff9f9;
+      }
+      
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+      }
+      
+      .pricing-card {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 40px 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        text-align: center;
+        transition: transform 0.3s;
         position: relative;
+        overflow: hidden;
       }
-      .overlay, .modal-backdrop, [style*="position: fixed"] {
-        pointer-events: auto !important;
+      
+      .pricing-card.popular {
+        transform: scale(1.05);
+        border: 2px solid #e5a4a4;
       }
-      button, a, input, select, textarea {
-        cursor: pointer !important;
-        pointer-events: auto !important;
+      
+      .pricing-card.popular::before {
+        content: "Beliebteste Wahl";
+        position: absolute;
+        top: 15px;
+        right: -35px;
+        background-color: #e5a4a4;
+        color: white;
+        padding: 5px 40px;
+        transform: rotate(45deg);
+        font-size: 12px;
+        font-weight: bold;
+      }
+      
+      .pricing-card h3 {
+        font-size: 24px;
+        margin-bottom: 15px;
+        color: #333;
+      }
+      
+      .pricing-card .price {
+        font-size: 48px;
+        font-weight: bold;
+        color: #e5a4a4;
+        margin-bottom: 20px;
+      }
+      
+      .pricing-card .price span {
+        font-size: 16px;
+        color: #666;
+      }
+      
+      .pricing-card ul {
+        list-style: none;
+        margin-bottom: 30px;
+        text-align: left;
+      }
+      
+      .pricing-card ul li {
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+        color: #666;
+      }
+      
+      .pricing-card ul li::before {
+        content: "✓";
+        color: #e5a4a4;
+        margin-right: 10px;
+        font-weight: bold;
+      }
+      
+      footer {
+        background-color: #333;
+        color: #fff;
+        padding: 60px 0 30px;
+      }
+      
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+      
+      .footer-column h3 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: #fff;
+      }
+      
+      .footer-column ul {
+        list-style: none;
+      }
+      
+      .footer-column ul li {
+        margin-bottom: 10px;
+      }
+      
+      .footer-column ul li a {
+        color: #ccc;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      
+      .footer-column ul li a:hover {
+        color: #e5a4a4;
+      }
+      
+      .footer-bottom {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid #444;
+        color: #ccc;
+      }
+      
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        .header-content {
+          flex-direction: column;
+        }
+        
+        nav ul {
+          margin-top: 20px;
+        }
+        
+        .hero h1 {
+          font-size: 36px;
+        }
+        
+        .hero p {
+          font-size: 18px;
+        }
+        
+        .pricing-card.popular {
+          transform: scale(1);
+        }
+      }
+      
+      /* Developer mode toggle */
+      .dev-mode-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #333;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 1000;
+      }
+      
+      .dev-mode-toggle:hover {
+        background-color: #555;
       }
     </style>
-    
-    <!-- Preload critical resources -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">Lemon<span>Vows</span> by LemonHarbor</div>
+          <nav>
+            <ul>
+              <li><a href="#features">Funktionen</a></li>
+              <li><a href="#pricing">Preise</a></li>
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="#contact">Kontakt</a></li>
+              <li><a href="/login" class="btn">Anmelden</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
     
-    <!-- Fix for event handling issues -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Ensure all interactive elements have proper event handling
-        const makeClickable = () => {
-          const elements = document.querySelectorAll('button, a, input, select, textarea, [role="button"]');
-          elements.forEach(el => {
-            el.style.pointerEvents = 'auto';
-            el.style.cursor = 'pointer';
-            
-            // Add debug click handler
-            el.addEventListener('click', function(e) {
-              console.log('Element clicked:', e.target);
-              
-              // For buttons that should navigate or perform actions
-              if (el.tagName === 'BUTTON' || el.tagName === 'A') {
-                // If it's a login button
-                if (el.textContent.includes('Login') || 
-                    el.textContent.includes('Sign In') || 
-                    el.textContent.includes('Anmelden') || 
-                    el.textContent.includes('Einloggen')) {
-                  console.log('Login button clicked');
-                  localStorage.setItem('authenticated', 'true');
-                  window.location.href = '/';
-                }
-                
-                // If it's a developer mode toggle
-                if (el.textContent.includes('Developer Mode') || 
-                    el.textContent.includes('Entwicklermodus')) {
-                  console.log('Developer mode button clicked');
-                  localStorage.setItem('devMode', 'true');
-                  alert('Developer mode activated! Refresh the page to see changes.');
-                }
-              }
-            });
-          });
-        };
+    <section class="hero">
+      <div class="container">
+        <h1>Planen Sie Ihre Traumhochzeit mit Leichtigkeit</h1>
+        <p>LemonVows by LemonHarbor ist Ihre All-in-One-Lösung für eine stressfreie Hochzeitsplanung. Von der Gästeliste bis zur Sitzordnung - alles in einer intuitiven App.</p>
+        <a href="/register" class="btn">Kostenlos starten</a>
+        <a href="/demo" class="btn btn-secondary">Demo ansehen</a>
+      </div>
+    </section>
+    
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-title">
+          <h2>Alles was Sie für Ihre Hochzeitsplanung brauchen</h2>
+          <p>LemonVows bietet alle Werkzeuge, die Sie für eine perfekte Hochzeitsplanung benötigen - übersichtlich und einfach zu bedienen.</p>
+        </div>
         
-        // Run immediately and periodically to catch dynamically added elements
-        makeClickable();
-        setInterval(makeClickable, 1000);
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">📋</div>
+            <h3>Gästemanagement & RSVP-Tracking</h3>
+            <p>Verwalten Sie Ihre Gästeliste, verfolgen Sie Zu- und Absagen und behalten Sie den Überblick über spezielle Anforderungen.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">💰</div>
+            <h3>Budget-Planung & -Verfolgung</h3>
+            <p>Behalten Sie die Kontrolle über Ihre Ausgaben mit detaillierten Budgetkategorien und Echtzeit-Kostenübersicht.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">✓</div>
+            <h3>Aufgabenlisten & Zeitpläne</h3>
+            <p>Organisieren Sie Ihre To-Dos mit personalisierten Checklisten und Erinnerungen für wichtige Meilensteine.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">👥</div>
+            <h3>Lieferantenmanagement</h3>
+            <p>Vergleichen und verwalten Sie Ihre Dienstleister und behalten Sie alle Verträge und Termine im Blick.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">🪑</div>
+            <h3>Sitzplatzplanung</h3>
+            <p>Erstellen Sie mühelos Ihre Tischordnung mit unserem intuitiven Drag-and-Drop-Tool.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">📸</div>
+            <h3>Fotogalerie</h3>
+            <p>Sammeln und teilen Sie Ihre schönsten Momente in einer privaten Galerie mit Ihren Gästen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="pricing" id="pricing">
+      <div class="container">
+        <div class="section-title">
+          <h2>Wählen Sie den passenden Plan für Ihre Traumhochzeit</h2>
+          <p>Flexible Preispläne für jedes Budget. Alle Pläne beinhalten eine 14-tägige Geld-zurück-Garantie.</p>
+        </div>
+        
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <h3>Basis</h3>
+            <div class="price">29,99€<span>/Monat</span></div>
+            <p>Perfekt für Paare, die gerade mit der Planung beginnen</p>
+            <ul>
+              <li>Gästemanagement (bis zu 50 Gäste)</li>
+              <li>Einfache Budgetverfolgung</li>
+              <li>Grundlegende Aufgabenlisten</li>
+              <li>Einfache Sitzplatzplanung</li>
+              <li>14 Tage Testphase für Premium-Funktionen</li>
+            </ul>
+            <a href="/register" class="btn">Jetzt starten</a>
+          </div>
+          
+          <div class="pricing-card popular">
+            <h3>Premium</h3>
+            <div class="price">89,99€<span>/Monat</span></div>
+            <p>Alle Funktionen für eine stressfreie Hochzeitsplanung</p>
+            <ul>
+              <li>Unbegrenzte Gästeverwaltung mit RSVP-Tracking</li>
+              <li>Detaillierte Budgetverfolgung mit Berichten</li>
+              <li>Erweiterte Aufgabenlisten mit Erinnerungen</li>
+              <li>Lieferantenmanagement und -bewertungen</li>
+              <li>Interaktive Sitzplatzplanung</li>
+              <li>Fotogalerie für Hochzeitsfotos</li>
+              <li>Prioritäts-Support</li>
+            </ul>
+            <a href="/register" class="btn">Jetzt starten</a>
+          </div>
+          
+          <div class="pricing-card">
+            <h3>Deluxe</h3>
+            <div class="price">199,99€<span>/Monat</span></div>
+            <p>Für Paare, die das Maximum aus ihrer Planung herausholen möchten</p>
+            <ul>
+              <li>Alle Premium-Funktionen</li>
+              <li>Persönlicher Hochzeitsplaner-Assistent</li>
+              <li>Exklusive Design-Vorlagen</li>
+              <li>Hochzeitswebsite mit eigenem Domain</li>
+              <li>Unbegrenzte Fotospeicherung</li>
+              <li>KI-gestützter Hochzeitsredengenerator</li>
+              <li>NFT-Gästebuch für digitale Erinnerungen</li>
+              <li>Prioritäts-Support rund um die Uhr</li>
+            </ul>
+            <a href="/register" class="btn">Jetzt starten</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-column">
+            <h3>LemonVows</h3>
+            <ul>
+              <li><a href="/about">Über uns</a></li>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/careers">Karriere</a></li>
+              <li><a href="/press">Presse</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h3>Produkt</h3>
+            <ul>
+              <li><a href="/features">Funktionen</a></li>
+              <li><a href="/pricing">Preise</a></li>
+              <li><a href="/testimonials">Erfahrungsberichte</a></li>
+              <li><a href="/faq">FAQ</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h3>Rechtliches</h3>
+            <ul>
+              <li><a href="/terms">AGB</a></li>
+              <li><a href="/privacy">Datenschutz</a></li>
+              <li><a href="/cookies">Cookie-Richtlinie</a></li>
+              <li><a href="/imprint">Impressum</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h3>Kontakt</h3>
+            <ul>
+              <li><a href="mailto:info@lemonvows.com">info@lemonvows.com</a></li>
+              <li><a href="tel:+4930123456789">+49 30 123 456 789</a></li>
+              <li><a href="https://maps.google.com">Musterstraße 123, 10115 Berlin</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <p>&copy; 2025 LemonVows by LemonHarbor. Alle Rechte vorbehalten.</p>
+        </div>
+      </div>
+    </footer>
+    
+    <div class="dev-mode-toggle" onclick="toggleDevMode()">
+      Toggle Developer Mode
+    </div>
+    
+    <script>
+      // Simple developer mode toggle
+      function toggleDevMode() {
+        const devMode = localStorage.getItem('devMode') === 'true';
+        localStorage.setItem('devMode', (!devMode).toString());
+        alert(`Developer mode ${!devMode ? 'activated' : 'deactivated'}!`);
+        
+        if (!devMode) {
+          // Show developer mode indicator
+          const indicator = document.createElement('div');
+          indicator.style.position = 'fixed';
+          indicator.style.bottom = '60px';
+          indicator.style.right = '20px';
+          indicator.style.backgroundColor = '#4CAF50';
+          indicator.style.color = 'white';
+          indicator.style.padding = '10px';
+          indicator.style.borderRadius = '5px';
+          indicator.style.zIndex = '9999';
+          indicator.textContent = 'Developer Mode Active';
+          document.body.appendChild(indicator);
+          
+          // Remove after 3 seconds
+          setTimeout(() => {
+            if (indicator.parentNode) {
+              indicator.parentNode.removeChild(indicator);
+            }
+          }, 3000);
+        }
+      }
+      
+      // Make all elements clickable
+      function makeElementsClickable() {
+        const elements = document.querySelectorAll('button, a, input, select, textarea, [role="button"]');
+        elements.forEach(el => {
+          el.style.pointerEvents = 'auto';
+          el.style.cursor = 'pointer';
+        });
+      }
+      
+      // Run on load and periodically
+      window.addEventListener('load', makeElementsClickable);
+      setInterval(makeElementsClickable, 2000);
+      
+      // Add click debugging
+      document.addEventListener('click', (e) => {
+        console.log('Click detected at:', e.clientX, e.clientY);
+        console.log('Target:', e.target);
+      }, true);
+      
+      // Handle navigation
+      document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href');
+          
+          // Only handle internal links
+          if (href.startsWith('/')) {
+            e.preventDefault();
+            console.log(`Navigation to ${href} clicked`);
+            
+            if (href === '/login') {
+              alert('Login-Funktion: In einer vollständigen Implementierung würden Sie zur Login-Seite weitergeleitet werden.');
+            } else if (href === '/register') {
+              alert('Registrierungs-Funktion: In einer vollständigen Implementierung würden Sie zur Registrierungsseite weitergeleitet werden.');
+            } else if (href === '/demo') {
+              alert('Demo-Funktion: In einer vollständigen Implementierung würde eine Demo der App gestartet werden.');
+            }
+          }
+        });
       });
     </script>
   </body>
