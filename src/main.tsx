@@ -11,10 +11,6 @@ import { CurrencyProvider } from "./lib/currency";
 import { DeveloperProvider } from "./lib/developer";
 import { applyTheme, getActiveTheme } from "./lib/themes";
 
-// Import the dev tools and initialize them
-import { TempoDevtools } from "tempo-devtools";
-TempoDevtools.init();
-
 // Add error handling for routing issues
 window.addEventListener("error", (event) => {
   console.error("Global error caught:", event.error);
@@ -25,20 +21,18 @@ const activeTheme = getActiveTheme();
 applyTheme(activeTheme);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ThemeProvider>
-        <LanguageProvider>
-          <CurrencyProvider>
-            <DeveloperProvider>
-              <AuthProvider>
-                <App />
-                <Toaster />
-              </AuthProvider>
-            </DeveloperProvider>
-          </CurrencyProvider>
-        </LanguageProvider>
-      </ThemeProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
+  <BrowserRouter>
+    <ThemeProvider>
+      <LanguageProvider>
+        <CurrencyProvider>
+          <DeveloperProvider>
+            <AuthProvider>
+              <App />
+              <Toaster />
+            </AuthProvider>
+          </DeveloperProvider>
+        </CurrencyProvider>
+      </LanguageProvider>
+    </ThemeProvider>
+  </BrowserRouter>,
 );

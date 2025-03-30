@@ -1,0 +1,535 @@
+/* Mobile-Optimierungen für die Landingpage */
+
+/* Allgemeine mobile Anpassungen */
+@media (max-width: 768px) {
+  .landing-page {
+    font-size: 16px;
+  }
+  
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* Header & Navigation für Mobile */
+@media (max-width: 768px) {
+  .landing-header .container {
+    height: 4rem;
+  }
+  
+  .landing-nav {
+    display: none;
+  }
+  
+  .landing-cta {
+    gap: 0.5rem;
+  }
+  
+  /* Hamburger-Menü für mobile Navigation */
+  .mobile-menu-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .mobile-menu {
+    position: fixed;
+    top: 4rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--background-color);
+    z-index: 100;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .mobile-menu.open {
+    transform: translateX(0);
+  }
+  
+  .mobile-menu a {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .mobile-menu-footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+/* Hero Section für Mobile */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 3rem 1rem;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .hero-buttons .btn {
+    width: 100%;
+  }
+  
+  .hero-image {
+    margin-top: 2rem;
+  }
+  
+  .hero-badge {
+    bottom: -0.5rem;
+    right: -0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Features Section für Mobile */
+@media (max-width: 768px) {
+  .features-section {
+    padding: 3rem 1rem;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .feature-card {
+    padding: 1.25rem;
+  }
+  
+  .feature-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .feature-title {
+    font-size: 1.125rem;
+  }
+  
+  .feature-description {
+    font-size: 0.875rem;
+  }
+}
+
+/* Testimonials Section für Mobile */
+@media (max-width: 768px) {
+  .testimonials-section {
+    padding: 3rem 1rem;
+  }
+  
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .testimonial-card {
+    padding: 1.25rem;
+  }
+  
+  .testimonial-content {
+    font-size: 0.875rem;
+  }
+  
+  .testimonial-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .testimonial-info h4 {
+    font-size: 0.875rem;
+  }
+  
+  .testimonial-info p {
+    font-size: 0.75rem;
+  }
+}
+
+/* Pricing Section für Mobile */
+@media (max-width: 768px) {
+  .pricing-section {
+    padding: 3rem 1rem;
+  }
+  
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .pricing-card {
+    padding: 1.5rem;
+  }
+  
+  .pricing-card.popular {
+    order: -1; /* Zeigt den populären Plan zuerst auf Mobilgeräten */
+  }
+  
+  .pricing-name {
+    font-size: 1.25rem;
+  }
+  
+  .pricing-amount {
+    font-size: 1.75rem;
+  }
+  
+  .pricing-feature {
+    font-size: 0.875rem;
+  }
+}
+
+/* FAQ Section für Mobile */
+@media (max-width: 768px) {
+  .faq-section {
+    padding: 3rem 1rem;
+  }
+  
+  .faq-question {
+    font-size: 1rem;
+    padding: 1.25rem 0;
+  }
+  
+  .faq-answer {
+    font-size: 0.875rem;
+    padding-bottom: 1.25rem;
+  }
+}
+
+/* Contact Section für Mobile */
+@media (max-width: 768px) {
+  .contact-section {
+    padding: 3rem 1rem;
+  }
+  
+  .contact-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .contact-title {
+    font-size: 1.75rem;
+  }
+  
+  .contact-description {
+    font-size: 0.875rem;
+  }
+  
+  .contact-method-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+  
+  .contact-method-content h3 {
+    font-size: 1rem;
+  }
+  
+  .contact-form {
+    padding: 1.5rem;
+  }
+  
+  .contact-form-title {
+    font-size: 1.25rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-input, 
+  .form-textarea {
+    font-size: 0.875rem;
+  }
+}
+
+/* Footer für Mobile */
+@media (max-width: 768px) {
+  .footer {
+    padding: 3rem 1rem 2rem;
+  }
+  
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .footer-links {
+    margin-top: 0.5rem;
+  }
+  
+  .footer-links h3 {
+    margin-bottom: 0.75rem;
+  }
+  
+  .footer-links ul {
+    gap: 0.5rem;
+  }
+  
+  .footer-bottom {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .footer-bottom-links {
+    justify-content: center;
+  }
+}
+
+/* Touch-Optimierungen für mobile Geräte */
+@media (max-width: 768px) {
+  /* Größere Touch-Ziele */
+  .btn, 
+  .landing-nav a, 
+  .footer-links a, 
+  .faq-question,
+  .form-input,
+  .form-textarea {
+    min-height: 44px; /* Apple's empfohlene Mindesthöhe für Touch-Ziele */
+  }
+  
+  /* Mehr Abstand zwischen klickbaren Elementen */
+  .landing-nav a,
+  .footer-links a,
+  .pricing-feature,
+  .testimonial-stars {
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Größere Schaltflächen */
+  .btn {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+  
+  /* Verbesserte Formularelemente */
+  .form-input,
+  .form-textarea {
+    padding: 0.75rem;
+  }
+}
+
+/* Optimierungen für kleine Mobilgeräte */
+@media (max-width: 375px) {
+  .landing-page {
+    font-size: 15px;
+  }
+  
+  .hero-title {
+    font-size: 1.75rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .pricing-card,
+  .feature-card,
+  .testimonial-card,
+  .contact-form {
+    padding: 1rem;
+  }
+  
+  .footer-social {
+    gap: 0.5rem;
+  }
+  
+  .footer-social-link {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+}
+
+/* Optimierungen für Tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hero-container,
+  .features-grid,
+  .testimonials-grid,
+  .pricing-grid,
+  .contact-container,
+  .footer-grid {
+    gap: 1.5rem;
+  }
+  
+  .feature-card,
+  .testimonial-card,
+  .pricing-card {
+    padding: 1.25rem;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+}
+
+/* Optimierungen für Landscape-Modus auf Mobilgeräten */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero-section {
+    padding: 2rem 1rem;
+  }
+  
+  .hero-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  
+  .hero-title {
+    font-size: 1.75rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 0.875rem;
+  }
+  
+  .section-header {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Verbesserte Performance für mobile Geräte */
+@media (max-width: 768px) {
+  /* Reduzierte Animationen für bessere Performance */
+  .feature-card:hover,
+  .pricing-card:hover {
+    transform: none;
+  }
+  
+  /* Optimierte Bilder für mobile Geräte */
+  .hero-image img,
+  .testimonial-avatar img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Verbesserte Zugänglichkeit für mobile Geräte */
+@media (max-width: 768px) {
+  /* Größerer Text für bessere Lesbarkeit */
+  .landing-page {
+    line-height: 1.6;
+  }
+  
+  /* Höherer Kontrast für bessere Lesbarkeit */
+  .text-muted {
+    color: #555555;
+  }
+  
+  /* Größere Abstände für bessere Lesbarkeit */
+  p, li {
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* Anpassungen für die mobile Navigation */
+.mobile-nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .mobile-nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .landing-cta {
+    display: none;
+  }
+  
+  .mobile-nav {
+    position: fixed;
+    top: 4rem;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 4rem);
+    background-color: var(--background-color);
+    padding: 1.5rem;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .mobile-nav.open {
+    transform: translateX(0);
+  }
+  
+  .mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .mobile-nav-links a {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .mobile-nav-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: auto;
+  }
+}
+
+/* Verbesserte Ladezeiten für mobile Geräte */
+@media (max-width: 768px) {
+  /* Reduzierte Schatten für bessere Performance */
+  .shadow-lg {
+    box-shadow: var(--shadow-sm);
+  }
+  
+  /* Vereinfachte Hintergründe für bessere Performance */
+  .bg-gradient-to-b {
+    background: var(--background-alt);
+  }
+}

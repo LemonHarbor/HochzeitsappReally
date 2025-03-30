@@ -68,7 +68,7 @@ export function DeveloperPanel() {
         <Button
           variant="outline"
           size="sm"
-          className="fixed bottom-4 right-4 z-50 bg-background shadow-md flex items-center gap-2"
+          className="fixed bottom-4 left-4 z-50 bg-background shadow-md flex items-center gap-2"
         >
           <Wrench className="h-4 w-4" />
           <span>Dev Tools</span>

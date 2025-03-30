@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import * from "@/types/guest";
+import type { Guest } from "@/types/guest";
 import { format } from "date-fns";
 
 // Parse CSV data into guest objects

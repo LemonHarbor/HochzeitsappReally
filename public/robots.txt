@@ -1,0 +1,5 @@
+// robots.txt für SEO-Optimierung
+User-agent: *
+Allow: /
+
+Sitemap: https://hochzeitsapp-really.vercel.app/sitemap.xml

@@ -15,6 +15,8 @@ import { useAuth } from "./context/AuthContext";
 import { DeveloperPanel } from "./components/ui/developer-panel";
 import ResponsiveLayout from "./components/layout/ResponsiveLayout";
 import routes from "./lib/routes";
+import { ToggleDeveloperMode } from "./components/ui/toggle-developer-mode";
+import LandingPage from "./pages/landing/LandingPage";
 
 function App() {
   const { isAuthenticated, user } = useAuth();
@@ -41,114 +43,138 @@ function App() {
       {/* Tempo routes for storyboards */}
       {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}
 
-      <ResponsiveLayout>
-        <Routes>
-          {/* Public routes */}
-          <Route
-            path="/login"
-            element={
-              isAuthenticated ? <Navigate to="/" replace /> : <LoginPage />
-            }
-          />
+      <Routes>
+        {/* Landing Page - public route */}
+        <Route path="/landing" element={<LandingPage />} />
 
-          {/* Protected routes */}
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
+        {/* Public routes */}
+        <Route
+          path="/login"
+          element={
+            isAuthenticated ? <Navigate to="/" replace /> : <LoginPage />
+          }
+        />
+
+        {/* Protected routes - wrapped in ResponsiveLayout */}
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? (
+              <ResponsiveLayout>
                 {isGuest ? <Navigate to="/guest-area" replace /> : <Home />}
-              </ProtectedRoute>
-            }
-          />
+              </ResponsiveLayout>
+            ) : (
+              <Navigate to="/landing" replace />
+            )
+          }
+        />
 
-          <Route
-            path="/guest-management"
-            element={
-              <ProtectedRoute requiredPermission="canViewGuests">
+        <Route
+          path="/guest-management"
+          element={
+            <ProtectedRoute requiredPermission="canViewGuests">
+              <ResponsiveLayout>
                 <GuestManagement />
-              </ProtectedRoute>
-            }
-          />
+              </ResponsiveLayout>
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/table-planner"
-            element={
-              <ProtectedRoute requiredPermission="canViewTables">
+        <Route
+          path="/table-planner"
+          element={
+            <ProtectedRoute requiredPermission="canViewTables">
+              <ResponsiveLayout>
                 <TablePlanner />
-              </ProtectedRoute>
-            }
-          />
+              </ResponsiveLayout>
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/budget-tracker"
-            element={
-              <ProtectedRoute>
+        <Route
+          path="/budget-tracker"
+          element={
+            <ProtectedRoute>
+              <ResponsiveLayout>
                 <BudgetTracker />
-              </ProtectedRoute>
-            }
-          />
+              </ResponsiveLayout>
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/timeline"
-            element={
-              <ProtectedRoute>
+        <Route
+          path="/timeline"
+          element={
+            <ProtectedRoute>
+              <ResponsiveLayout>
                 <React.Suspense fallback={<div>Loading...</div>}>
                   {React.createElement(
                     React.lazy(() => import("./pages/timeline")),
                   )}
                 </React.Suspense>
-              </ProtectedRoute>
-            }
-          />
+              </ResponsiveLayout>
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/vendor-management"
-            element={
-              <ProtectedRoute>
+        <Route
+          path="/vendor-management"
+          element={
+            <ProtectedRoute>
+              <ResponsiveLayout>
                 <VendorManagement />
-              </ProtectedRoute>
-            }
-          />
+              </ResponsiveLayout>
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/vendor-comparison"
-            element={
-              <ProtectedRoute>
+        <Route
+          path="/vendor-comparison"
+          element={
+            <ProtectedRoute>
+              <ResponsiveLayout>
                 <VendorComparison />
-              </ProtectedRoute>
-            }
-          />
+              </ResponsiveLayout>
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/settings"
-            element={
-              <ProtectedRoute>
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <ResponsiveLayout>
                 <SettingsPage />
-              </ProtectedRoute>
-            }
-          />
+              </ResponsiveLayout>
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/guest-area"
-            element={
-              <ProtectedRoute>
+        <Route
+          path="/guest-area"
+          element={
+            <ProtectedRoute>
+              <ResponsiveLayout>
                 <GuestArea />
-              </ProtectedRoute>
-            }
-          />
+              </ResponsiveLayout>
+            </ProtectedRoute>
+          }
+        />
 
-          {/* Add this before the catchall route for Tempo */}
-          {import.meta.env.VITE_TEMPO === "true" && (
-            <Route path="/tempobook/*" element={<div />} />
-          )}
+        {/* Add this before the catchall route for Tempo */}
+        {import.meta.env.VITE_TEMPO === "true" && (
+          <Route path="/tempobook/*" element={<div />} />
+        )}
 
-          {/* Fallback route */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </ResponsiveLayout>
+        {/* Fallback route */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
 
-      {/* Developer Panel - always shown */}
+      {/* Developer Panel - only shown when developer mode is active */}
       <DeveloperPanel />
+      
+      {/* Always show the toggle button */}
+      <ToggleDeveloperMode />
     </>
   );
 }
