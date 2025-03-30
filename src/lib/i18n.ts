@@ -9,7 +9,7 @@ export interface Translations {
 export const translations: Record<Language, Translations> = {
   en: {
     // Common
-    "app.title": "Wedding Planner",
+    "app.title": "LemonVows by LemonHarbor",
     "app.description":
       "Plan your perfect wedding day with our comprehensive tools",
 
@@ -33,6 +33,7 @@ export const translations: Record<Language, Translations> = {
     "auth.termsLink": "Terms of Service",
     "auth.andText": "and",
     "auth.privacyLink": "Privacy Policy",
+    "auth.enterGuestCode": "Enter the access code provided by the couple",
 
     // Dashboard
     "dashboard.title": "Wedding Dashboard",
@@ -200,10 +201,13 @@ export const translations: Record<Language, Translations> = {
     "timeline.tasks.guestListStarted": "Guest list started",
     "timeline.tasks.photographerBooked": "Photographer booked",
     "timeline.tasks.cateringBooked": "Catering arranged",
+    
+    // Developer
+    "developer.toggleMode": "Toggle Developer Mode",
   },
   de: {
     // Common
-    "app.title": "Hochzeitsplaner",
+    "app.title": "LemonVows by LemonHarbor",
     "app.description":
       "Planen Sie Ihren perfekten Hochzeitstag mit unseren umfassenden Tools",
 
@@ -228,6 +232,7 @@ export const translations: Record<Language, Translations> = {
     "auth.termsLink": "Nutzungsbedingungen",
     "auth.andText": "und",
     "auth.privacyLink": "Datenschutzrichtlinien",
+    "auth.enterGuestCode": "Geben Sie den vom Paar bereitgestellten Zugangscode ein",
 
     // Dashboard
     "dashboard.title": "Hochzeits-Dashboard",
@@ -262,140 +267,8 @@ export const translations: Record<Language, Translations> = {
     "guests.colleagues": "Kollegen",
     "guests.other": "Andere",
     "guests.sendInvites": "Einladungen senden",
-
-    // Table Planner
-    "tables.title": "Tischplaner",
-    "tables.addTable": "Tisch hinzufügen",
-    "tables.editTable": "Tisch bearbeiten",
-    "tables.tableName": "Tischname",
-    "tables.shape": "Tischform",
-    "tables.capacity": "Kapazität",
-    "tables.round": "Rund",
-    "tables.rectangle": "Rechteckig",
-    "tables.custom": "Benutzerdefiniert",
-    "tables.location": "Standort",
-    "tables.saveArrangement": "Anordnung speichern",
-    "tables.clearAll": "Alles löschen",
-    "tables.aiOptimize": "KI-Optimierung der Sitzordnung",
-    "tables.noTables": "Noch keine Tische hinzugefügt",
-    "tables.addFirstTable": "Fügen Sie Ihren ersten Tisch hinzu",
-    "tables.seats": "Plätze",
-
-    // Settings
-    "settings.title": "Einstellungen",
-    "settings.profile": "Profil",
-    "settings.security": "Sicherheit",
-    "settings.permissions": "Berechtigungen",
-    "settings.notifications": "Benachrichtigungen",
-    "settings.manageAccount":
-      "Verwalten Sie Ihre Kontoeinstellungen und Präferenzen",
-    "settings.themes": "Farbschema",
-    "settings.switchCurrency": "Währung wechseln",
-    "settings.selectCurrency": "Währung auswählen",
-    "settings.currency": "Währung",
-
-    // Navigation
-    "nav.dashboard": "Dashboard",
-    "nav.guestManagement": "Gästeverwaltung",
-    "nav.tablePlanner": "Tischplaner",
-    "nav.settings": "Einstellungen",
-    "nav.logout": "Abmelden",
-    "nav.guestArea": "Gästebereich",
-    "nav.photoUpload": "Fotos hochladen",
-    "nav.musicWishlist": "Musikwünsche",
-    "nav.timeline": "Zeitplan",
-    "nav.vendors": "Dienstleister",
-
-    // Actions
-    "actions.save": "Speichern",
-    "actions.cancel": "Abbrechen",
-    "actions.delete": "Löschen",
-    "actions.edit": "Bearbeiten",
-    "actions.add": "Hinzufügen",
-    "actions.update": "Aktualisieren",
-    "actions.search": "Suchen",
-    "actions.filter": "Filtern",
-    "actions.clear": "Löschen",
-    "actions.confirm": "Bestätigen",
-    "actions.send": "Senden",
-    "actions.export": "Exportieren",
-    "actions.import": "Importieren",
-    "actions.view": "Ansehen",
-    "actions.zoomIn": "Vergrößern",
-    "actions.zoomOut": "Verkleinern",
-    "actions.rotate": "Tisch drehen",
-    "actions.deleteTable": "Tisch löschen",
-    "actions.any": "Alle",
-    "actions.moreActions": "Weitere Aktionen",
-    "actions.shareWithPartner": "Mit Partner teilen",
-    "actions.exportData": "Daten exportieren",
-    "actions.managePermissions": "Berechtigungen verwalten",
-
-    // Misc
-    "misc.loading": "Wird geladen...",
-    "misc.saving": "Wird gespeichert...",
-    "misc.processing": "Wird verarbeitet...",
-    "misc.error": "Fehler",
-    "misc.success": "Erfolg",
-    "misc.warning": "Warnung",
-    "misc.info": "Information",
-    "misc.daysUntilWedding": "{days} Tage bis zur Hochzeit",
-    "misc.weddingToday": "Heute ist der große Tag!",
-    "misc.weddingCompleted": "Hochzeit abgeschlossen",
-
-    // Guest Area
-    "guestArea.title": "Gästebereich",
-    "guestArea.welcome": "Willkommen zu unserer Hochzeit!",
-    "guestArea.rsvp": "Zusage",
-    "guestArea.photoUpload": "Fotos hochladen",
-    "guestArea.musicWishlist": "Musikwünsche",
-    "guestArea.timeline": "Veranstaltungsplan",
-    "guestArea.addPhoto": "Foto hinzufügen",
-    "guestArea.addSong": "Lied hinzufügen",
-    "guestArea.uploadInstructions":
-      "Fotos hierher ziehen oder klicken zum Durchsuchen",
-    "guestArea.songTitle": "Liedtitel",
-    "guestArea.artist": "Künstler",
-    "guestArea.yourPhotos": "Ihre Fotos",
-    "guestArea.yourWishes": "Ihre Musikwünsche",
-    "guestArea.timelineEvents": "Hochzeitsveranstaltungen",
-
-    // Timeline
-    "timeline.title": "Hochzeits-Zeitplan",
-    "timeline.description":
-      "Plane deinen perfekten Hochzeitstag mit unserem interaktiven Zeitplan",
-    "timeline.addEvent": "Ereignis hinzufügen",
-    "timeline.editEvent": "Ereignis bearbeiten",
-    "timeline.eventTitle": "Ereignistitel",
-    "timeline.eventTime": "Ereigniszeit",
-    "timeline.eventDescription": "Ereignisbeschreibung",
-    "timeline.eventLocation": "Ereignisort",
-    "timeline.selectDate": "Hochzeitsdatum auswählen",
-    "timeline.selectDatePrompt": "Wähle dein Hochzeitsdatum, um zu beginnen",
-    "timeline.selectDateDescription":
-      "Wir erstellen einen personalisierten Zeitplan basierend auf deinem Hochzeitsdatum",
-    "timeline.weddingDate": "Hochzeitsdatum",
-    "timeline.monthsUntilWedding": "Monate bis zu deiner Hochzeit",
-    "timeline.alreadyCompleted": "Was hast du bereits erledigt",
-    "timeline.progress": "Planungsfortschritt",
-    "timeline.generating": "Dein personalisierter Zeitplan wird erstellt...",
-    "timeline.generated": "Zeitplan erstellt",
-    "timeline.saved": "Zeitplan gespeichert",
-    "timeline.savedDescription":
-      "Dein Hochzeits-Zeitplan wurde erfolgreich gespeichert",
-    "timeline.generationError":
-      "Bei der Erstellung deines Zeitplans ist ein Fehler aufgetreten. Bitte versuche es erneut.",
-    "timeline.longTermPlanning":
-      "Du hast noch viel Zeit für die Planung. Wir haben einen umfassenden Zeitplan für dich erstellt.",
-    "timeline.mediumTermPlanning":
-      "Du hast noch ausreichend Zeit für die Planung. Wir haben uns auf die wichtigsten Aufgaben konzentriert.",
-    "timeline.shortTermPlanning":
-      "Deine Hochzeit steht bald bevor! Wir haben die wesentlichen Aufgaben für dich priorisiert.",
-    "timeline.tasks.venue": "Location gebucht",
-    "timeline.tasks.dateSelected": "Hochzeitsdatum festgelegt",
-    "timeline.tasks.budgetSet": "Budget festgelegt",
-    "timeline.tasks.guestListStarted": "Gästeliste begonnen",
-    "timeline.tasks.photographerBooked": "Fotograf gebucht",
-    "timeline.tasks.cateringBooked": "Catering organisiert",
-  },
+    
+    // Developer
+    "developer.toggleMode": "Entwicklermodus umschalten",
+  }
 };

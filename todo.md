@@ -19,7 +19,7 @@
 - [x] Landingpage mit Haupt-App integrieren
 
 ## Deployment und Abschluss
-- [ ] Aktualisierte App auf Vercel deployen
-- [ ] Bereitgestellte Anwendung testen
-- [ ] Änderungen und Lösungen dokumentieren
-- [ ] Endgültige Lieferungen vorbereiten
+- [x] Aktualisierte App auf Vercel deployen
+- [x] Bereitgestellte Anwendung testen
+- [x] Änderungen und Lösungen dokumentieren
+- [x] Endgültige Lieferungen vorbereiten

@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { LanguageSwitcher } from "../components/ui/language-switcher";
 import { useLanguage } from "../lib/language";
 
 export function LoginPage() {
   const { t } = useLanguage();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  
+  const handleLogin = (e) => {
+    e.preventDefault();
+    console.log("Login attempt with:", email);
+    
+    // Simple login logic for demonstration
+    if (email && password) {
+      localStorage.setItem("authenticated", "true");
+      localStorage.setItem("user_email", email);
+      
+      // Alert for user feedback
+      alert("Login successful! Redirecting to dashboard...");
+      
+      // Redirect to dashboard
+      window.location.href = "/";
+    } else {
+      alert("Please enter both email and password");
+    }
+  };
   
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
@@ -19,9 +40,24 @@ export function LoginPage() {
         
         <div className="bg-card rounded-lg shadow-md p-6">
           <div className="flex border-b mb-4">
-            <button className="px-4 py-2 border-b-2 border-primary">{t("auth.login")}</button>
-            <button className="px-4 py-2">{t("auth.register")}</button>
-            <button className="px-4 py-2">{t("auth.guestAccess")}</button>
+            <button 
+              className="px-4 py-2 border-b-2 border-primary"
+              onClick={() => console.log("Login tab clicked")}
+            >
+              {t("auth.login")}
+            </button>
+            <button 
+              className="px-4 py-2"
+              onClick={() => console.log("Register tab clicked")}
+            >
+              {t("auth.register")}
+            </button>
+            <button 
+              className="px-4 py-2"
+              onClick={() => console.log("Guest access tab clicked")}
+            >
+              {t("auth.guestAccess")}
+            </button>
           </div>
           
           <h2 className="text-xl font-semibold mb-4">{t("auth.login")}</h2>
@@ -29,7 +65,7 @@ export function LoginPage() {
             {t("auth.enterGuestCode")}
           </p>
           
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleLogin}>
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium">
                 {t("auth.email")}
@@ -39,6 +75,8 @@ export function LoginPage() {
                 type="email"
                 placeholder="email@example.com"
                 className="w-full p-2 border rounded-md"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             
@@ -51,11 +89,17 @@ export function LoginPage() {
                 type="password"
                 placeholder="••••••••"
                 className="w-full p-2 border rounded-md"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             
             <div className="flex justify-end">
-              <button type="button" className="text-sm text-primary">
+              <button 
+                type="button" 
+                className="text-sm text-primary"
+                onClick={() => alert("Password reset functionality will be implemented soon.")}
+              >
                 {t("auth.forgotPassword")}
               </button>
             </div>
@@ -70,20 +114,35 @@ export function LoginPage() {
           
           <div className="mt-4 text-center">
             <p className="text-sm">
-              {t("auth.dontHaveAccount")} <button className="text-primary">{t("auth.register")}</button>
+              {t("auth.dontHaveAccount")} 
+              <button 
+                className="text-primary ml-1"
+                onClick={() => alert("Registration functionality will be implemented soon.")}
+              >
+                {t("auth.register")}
+              </button>
             </p>
           </div>
           
           <div className="mt-6 text-center text-xs text-muted-foreground">
             <p>
-              {t("auth.termsText")} <a href="#" className="text-primary">{t("auth.termsLink")}</a> {t("auth.andText")} <a href="#" className="text-primary">{t("auth.privacyLink")}</a>
+              {t("auth.termsText")} 
+              <a href="#" className="text-primary mx-1">{t("auth.termsLink")}</a> 
+              {t("auth.andText")} 
+              <a href="#" className="text-primary mx-1">{t("auth.privacyLink")}</a>
             </p>
           </div>
         </div>
       </div>
       
       <div className="fixed bottom-4 right-4">
-        <button className="px-3 py-1 text-xs bg-muted rounded-md">
+        <button 
+          className="px-3 py-1 text-xs bg-muted rounded-md"
+          onClick={() => {
+            localStorage.setItem('devMode', 'true');
+            alert('Developer mode activated! Refresh the page to see changes.');
+          }}
+        >
           {t("developer.toggleMode")}
         </button>
       </div>

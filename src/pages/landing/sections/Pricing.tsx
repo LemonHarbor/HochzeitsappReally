@@ -8,7 +8,7 @@ const Pricing: React.FC = () => {
   const plans = [
     {
       name: "Basis",
-      price: "0",
+      price: "29,99",
       description: "Perfekt für Paare, die gerade mit der Planung beginnen",
       features: [
         "Gästemanagement (bis zu 50 Gäste)",
@@ -17,12 +17,12 @@ const Pricing: React.FC = () => {
         "Einfache Sitzplatzplanung",
         "14 Tage Testphase für Premium-Funktionen"
       ],
-      cta: "Kostenlos starten",
+      cta: "Jetzt starten",
       popular: false
     },
     {
       name: "Premium",
-      price: "9,99",
+      price: "89,99",
       description: "Alle Funktionen für eine stressfreie Hochzeitsplanung",
       features: [
         "Unbegrenzte Gästeverwaltung mit RSVP-Tracking",
@@ -38,7 +38,7 @@ const Pricing: React.FC = () => {
     },
     {
       name: "Deluxe",
-      price: "19,99",
+      price: "199,99",
       description: "Für Paare, die das Maximum aus ihrer Planung herausholen möchten",
       features: [
         "Alle Premium-Funktionen",
@@ -46,6 +46,8 @@ const Pricing: React.FC = () => {
         "Exklusive Design-Vorlagen",
         "Hochzeitswebsite mit eigenem Domain",
         "Unbegrenzte Fotospeicherung",
+        "KI-gestützter Hochzeitsredengenerator",
+        "NFT-Gästebuch für digitale Erinnerungen",
         "Prioritäts-Support rund um die Uhr"
       ],
       cta: "Deluxe wählen",
@@ -61,7 +63,7 @@ const Pricing: React.FC = () => {
             Wählen Sie den passenden Plan für Ihre Traumhochzeit
           </h2>
           <p className="section-subtitle">
-            Flexible Preispläne für jedes Budget. Alle Pläne beinhalten eine 14-tägige Geld-zurück-Garantie.
+            Premium-Preispläne für Ihre einzigartige Hochzeit. Alle Pläne beinhalten eine 14-tägige Geld-zurück-Garantie.
           </p>
         </div>
 
@@ -108,7 +110,7 @@ const Pricing: React.FC = () => {
 
         <div className="pricing-contact">
           <p className="pricing-contact-text">
-            Benötigen Sie einen individuellen Plan für Ihre Großveranstaltung?
+            Benötigen Sie einen individuellen Enterprise-Plan für Ihre Großveranstaltung?
           </p>
           <a href="#contact" className="pricing-contact-link">
             Kontaktieren Sie uns für ein maßgeschneidertes Angebot
