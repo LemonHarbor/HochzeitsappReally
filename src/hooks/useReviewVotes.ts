@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../../../src/lib/supabase";
-import { useToast } from "../../../src/components/ui/use-toast";
-import { ReviewVote } from "../../../src/types/review";
+import { supabase } from "@/lib/supabase";
+import { useToast } from "@/components/ui/use-toast";
+import { ReviewVote } from "@/types/review";
 import {
   getUserVoteForReview,
   voteOnReview,
   removeVoteFromReview,
-} from "../../../src/services/reviewVoteService";
+} from "@/services/reviewVoteService";
 
 // Hook for managing a user's vote on a review
 export function useReviewVote(reviewId: string, userId?: string) {

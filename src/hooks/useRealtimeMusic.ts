@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../../../src/lib/supabase";
-import { useToast } from "../../../src/components/ui/use-toast";
-import { SongRequest } from "../../../src/types/music";
+import { supabase } from "@/lib/supabase";
+import { useToast } from "@/components/ui/use-toast";
+import { SongRequest } from "@/types/music";
 
 // Hook for real-time song request updates
 export function useRealtimeSongRequests(guestId?: string) {

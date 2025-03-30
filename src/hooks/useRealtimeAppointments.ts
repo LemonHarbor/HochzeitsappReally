@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../../../src/lib/supabase";
-import { useToast } from "../../../src/components/ui/use-toast";
-import { Appointment } from "../../../src/types/appointment";
+import { supabase } from "@/lib/supabase";
+import { useToast } from "@/components/ui/use-toast";
+import { Appointment } from "@/types/appointment";
 import {
   getAppointmentsByVendor,
   getAppointmentById,
-} from "../../../src/services/appointmentService";
+} from "@/services/appointmentService";
 
 // Hook for real-time appointment updates by vendor
 export function useRealtimeAppointments(vendorId?: string) {

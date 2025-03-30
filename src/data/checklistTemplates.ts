@@ -1,4 +1,4 @@
-import { ChecklistTemplate } from "../../../src/types/timeline";
+import { ChecklistTemplate } from "@/types/timeline";
 
 export const checklistTemplates: ChecklistTemplate[] = [
   {

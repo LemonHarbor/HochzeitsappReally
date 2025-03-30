@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../../../src/lib/supabase";
-import { useToast } from "../../../src/components/ui/use-toast";
-import { Contract } from "../../../src/types/contract";
-import { getContractsByVendor } from "../../../src/services/contractService";
+import { supabase } from "@/lib/supabase";
+import { useToast } from "@/components/ui/use-toast";
+import { Contract } from "@/types/contract";
+import { getContractsByVendor } from "@/services/contractService";
 
 // Hook for real-time contract updates
 export function useRealtimeContracts(vendorId?: string) {

@@ -25,28 +25,7 @@ import {
 } from "@/services/budgetService";
 import { linkVendorToExpense } from "@/services/vendorService";
 import { exportBudgetReportCSV } from "@/services/reportService";
-
-interface Expense {
-  id?: string;
-  name: string;
-  category: string;
-  amount: number;
-  date: string;
-  status: "paid" | "pending" | "cancelled";
-  vendor?: string;
-  notes?: string;
-  receipt_url?: string;
-}
-
-interface BudgetCategory {
-  id?: string;
-  name: string;
-  percentage: number;
-  amount: number;
-  spent: number;
-  color: string;
-  recommended: number;
-}
+import { Expense, BudgetCategory } from "@/types/budget";
 
 interface BudgetTrackerProps {
   initialTotalBudget?: number;
@@ -168,7 +147,7 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
   // Handle expense form submission
   const handleExpenseSubmit = async (data: any, receipt?: File) => {
     try {
-      let expenseData: Expense = {
+      let expenseData: Partial<Expense> = {
         name: data.name,
         category: data.category,
         amount: data.amount,
@@ -446,7 +425,7 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
               allocated: cat.amount,
               spent: cat.spent,
               color: cat.color,
-            }))}
+            })) as DashboardBudgetCategory[]}
             recentExpenses={expenses.slice(0, 4)}
             onAddExpense={handleAddExpense}
             onViewAllExpenses={() => setActiveTab("expenses")}
@@ -456,7 +435,7 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
 
         <TabsContent value="expenses" className="space-y-4">
           <ExpenseList
-            expenses={expenses}
+            expenses={expenses as Expense[]}
             categories={categories.map((c) => c.name)}
             onAddExpense={handleAddExpense}
             onEditExpense={handleEditExpense}
@@ -480,7 +459,7 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
           </div>
           <BudgetPlanner
             totalBudget={totalBudget}
-            categories={categories}
+            categories={categories as BudgetCategory[]}
             onSaveBudget={handleSaveBudgetPlan}
             onAddEditCategory={handleAddEditCategory}
           />
@@ -494,7 +473,7 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
               allocated: cat.amount,
               spent: cat.spent,
               color: cat.color,
-            }))}
+            })) as DashboardBudgetCategory[]}
             totalBudget={totalBudget}
             totalSpent={totalSpent}
             onExportReport={handleExportReport}

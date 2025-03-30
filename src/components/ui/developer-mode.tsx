@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth, UserRole } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
 import { Code, UserCog, Users, User } from "lucide-react";
 
@@ -28,7 +28,7 @@ export function DeveloperMode() {
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
   const [open, setOpen] = useState(false);
-  const [selectedRole, setSelectedRole] = useState(user?.role || "couple");
+  const [selectedRole, setSelectedRole] = useState<UserRole>(user?.role || "couple");
   const [selectedGuest, setSelectedGuest] = useState("");
   const [guests, setGuests] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -65,7 +65,7 @@ export function DeveloperMode() {
 
     const updatedUser = {
       ...user,
-      role: "developer",
+      role: "developer" as UserRole,
       permissions: [
         "canViewGuests",
         "canEditGuests",
@@ -104,7 +104,7 @@ export function DeveloperMode() {
 
     const updatedUser = {
       ...user,
-      role: "couple",
+      role: "couple" as UserRole,
       permissions: [
         "canViewGuests",
         "canEditGuests",
@@ -140,7 +140,7 @@ export function DeveloperMode() {
 
     const updatedUser = {
       ...user,
-      role: "guest",
+      role: "guest" as UserRole,
       guestId: selectedGuest,
       guestName: guest.name,
       guestEmail: guest.email,
@@ -203,7 +203,7 @@ export function DeveloperMode() {
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
             <Label htmlFor="role">Select Role</Label>
-            <Select value={selectedRole} onValueChange={setSelectedRole}>
+            <Select value={selectedRole} onValueChange={(value: UserRole) => setSelectedRole(value)}>
               <SelectTrigger id="role">
                 <SelectValue placeholder="Select role" />
               </SelectTrigger>

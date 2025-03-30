@@ -17,8 +17,8 @@ export const guestsQuery = {
   getAll: () => supabase.from("guests").select("*"),
   getById: (id: string) =>
     supabase.from("guests").select("*").eq("id", id).single(),
-  create: (data: any) => supabase.from("guests").insert(data).select(),
-  update: (id: string, data: any) =>
+  create: (data: Partial<Database['public']['Tables']['guests']['Insert']>) => supabase.from("guests").insert(data).select(),
+  update: (id: string, data: Partial<Database['public']['Tables']['guests']['Update']>) =>
     supabase.from("guests").update(data).eq("id", id).select(),
   delete: (id: string) => supabase.from("guests").delete().eq("id", id),
   getByRsvpStatus: (status: string) =>
@@ -30,11 +30,11 @@ export const tablesQuery = {
   getAll: () => supabase.from("tables").select("*"),
   getById: (id: string) =>
     supabase.from("tables").select("*").eq("id", id).single(),
-  create: (data: any) => supabase.from("tables").insert(data).select(),
-  update: (id: string, data: any) =>
+  create: (data: Partial<Database['public']['Tables']['tables']['Insert']>) => supabase.from("tables").insert(data).select(),
+  update: (id: string, data: Partial<Database['public']['Tables']['tables']['Update']>) =>
     supabase.from("tables").update(data).eq("id", id).select(),
   delete: (id: string) => supabase.from("tables").delete().eq("id", id),
-  updatePosition: (id: string, position: any, rotation: number) =>
+  updatePosition: (id: string, position: Database['public']['Tables']['tables']['Row']['position'], rotation: number) =>
     supabase
       .from("tables")
       .update({ position, rotation, updated_at: new Date().toISOString() })
@@ -47,8 +47,8 @@ export const seatsQuery = {
   getAll: () => supabase.from("seats").select("*"),
   getByTableId: (tableId: string) =>
     supabase.from("seats").select("*").eq("table_id", tableId),
-  create: (data: any) => supabase.from("seats").insert(data).select(),
-  update: (id: string, data: any) =>
+  create: (data: Partial<Database['public']['Tables']['seats']['Insert']>) => supabase.from("seats").insert(data).select(),
+  update: (id: string, data: Partial<Database['public']['Tables']['seats']['Update']>) =>
     supabase.from("seats").update(data).eq("id", id).select(),
   delete: (id: string) => supabase.from("seats").delete().eq("id", id),
   assignGuest: (id: string, guestId: string) =>

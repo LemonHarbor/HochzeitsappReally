@@ -4,8 +4,8 @@ import {
   RealtimeGuest,
   RealtimeTable,
   RealtimeSeat,
-} from "../../../src/lib/realtime";
-import { supabase } from "../../../src/lib/supabase";
+} from "@/lib/realtime";
+import { supabase } from "@/lib/supabase";
 
 // Hook for guests realtime updates
 export function useRealtimeGuests(initialGuests: RealtimeGuest[] = []) {

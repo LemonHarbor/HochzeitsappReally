@@ -40,6 +40,7 @@ import { cn } from "@/lib/utils";
 import { useLanguage } from "@/lib/language";
 import { useRealtimeVendors } from "@/hooks/useRealtimeVendors";
 import { useCurrency } from "@/lib/currency";
+import { Expense } from "@/types/budget";
 
 // Define the form schema
 const formSchema = z.object({

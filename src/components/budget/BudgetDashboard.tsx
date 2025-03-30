@@ -7,28 +7,16 @@ import { Plus, Download, Filter, ArrowUpDown } from "lucide-react";
 import { useLanguage } from "@/lib/language";
 import { useCurrency } from "@/lib/currency";
 import { Badge } from "@/components/ui/badge";
+import { Expense, BudgetCategory } from "@/types/budget";
 
-interface Expense {
-  id: string;
-  name: string;
-  category: string;
-  amount: number;
-  date: string;
-  status: "paid" | "pending" | "cancelled";
-  vendor?: string;
-}
-
-interface BudgetCategory {
-  name: string;
+interface DashboardBudgetCategory extends Omit<BudgetCategory, "percentage" | "recommended"> {
   allocated: number;
-  spent: number;
-  color: string;
 }
 
 interface BudgetDashboardProps {
   totalBudget?: number;
   totalSpent?: number;
-  categories?: BudgetCategory[];
+  categories?: DashboardBudgetCategory[];
   recentExpenses?: Expense[];
   onAddExpense?: () => void;
   onViewAllExpenses?: () => void;

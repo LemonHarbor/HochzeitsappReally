@@ -8,4 +8,6 @@ export interface Table {
   rotation: number;
   created_at: string;
   updated_at: string;
+  group_id?: string;
+  group_name?: string;
 }
