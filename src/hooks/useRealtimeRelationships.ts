@@ -1,94 +1,142 @@
-import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
-import { useToast } from "@/components/ui/use-toast";
-import { GuestRelationship } from "@/types/relationship";
+import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
+import { GuestRelationship } from "../types/relationship";
 
-// Hook for real-time relationship updates
-export function useRealtimeRelationships(guestId?: string) {
+export const useRealtimeRelationships = (guestId: string) => {
   const [relationships, setRelationships] = useState<GuestRelationship[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Fetch initial data
-    const fetchRelationships = async () => {
+    // Load initial relationships
+    const loadRelationships = async () => {
+      setIsLoading(true);
       try {
-        setLoading(true);
-        let query = supabase.from("guest_relationships").select("*");
+        const { data, error: fetchError } = await supabase
+          .from("guest_relationships")
+          .select("*")
+          .or(`guest_id.eq.${guestId},related_guest_id.eq.${guestId}`);
 
-        if (guestId) {
-          query = query.or(
-            `guest_id.eq.${guestId},related_guest_id.eq.${guestId}`,
-          );
-        }
-
-        const { data, error } = await query;
-
-        if (error) throw error;
-        setRelationships(data || []);
+        if (fetchError) throw fetchError;
+        
+        // Cast the data to ensure TypeScript compatibility
+        setRelationships(data as GuestRelationship[]);
       } catch (err) {
-        setError(err as Error);
-        console.error("Error fetching relationships:", err);
+        console.error("Error loading relationships:", err);
+        setError("Failed to load relationships");
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
-    fetchRelationships();
+    loadRelationships();
 
-    // Set up real-time subscription
+    // Set up realtime subscription
     const subscription = supabase
-      .channel("relationships-changes")
+      .channel("guest_relationships_changes")
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "guest_relationships" },
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "guest_relationships",
+          filter: `guest_id=eq.${guestId}`,
+        },
         (payload) => {
-          const { eventType, new: newRecord, old: oldRecord } = payload;
-
-          // Only process updates for the specified guest if guestId is provided
+          const newRecord = payload.new as GuestRelationship;
+          setRelationships((prev) => [...prev, newRecord]);
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "guest_relationships",
+          filter: `related_guest_id=eq.${guestId}`,
+        },
+        (payload) => {
+          const newRecord = payload.new as GuestRelationship;
+          // Only add if not already added from the other subscription
           if (
-            guestId &&
-            newRecord &&
             newRecord.guest_id !== guestId &&
             newRecord.related_guest_id !== guestId
           ) {
-            return;
-          }
-
-          // Handle different event types
-          if (eventType === "INSERT") {
             setRelationships((prev) => [...prev, newRecord]);
-            toast({
-              title: "New Relationship Added",
-              description: `A new guest relationship has been created.`,
-            });
-          } else if (eventType === "UPDATE") {
-            setRelationships((prev) =>
-              prev.map((rel) => (rel.id === newRecord.id ? newRecord : rel)),
-            );
-            toast({
-              title: "Relationship Updated",
-              description: `A guest relationship has been updated.`,
-            });
-          } else if (eventType === "DELETE") {
-            setRelationships((prev) =>
-              prev.filter((rel) => rel.id !== oldRecord.id),
-            );
-            toast({
-              title: "Relationship Removed",
-              description: `A guest relationship has been removed.`,
-            });
           }
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "guest_relationships",
+          filter: `guest_id=eq.${guestId}`,
         },
+        (payload) => {
+          const updatedRecord = payload.new as GuestRelationship;
+          setRelationships((prev) =>
+            prev.map((rel) =>
+              rel.id === updatedRecord.id ? updatedRecord : rel
+            )
+          );
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "guest_relationships",
+          filter: `related_guest_id=eq.${guestId}`,
+        },
+        (payload) => {
+          const updatedRecord = payload.new as GuestRelationship;
+          setRelationships((prev) =>
+            prev.map((rel) =>
+              rel.id === updatedRecord.id ? updatedRecord : rel
+            )
+          );
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "guest_relationships",
+          filter: `guest_id=eq.${guestId}`,
+        },
+        (payload) => {
+          const deletedId = payload.old.id;
+          setRelationships((prev) =>
+            prev.filter((rel) => rel.id !== deletedId)
+          );
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "guest_relationships",
+          filter: `related_guest_id=eq.${guestId}`,
+        },
+        (payload) => {
+          const deletedId = payload.old.id;
+          setRelationships((prev) =>
+            prev.filter((rel) => rel.id !== deletedId)
+          );
+        }
       )
       .subscribe();
 
-    // Cleanup subscription on unmount
+    // Cleanup subscription
     return () => {
-      subscription.unsubscribe();
+      supabase.removeChannel(subscription);
     };
-  }, [guestId, toast]);
+  }, [guestId]);
 
-  return { relationships, loading, error };
-}
+  return { relationships, isLoading, error };
+};

@@ -3,23 +3,18 @@ export interface Contract {
   vendor_id: string;
   name: string;
   file_url: string;
-  file_type: string;
-  file_size: number;
-  signed_date?: string;
-  expiration_date?: string;
-  status: "draft" | "pending" | "active" | "expired" | "cancelled";
-  key_terms?: Record<string, string>;
-  notes?: string;
-  created_at?: string;
-  updated_at?: string;
+  status: ContractStatus;
+  notes: string;
+  created_at: string;
+  updated_at: string;
 }
 
+export type ContractStatus = 'draft' | 'sent' | 'signed' | 'expired' | 'cancelled';
+
 export interface ContractFormData {
-  vendor_id: string;
   name: string;
-  signed_date?: string;
-  expiration_date?: string;
-  status: "draft" | "pending" | "active" | "expired" | "cancelled";
-  key_terms?: Record<string, string>;
-  notes?: string;
+  file_url: string;
+  status: ContractStatus;
+  notes: string;
+  vendor_id?: string;
 }

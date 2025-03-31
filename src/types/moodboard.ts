@@ -1,26 +1,28 @@
 export interface MoodBoard {
   id: string;
-  user_id: string;
-  title: string;
-  description?: string;
-  category: string;
-  is_public: boolean;
+  name: string;
+  description: string;
   created_at: string;
-  updated_at?: string;
+  updated_at: string;
+  user_id: string;
+  is_public: boolean;
+  cover_image_url?: string;
 }
 
 export interface MoodBoardItem {
   id: string;
   board_id: string;
-  user_id: string;
   image_url: string;
-  position: { x: number; y: number };
-  size: { width: number; height: number };
-  rotation: number;
-  filter?: string;
-  caption?: string;
+  title: string;
+  description: string;
+  position_x: number;
+  position_y: number;
+  width: number;
+  height: number;
   created_at: string;
-  updated_at?: string;
+  updated_at: string;
+  color?: string;
+  tags?: string[];
 }
 
 export interface MoodBoardComment {
@@ -28,18 +30,26 @@ export interface MoodBoardComment {
   board_id: string;
   item_id?: string;
   user_id: string;
-  user_name?: string;
   content: string;
   created_at: string;
-  updated_at?: string;
+  updated_at: string;
 }
 
-export interface MoodBoardShare {
-  id: string;
-  board_id: string;
-  user_id: string;
-  shared_with_id: string;
-  permission: "view" | "edit" | "admin";
-  created_at: string;
-  updated_at?: string;
+export interface MoodBoardFormData {
+  name: string;
+  description: string;
+  is_public: boolean;
+  cover_image_url?: string;
+}
+
+export interface MoodBoardItemFormData {
+  image_url: string;
+  title: string;
+  description: string;
+  position_x: number;
+  position_y: number;
+  width: number;
+  height: number;
+  color?: string;
+  tags?: string[];
 }

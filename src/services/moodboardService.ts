@@ -1,63 +1,5 @@
-// Type definitions for moodboard service
-export interface MoodBoard {
-  id: string;
-  title: string;
-  description: string;
-  created_at: string;
-  updated_at: string;
-  created_by: string;
-  is_public: boolean;
-  cover_image_url?: string;
-}
-
-export interface MoodBoardItem {
-  id: string;
-  board_id: string;
-  image_url: string;
-  title: string;
-  description: string;
-  created_at: string;
-  updated_at: string;
-  position_x: number;
-  position_y: number;
-  width: number;
-  height: number;
-}
-
-export interface MoodBoardShare {
-  id: string;
-  board_id: string;
-  shared_by: string;
-  shared_with_id: string;
-  permission: "view" | "edit" | "admin";
-  created_at: string;
-  updated_at: string;
-}
-
-// Mock data for development
-const mockMoodBoards: MoodBoard[] = [
-  {
-    id: "1",
-    title: "Wedding Theme Ideas",
-    description: "Collection of theme ideas for our wedding",
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    created_by: "user-1",
-    is_public: false,
-  },
-  {
-    id: "2",
-    title: "Venue Inspiration",
-    description: "Potential venues for the ceremony and reception",
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    created_by: "user-1",
-    is_public: true,
-  },
-];
-
-// Service functions
-import { supabase } from "@/lib/supabase";
+import { supabase } from "../lib/supabase";
+import { MoodBoard, MoodBoardItem, MoodBoardShare } from "../types/moodboard";
 
 // Get all mood boards for a user
 export async function getMoodBoards(userId: string): Promise<MoodBoard[]> {
@@ -66,34 +8,25 @@ export async function getMoodBoards(userId: string): Promise<MoodBoard[]> {
     const { data: ownedBoards, error: ownedError } = await supabase
       .from("mood_boards")
       .select("*")
-      .eq("created_by", userId);
+      .eq("created_by", userId)
+      .order("created_at", { ascending: false });
 
     if (ownedError) throw ownedError;
 
     // Get boards shared with the user
-    const { data: sharedData, error: sharedError } = await supabase
+    const { data: sharedBoards, error: sharedError } = await supabase
       .from("mood_board_shares")
-      .select(`
-        id,
-        board_id,
-        permission,
-        mood_boards:board_id(*)
-      `)
+      .select("mood_boards(*)")
       .eq("shared_with_id", userId);
 
     if (sharedError) throw sharedError;
 
-    // Extract the shared boards from the join query
-    const sharedBoards = sharedData
-      .filter(item => item.mood_boards)
-      .map(item => ({
-        ...item.mood_boards,
-        shared: true,
-        permission: item.permission,
-      }));
+    // Combine and format the results
+    const sharedBoardsData = sharedBoards
+      ? sharedBoards.map((share) => share.mood_boards).filter(Boolean)
+      : [];
 
-    // Combine owned and shared boards
-    return [...ownedBoards, ...sharedBoards];
+    return [...(ownedBoards || []), ...sharedBoardsData] as MoodBoard[];
   } catch (error) {
     console.error("Error fetching mood boards:", error);
     throw error;
@@ -101,7 +34,7 @@ export async function getMoodBoards(userId: string): Promise<MoodBoard[]> {
 }
 
 // Get a single mood board by ID
-export async function getMoodBoard(boardId: string): Promise<MoodBoard | null> {
+export async function getMoodBoard(boardId: string): Promise<MoodBoard> {
   try {
     const { data, error } = await supabase
       .from("mood_boards")
@@ -110,10 +43,10 @@ export async function getMoodBoard(boardId: string): Promise<MoodBoard | null> {
       .single();
 
     if (error) throw error;
-    return data;
+    return data as MoodBoard;
   } catch (error) {
     console.error("Error fetching mood board:", error);
-    return null;
+    throw error;
   }
 }
 
@@ -122,15 +55,15 @@ export async function createMoodBoard(
   board: Omit<MoodBoard, "id" | "created_at" | "updated_at">
 ): Promise<MoodBoard> {
   try {
+    const newBoard = {
+      ...board,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
     const { data, error } = await supabase
       .from("mood_boards")
-      .insert([
-        {
-          ...board,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        },
-      ])
+      .insert([newBoard])
       .select()
       .single();
 
@@ -205,15 +138,15 @@ export async function addMoodBoardItem(
   item: Omit<MoodBoardItem, "id" | "created_at" | "updated_at">
 ): Promise<MoodBoardItem> {
   try {
+    const newItem = {
+      ...item,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
     const { data, error } = await supabase
       .from("mood_board_items")
-      .insert([
-        {
-          ...item,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        },
-      ])
+      .insert([newItem])
       .select()
       .single();
 
@@ -272,18 +205,18 @@ export async function shareMoodBoard(
   permission: "view" | "edit" | "admin"
 ): Promise<MoodBoardShare> {
   try {
+    const shareData = {
+      board_id: boardId,
+      shared_by: sharedBy,
+      shared_with_id: sharedWithId,
+      permission,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
     const { data, error } = await supabase
       .from("mood_board_shares")
-      .insert([
-        {
-          board_id: boardId,
-          shared_by: sharedBy,
-          shared_with_id: sharedWithId,
-          permission,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        },
-      ])
+      .insert([shareData])
       .select()
       .single();
 
@@ -322,13 +255,13 @@ export async function uploadMoodBoardImage(file: File): Promise<string> {
     const fileExt = file.name.split('.').pop();
     const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
     const filePath = `mood-board-images/${fileName}`;
-
+    
     const { error: uploadError } = await supabase.storage
       .from('images')
       .upload(filePath, file);
-
+      
     if (uploadError) throw uploadError;
-
+    
     const { data } = supabase.storage.from('images').getPublicUrl(filePath);
     return data.publicUrl;
   } catch (error) {

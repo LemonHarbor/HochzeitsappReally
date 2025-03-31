@@ -4,39 +4,51 @@ export interface Review {
   user_id: string;
   rating: number;
   review_text: string;
-  visit_date?: Date | string;
-  status?: ReviewStatus;
-  moderation_notes?: string;
-  moderated_by?: string;
-  moderated_at?: string;
-  created_at?: string;
-  updated_at?: string;
+  is_verified: boolean;
+  verification_type?: VerificationType;
+  visit_date: string | Date;
+  created_at: string;
+  updated_at: string;
   helpful_votes?: number;
   unhelpful_votes?: number;
-  is_verified?: boolean;
-  verification_type?: VerificationType;
-  verification_date?: string;
+  status?: ReviewStatus;
 }
 
-export type VerificationType = "purchase" | "booking" | "contract" | "admin";
+export type VerificationType = 'receipt' | 'contract' | 'photo' | 'other' | 'purchase' | 'booking' | 'admin';
 
-export type ReviewStatus = "pending" | "approved" | "rejected";
+export type ReviewStatus = 'pending' | 'approved' | 'rejected';
 
 export interface ReviewFormData {
-  vendor_id: string;
   rating: number;
   review_text: string;
-  visit_date?: Date | string;
-  status?: ReviewStatus;
-  is_verified?: boolean;
+  is_verified: boolean;
   verification_type?: VerificationType;
-  verification_date?: string;
+  visit_date: Date;
 }
 
 export interface ReviewVote {
   id: string;
   review_id: string;
   user_id: string;
-  is_helpful: boolean;
-  created_at?: string;
+  vote_type: 'helpful' | 'not_helpful';
+  created_at: string;
+}
+
+export interface ReviewStats {
+  total_reviews: number;
+  average_rating: number;
+  rating_distribution: {
+    [key: number]: number;
+  };
+}
+
+export interface FilterOptions {
+  verificationType: VerificationType | 'all' | 'booking';
+  showVerifiedOnly: boolean;
+  ratings: number[];
+  searchTerm: string;
+  dateRange: {
+    from: Date;
+    to: Date;
+  };
 }

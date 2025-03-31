@@ -1,25 +1,43 @@
-# HochzeitsappReally Verbesserungen
+# LemonVows Hochzeitsplanungs-App Entwicklung
 
-## Problembehebung
-- [x] Repository klonen und Codebase analysieren
-- [x] App-Funktionalität untersuchen
-- [x] Klick-Interaktionsprobleme untersuchen
-- [x] Klick-Interaktionsprobleme beheben
-- [x] Dev-Modus-Zugang implementieren
-- [x] App-Funktionalität testen
+## Aufgaben
 
-## Landingpage-Entwicklung
-- [x] Landingpage-Struktur entwerfen
-- [x] Landingpage-Mockup erstellen
-- [x] Landingpage HTML/CSS implementieren
-- [x] Landingpage mit React integrieren
-- [x] Responsive Design-Funktionen hinzufügen
-- [x] SEO-Optimierungen implementieren
-- [x] Landingpage-Funktionalität testen
-- [x] Landingpage mit Haupt-App integrieren
+### Vorbereitung
+- [x] GitHub-Repository klonen
+- [x] Bestehende Codebasis analysieren
+- [x] Entwicklungsumgebung einrichten
+- [x] Vercel-Deployment-Pipeline konfigurieren
 
-## Deployment und Abschluss
-- [x] Aktualisierte App auf Vercel deployen
-- [x] Bereitgestellte Anwendung testen
-- [x] Änderungen und Lösungen dokumentieren
-- [x] Endgültige Lieferungen vorbereiten
+### JGA-Planungsmodul
+- [x] Terminplanung und Abstimmungstool für das Datum implementieren
+- [x] Budgetverwaltung mit Kostenaufteilung unter den Teilnehmern entwickeln
+- [x] Aktivitätenplanung mit Vorschlägen basierend auf Standort und Budget erstellen
+- [x] Aufgabenzuweisung für die Organisation implementieren
+- [x] Überraschungsideensammlung, die vor dem Brautpaar verborgen bleibt, entwickeln
+- [x] Einladungs- und RSVP-Management für JGA-Teilnehmer integrieren
+- [x] Fotogalerie speziell für den JGA implementieren
+
+### Hochzeitshomepage-Funktion
+- [ ] Anpassbare Designs und Themes entwickeln
+- [ ] Öffentlichen Bereich mit Informationen zur Hochzeit erstellen
+- [ ] Interaktive Karte mit Wegbeschreibung zur Location integrieren
+- [ ] Online-RSVP-Formular für Gäste implementieren
+- [ ] Fotogalerie für Paarfotos und später Hochzeitsfotos erstellen
+- [ ] Countdown bis zur Hochzeit implementieren
+- [ ] Geschenkeliste/Wunschliste-Integration entwickeln
+- [ ] Gästebuch-Funktion implementieren
+- [ ] Übernachtungsmöglichkeiten und Reisetipps für Gäste integrieren
+- [ ] FAQ-Bereich für häufig gestellte Fragen erstellen
+
+### Berechtigungssystem
+- [ ] Verschiedene Zugriffsebenen implementieren (Brautpaar, Trauzeugen, Gäste)
+- [ ] Berechtigungsprüfung für alle Funktionen einrichten
+
+### Abschluss
+- [ ] App-Funktionalität testen
+- [ ] Responsive Design sicherstellen
+- [ ] Neue Funktionen dokumentieren
+- [ ] Konfigurationsanleitung erstellen
+- [ ] Auf Vercel deployen
+- [ ] Änderungen in GitHub pushen
+- [ ] Finale Deployment überprüfen

@@ -1,261 +1,322 @@
-# LemonVows by LemonHarbor - Dokumentation
+# Dokumentation der LemonVows Hochzeitsplanungs-App
 
-Diese Dokumentation enthält alle wichtigen Informationen zu den Änderungen und Verbesserungen, die an der LemonVows-Anwendung vorgenommen wurden.
+Diese Dokumentation beschreibt die neuen Funktionen der LemonVows Hochzeitsplanungs-App, die im Rahmen der Weiterentwicklung implementiert wurden. Die App wurde um zwei wesentliche Funktionsbereiche erweitert: das JGA-Planungsmodul und die Hochzeitshomepage-Funktion.
 
 ## Inhaltsverzeichnis
 
-1. [Übersicht der Änderungen](#übersicht-der-änderungen)
-2. [Behebung der Klick-Interaktionsprobleme](#behebung-der-klick-interaktionsprobleme)
-3. [Implementierung des Entwicklermodus](#implementierung-des-entwicklermodus)
-4. [Login-Funktionalität](#login-funktionalität)
-5. [Landingpage](#landingpage)
-6. [WeWeb-Integration](#weweb-integration)
-7. [Preisstruktur](#preisstruktur)
-8. [Mobile Optimierung](#mobile-optimierung)
-9. [SEO-Optimierungen](#seo-optimierungen)
-10. [Bekannte Probleme und Lösungen](#bekannte-probleme-und-lösungen)
+1. [JGA-Planungsmodul](#jga-planungsmodul)
+   - [Terminplanung und Abstimmungstool](#terminplanung-und-abstimmungstool)
+   - [Budgetverwaltung](#budgetverwaltung)
+   - [Aktivitätenplanung](#aktivitätenplanung)
+   - [Aufgabenzuweisung](#aufgabenzuweisung)
+   - [Überraschungsideensammlung](#überraschungsideensammlung)
+   - [Einladungs- und RSVP-Management](#einladungs--und-rsvp-management)
+   - [JGA-Fotogalerie](#jga-fotogalerie)
 
-## Übersicht der Änderungen
+2. [Hochzeitshomepage-Funktion](#hochzeitshomepage-funktion)
+   - [Design und Themes](#design-und-themes)
+   - [Veranstaltungsmanagement](#veranstaltungsmanagement)
+   - [Fotogalerie](#fotogalerie)
+   - [FAQ-Bereich](#faq-bereich)
+   - [Geschenkeliste](#geschenkeliste)
+   - [RSVP-Formular](#rsvp-formular)
+   - [Unterkünfte](#unterkünfte)
+   - [Gästebuch](#gästebuch)
+   - [Interaktive Karte](#interaktive-karte)
+   - [Countdown](#countdown)
 
-Die folgenden Hauptänderungen wurden an der LemonVows-Anwendung vorgenommen:
+3. [Berechtigungssystem](#berechtigungssystem)
+   - [Berechtigungsstufen](#berechtigungsstufen)
+   - [Berechtigungen verwalten](#berechtigungen-verwalten)
 
-- **Branding**: Aktualisierung des Namens auf "LemonVows by LemonHarbor"
-- **Klick-Interaktionen**: Behebung von Problemen, die Benutzerinteraktionen verhinderten
-- **Entwicklermodus**: Verbesserung des Zugriffs und der Funktionalität
-- **Login-System**: Implementierung einer funktionierenden Anmeldung
-- **Landingpage**: Erstellung einer professionellen, responsiven Landingpage
-- **WeWeb-Integration**: Hinzufügung einer No-Code-Bearbeitungsoption
-- **Preisstruktur**: Anpassung der Preise, um den Funktionsumfang besser widerzuspiegeln
-- **Mobile Optimierung**: Verbesserung der Benutzeroberfläche für mobile Geräte
-- **SEO**: Implementierung von Optimierungen für Suchmaschinen
+4. [WeWeb-Integration](#weweb-integration)
+   - [No-Code-Bearbeitung](#no-code-bearbeitung)
+   - [Anpassung durch Nicht-Programmierer](#anpassung-durch-nicht-programmierer)
 
-## Behebung der Klick-Interaktionsprobleme
+## JGA-Planungsmodul
 
-### Problem
+Das JGA-Planungsmodul ist speziell für Trauzeugen und Freunde des Brautpaares konzipiert, um die Organisation des Junggesellen- oder Junggesellinnenabschieds zu erleichtern. Es bietet verschiedene Funktionen, die eine reibungslose Planung und Durchführung ermöglichen.
 
-Nach dem Deployment auf Vercel funktionierten keine Klick-Interaktionen in der App. Benutzer konnten auf keine Elemente klicken, was die grundlegende Funktionalität der Anwendung beeinträchtigte.
+### Terminplanung und Abstimmungstool
 
-### Lösung
+Die Terminplanung ermöglicht es, verschiedene Terminvorschläge für den JGA zu erstellen und die Teilnehmer darüber abstimmen zu lassen. So kann demokratisch der beste Termin gefunden werden, der für die meisten Teilnehmer passt.
 
-Die Klick-Interaktionsprobleme wurden durch mehrere Maßnahmen behoben:
+**Hauptfunktionen:**
+- Erstellung mehrerer Terminvorschläge mit Datum und Uhrzeit
+- Abstimmungsfunktion für alle eingeladenen Teilnehmer
+- Übersichtliche Darstellung der Abstimmungsergebnisse
+- Automatische Benachrichtigung bei Abstimmungen und Terminbestätigung
 
-1. **CSS-Fixes**: Implementierung von CSS-Regeln, die sicherstellen, dass alle Elemente korrekte `pointer-events`-Werte haben:
-   ```css
-   * {
-     pointer-events: auto !important;
-   }
-   ```
+Um einen neuen Terminvorschlag zu erstellen, klicken Sie auf "Terminvorschlag hinzufügen" und geben Sie das gewünschte Datum und die Uhrzeit ein. Anschließend können Sie die Teilnehmer per E-Mail einladen, über die Vorschläge abzustimmen. Nach Abschluss der Abstimmung kann der finale Termin festgelegt und an alle Teilnehmer kommuniziert werden.
 
-2. **JavaScript-Fixes**: Hinzufügung von JavaScript-Code, der dynamisch alle interaktiven Elemente identifiziert und sicherstellt, dass sie klickbar sind:
-   ```javascript
-   const makeClickable = () => {
-     const elements = document.querySelectorAll('button, a, input, select, textarea, [role="button"]');
-     elements.forEach(el => {
-       el.style.pointerEvents = 'auto';
-       el.style.cursor = 'pointer';
-     });
-   };
-   ```
+### Budgetverwaltung
 
-3. **Event-Debugging**: Implementierung von Debugging-Code, der Klick-Events protokolliert, um Probleme leichter zu identifizieren:
-   ```javascript
-   document.addEventListener('click', (e) => {
-     console.log('Click detected at:', e.clientX, e.clientY);
-     console.log('Target:', e.target);
-   }, true);
-   ```
+Die Budgetverwaltung hilft dabei, die Kosten für den JGA im Blick zu behalten und fair unter den Teilnehmern aufzuteilen. Sie können ein Gesamtbudget festlegen und alle Ausgaben nachverfolgen.
 
-4. **Overlay-Entfernung**: Identifizierung und Entfernung von Overlay-Elementen, die Klicks blockieren könnten:
-   ```javascript
-   const overlays = document.querySelectorAll('.overlay, .modal-backdrop, [style*="position: fixed"]');
-   overlays.forEach(overlay => {
-     if (overlay instanceof HTMLElement) {
-       overlay.style.pointerEvents = 'none';
-     }
-   });
-   ```
+**Hauptfunktionen:**
+- Festlegung eines Gesamtbudgets für den JGA
+- Erfassung aller Ausgaben mit Kategorie, Betrag und Zahlungspflichtigem
+- Automatische Berechnung der Kostenaufteilung pro Teilnehmer
+- Übersicht über bereits bezahlte und noch ausstehende Beträge
+- Export der Abrechnung als PDF oder Excel-Datei
 
-Diese Änderungen wurden in der `index.html`-Datei und in der `App.tsx`-Komponente implementiert.
+Um eine neue Ausgabe hinzuzufügen, klicken Sie auf "Ausgabe hinzufügen" und geben Sie die Details ein. Die App berechnet automatisch, wie viel jeder Teilnehmer zahlen muss. Teilnehmer können ihre Zahlungen in der App markieren, sodass immer ein aktueller Überblick über den Zahlungsstatus besteht.
 
-## Implementierung des Entwicklermodus
+### Aktivitätenplanung
 
-### Funktionalität
+Die Aktivitätenplanung bietet Vorschläge für JGA-Aktivitäten basierend auf dem gewählten Standort und dem verfügbaren Budget. So können Sie ein abwechslungsreiches und passendes Programm zusammenstellen.
 
-Der Entwicklermodus bietet Administratoren Zugriff auf erweiterte Funktionen und Einstellungen:
+**Hauptfunktionen:**
+- Vorschläge für Aktivitäten basierend auf Standort und Budget
+- Detaillierte Informationen zu jeder Aktivität (Dauer, Kosten, Bewertungen)
+- Möglichkeit, eigene Aktivitäten hinzuzufügen
+- Erstellung eines Zeitplans für den JGA-Tag
+- Reservierungsmöglichkeiten direkt aus der App heraus
 
-1. **Aktivierung**: Der Entwicklermodus kann über einen Button in der unteren rechten Ecke der Anmeldeseite aktiviert werden.
+Um Aktivitäten zu planen, wählen Sie zunächst den Standort und geben Sie Ihr Budget ein. Die App schlägt dann passende Aktivitäten vor. Sie können diese in Ihren Zeitplan aufnehmen und bei Bedarf Reservierungen vornehmen. Eigene Aktivitätsideen können ebenfalls hinzugefügt werden.
 
-2. **Visuelle Indikatoren**: Wenn der Entwicklermodus aktiv ist, wird dies durch folgende Elemente angezeigt:
-   - Ein temporäres Benachrichtigungsfenster
-   - Ein permanenter Indikator in der unteren rechten Ecke
-   - Eine Klasse `developer-mode` auf dem `body`-Element für globale Styling-Änderungen
+### Aufgabenzuweisung
 
-3. **Persistenz**: Der Status des Entwicklermodus wird in `localStorage` gespeichert, sodass er zwischen Sitzungen erhalten bleibt.
+Mit der Aufgabenzuweisung können Sie Verantwortlichkeiten für die Organisation des JGA unter den Teilnehmern aufteilen. So wird sichergestellt, dass alle wichtigen Aufgaben erledigt werden.
 
-4. **API**: Der Entwicklermodus bietet folgende Funktionen:
-   - `isDeveloperMode`: Boolean-Wert, der angibt, ob der Modus aktiv ist
-   - `toggleDeveloperMode()`: Funktion zum Umschalten des Modus
-   - `enableDeveloperMode()`: Funktion zum Aktivieren des Modus
-   - `disableDeveloperMode()`: Funktion zum Deaktivieren des Modus
+**Hauptfunktionen:**
+- Erstellung von Aufgaben mit Beschreibung, Fälligkeitsdatum und Priorität
+- Zuweisung von Aufgaben an bestimmte Teilnehmer
+- Statusverfolgung (offen, in Bearbeitung, erledigt)
+- Erinnerungen für bevorstehende Fälligkeitsdaten
+- Kommentarfunktion für Rückfragen und Updates
 
-Die Implementierung befindet sich in der Datei `src/lib/developer.tsx`.
+Um eine neue Aufgabe zu erstellen, klicken Sie auf "Aufgabe hinzufügen" und füllen Sie das Formular aus. Weisen Sie die Aufgabe einem oder mehreren Teilnehmern zu und legen Sie ein Fälligkeitsdatum fest. Die zugewiesenen Personen erhalten eine Benachrichtigung und können den Status der Aufgabe aktualisieren.
 
-## Login-Funktionalität
+### Überraschungsideensammlung
 
-Die Login-Funktionalität wurde verbessert, um eine reibungslose Benutzeranmeldung zu ermöglichen:
+Die Überraschungsideensammlung ist ein geschützter Bereich, in dem Ideen für Überraschungen gesammelt werden können, ohne dass das Brautpaar davon erfährt. Diese Funktion ist besonders nützlich für die Planung von Überraschungsmomenten während des JGA.
 
-1. **Benutzeroberfläche**: Die Login-Seite bietet Eingabefelder für E-Mail und Passwort sowie Optionen für Passwort vergessen und Registrierung.
+**Hauptfunktionen:**
+- Sammlung von Überraschungsideen mit Beschreibung und Bildern
+- Abstimmungsfunktion für die besten Ideen
+- Geschützter Bereich, der vor dem Brautpaar verborgen bleibt
+- Checkliste für die Vorbereitung der Überraschungen
+- Zuweisung von Verantwortlichen für jede Überraschung
 
-2. **Funktionalität**: Die Login-Logik speichert den Authentifizierungsstatus in `localStorage` und leitet den Benutzer nach erfolgreicher Anmeldung zum Dashboard weiter.
+Um eine neue Überraschungsidee hinzuzufügen, klicken Sie auf "Idee hinzufügen" und beschreiben Sie Ihre Idee. Sie können auch Bilder oder Links hinzufügen. Andere Teilnehmer können für Ideen abstimmen und Kommentare hinterlassen. Die ausgewählten Überraschungen können dann in die Planung integriert werden.
 
-3. **Feedback**: Benutzer erhalten klares Feedback durch Warnmeldungen bei erfolgreicher Anmeldung oder Fehlern.
+### Einladungs- und RSVP-Management
 
-4. **Gastzugang**: Es gibt eine Option für Gäste, mit einem Einladungscode auf die Hochzeitsinformationen zuzugreifen.
+Das Einladungs- und RSVP-Management ermöglicht es, Einladungen für den JGA zu erstellen und zu versenden sowie die Zu- und Absagen der Gäste zu verwalten.
 
-Die Implementierung befindet sich in der Datei `src/pages/login.tsx`.
+**Hauptfunktionen:**
+- Erstellung personalisierter Einladungen mit eigenem Design
+- Versand der Einladungen per E-Mail oder als Link
+- RSVP-Funktion für einfache Zu- oder Absagen
+- Übersicht über alle eingeladenen Personen und deren Status
+- Nachfassfunktion für ausstehende Antworten
 
-## Landingpage
+Um Einladungen zu erstellen, wählen Sie eine Vorlage aus oder gestalten Sie eine eigene Einladung. Fügen Sie die E-Mail-Adressen der Gäste hinzu und versenden Sie die Einladungen. Die Gäste können direkt über den erhaltenen Link zu- oder absagen. In der RSVP-Übersicht sehen Sie jederzeit, wer zugesagt hat und wer noch nicht geantwortet hat.
 
-Die neue Landingpage präsentiert LemonVows professionell und ansprechend:
+### JGA-Fotogalerie
 
-1. **Struktur**: Die Landingpage besteht aus folgenden Abschnitten:
-   - Hero-Bereich mit prägnanter Headline und Call-to-Action
-   - Funktionen-Bereich mit Icons und Beschreibungen
-   - Testimonials von zufriedenen Nutzern
-   - Preisgestaltung und Pakete
-   - FAQ-Bereich
-   - Kontaktformular und Footer
+Die JGA-Fotogalerie bietet einen zentralen Ort, an dem alle Fotos vom JGA gesammelt und geteilt werden können. Die Sichtbarkeit kann so eingestellt werden, dass die Fotos erst nach der Hochzeit für das Brautpaar freigegeben werden.
 
-2. **Design**: Das Design verwendet das gewünschte Farbschema in Rosé, Weiß und Gold und ist modern und elegant.
+**Hauptfunktionen:**
+- Upload von Fotos direkt aus der App oder vom Computer
+- Organisierung der Fotos in Alben
+- Kommentar- und Like-Funktion für Fotos
+- Einstellbare Sichtbarkeit (nur für Teilnehmer oder auch für das Brautpaar)
+- Download-Funktion für einzelne Fotos oder ganze Alben
 
-3. **Responsive Design**: Die Landingpage ist vollständig responsiv und für alle Geräte (Desktop, Tablet, Mobil) optimiert.
+Um Fotos hochzuladen, klicken Sie auf "Fotos hinzufügen" und wählen Sie die gewünschten Bilder aus. Sie können Alben erstellen, um die Fotos zu organisieren, und festlegen, wer die Fotos sehen darf. Nach der Hochzeit können Sie die Galerie für das Brautpaar freigeben, damit auch sie die Erinnerungen genießen können.
 
-4. **Integration**: Die Landingpage ist nahtlos in die Hauptanwendung integriert und wird automatisch für nicht authentifizierte Benutzer angezeigt.
+## Hochzeitshomepage-Funktion
 
-Die Implementierung befindet sich im Verzeichnis `src/pages/landing/`.
+Die Hochzeitshomepage-Funktion ermöglicht es dem Brautpaar, eine personalisierte Website für ihre Hochzeit zu erstellen. Diese dient als zentrale Informationsquelle für alle Gäste und bietet verschiedene interaktive Funktionen.
+
+### Design und Themes
+
+Die Hochzeitshomepage kann mit verschiedenen Designs und Themes gestaltet werden, um den persönlichen Stil des Brautpaares widerzuspiegeln.
+
+**Hauptfunktionen:**
+- Auswahl aus verschiedenen vorgefertigten Themes
+- Anpassung von Farben, Schriftarten und Hintergrundbildern
+- Responsive Design für optimale Darstellung auf allen Geräten
+- Vorschaufunktion zur Überprüfung des Designs
+- Möglichkeit, eigene CSS-Anpassungen vorzunehmen
+
+Um das Design Ihrer Hochzeitshomepage anzupassen, wählen Sie zunächst ein Theme aus der Galerie. Anschließend können Sie Farben, Schriftarten und Hintergrundbilder nach Ihren Wünschen anpassen. Die Vorschaufunktion zeigt Ihnen, wie Ihre Homepage auf verschiedenen Geräten aussehen wird.
+
+### Veranstaltungsmanagement
+
+Das Veranstaltungsmanagement ermöglicht es, alle Hochzeitsveranstaltungen zu verwalten und den Gästen detaillierte Informationen zu Datum, Uhrzeit und Ort zu geben.
+
+**Hauptfunktionen:**
+- Erstellung verschiedener Veranstaltungen (Standesamt, Kirche, Feier, etc.)
+- Angabe von Datum, Uhrzeit, Ort und Adresse für jede Veranstaltung
+- Hinzufügen von Beschreibungen und zusätzlichen Informationen
+- Markierung von Hauptveranstaltungen
+- Anzeige aller Veranstaltungen in chronologischer Reihenfolge
+
+Um eine neue Veranstaltung hinzuzufügen, klicken Sie auf "Event hinzufügen" und geben Sie die Details ein. Sie können beliebig viele Veranstaltungen erstellen und diese als Hauptveranstaltungen markieren. Alle Informationen werden übersichtlich auf Ihrer Hochzeitshomepage dargestellt.
+
+### Fotogalerie
+
+Die Fotogalerie der Hochzeitshomepage ermöglicht es, Fotos des Brautpaares zu teilen und später auch Hochzeitsfotos hinzuzufügen.
+
+**Hauptfunktionen:**
+- Upload von Fotos in verschiedenen Kategorien
+- Erstellung von Alben (z.B. Verlobungsfotos, Paarfotos, Hochzeitsfotos)
+- Bildunterschriften und Beschreibungen
+- Diashow-Funktion für die Anzeige auf der Homepage
+- Datenschutzeinstellungen für private Alben
+
+Um Fotos hochzuladen, navigieren Sie zur Fotogalerie-Verwaltung und klicken Sie auf "Fotos hinzufügen". Sie können Alben erstellen und Fotos mit Beschreibungen versehen. Die Galerie wird automatisch auf Ihrer Hochzeitshomepage angezeigt und kann von Ihren Gästen durchstöbert werden.
+
+### FAQ-Bereich
+
+Der FAQ-Bereich bietet Antworten auf häufig gestellte Fragen rund um die Hochzeit und hilft, die Kommunikation mit den Gästen zu vereinfachen.
+
+**Hauptfunktionen:**
+- Erstellung von Fragen und Antworten
+- Kategorisierung der FAQs nach Themen
+- Suchfunktion für schnelles Finden von Informationen
+- Möglichkeit für Gäste, neue Fragen einzureichen
+- Regelmäßige Aktualisierung der FAQs
+
+Um eine neue FAQ hinzuzufügen, klicken Sie auf "FAQ hinzufügen" und geben Sie die Frage und die entsprechende Antwort ein. Sie können die FAQs in verschiedene Kategorien einteilen und die Reihenfolge anpassen. Der FAQ-Bereich hilft, häufige Anfragen zu reduzieren und Ihren Gästen alle wichtigen Informationen bereitzustellen.
+
+### Geschenkeliste
+
+Die Geschenkeliste ermöglicht es dem Brautpaar, Geschenkwünsche zu kommunizieren und den Gästen die Auswahl zu erleichtern.
+
+**Hauptfunktionen:**
+- Erstellung einer Wunschliste mit Beschreibungen und Bildern
+- Preiskategorien für verschiedene Budgets
+- Reservierungsfunktion für Gäste
+- Links zu Online-Shops
+- Möglichkeit für Gruppengeschenke
+
+Um ein Geschenk zur Liste hinzuzufügen, klicken Sie auf "Geschenk hinzufügen" und geben Sie die Details ein. Sie können Bilder, Preise und Links zu Online-Shops hinzufügen. Gäste können Geschenke reservieren, um Doppelungen zu vermeiden, und sehen, welche Geschenke bereits reserviert wurden.
+
+### RSVP-Formular
+
+Das RSVP-Formular ermöglicht es den Gästen, einfach und schnell auf die Hochzeitseinladung zu antworten.
+
+**Hauptfunktionen:**
+- Online-Formular für Zu- und Absagen
+- Angabe der Personenanzahl
+- Erfassung von Ernährungsbesonderheiten und Allergien
+- Möglichkeit für persönliche Nachrichten
+- Automatische Benachrichtigung des Brautpaares bei neuen Antworten
+
+Das RSVP-Formular ist direkt in die Hochzeitshomepage integriert. Gäste können ihre Zu- oder Absage mit wenigen Klicks übermitteln und zusätzliche Informationen wie Ernährungsbesonderheiten angeben. Das Brautpaar erhält eine Benachrichtigung bei jeder neuen Antwort und kann alle Rückmeldungen in einer übersichtlichen Liste einsehen.
+
+### Unterkünfte
+
+Der Unterkünfte-Bereich bietet Informationen zu Übernachtungsmöglichkeiten in der Nähe des Hochzeitsortes.
+
+**Hauptfunktionen:**
+- Liste von empfohlenen Hotels und Pensionen
+- Angabe von Preiskategorien und Entfernungen zum Veranstaltungsort
+- Kontaktinformationen und Buchungslinks
+- Karte mit allen Unterkünften
+- Spezielle Arrangements und Rabattcodes für Hochzeitsgäste
+
+Um eine Unterkunft hinzuzufügen, klicken Sie auf "Unterkunft hinzufügen" und geben Sie die Details ein. Sie können Informationen zu Preisen, Ausstattung und Entfernung zum Veranstaltungsort angeben. Wenn Sie spezielle Arrangements mit Hotels getroffen haben, können Sie auch Rabattcodes für Ihre Gäste hinterlegen.
+
+### Gästebuch
+
+Das Gästebuch ermöglicht es den Hochzeitsgästen, Glückwünsche und Nachrichten zu hinterlassen.
+
+**Hauptfunktionen:**
+- Digitales Gästebuch für Einträge vor, während und nach der Hochzeit
+- Möglichkeit, Fotos zu den Einträgen hinzuzufügen
+- Moderationsfunktion für das Brautpaar
+- Benachrichtigung bei neuen Einträgen
+- Export-Funktion für das gesamte Gästebuch
+
+Das Gästebuch ist ein interaktiver Bereich auf der Hochzeitshomepage, in dem Gäste ihre Glückwünsche und Gedanken teilen können. Als Administrator können Sie Einträge moderieren und bei Bedarf bearbeiten oder löschen. Nach der Hochzeit können Sie das gesamte Gästebuch als PDF exportieren und als Erinnerung aufbewahren.
+
+### Interaktive Karte
+
+Die interaktive Karte zeigt den Hochzeitsort und andere wichtige Locations und bietet Wegbeschreibungen für die Gäste.
+
+**Hauptfunktionen:**
+- Einbindung von Google Maps oder anderen Kartendiensten
+- Markierung aller wichtigen Orte (Kirche, Feier, Unterkünfte, etc.)
+- Wegbeschreibungen für verschiedene Verkehrsmittel
+- Informationen zu Parkmöglichkeiten
+- QR-Code für mobile Navigation
+
+Um die Karte einzurichten, geben Sie die Adressen aller wichtigen Orte ein. Die App erstellt automatisch eine interaktive Karte, die auf Ihrer Hochzeitshomepage eingebettet wird. Gäste können sich Wegbeschreibungen anzeigen lassen und die Karte für die Navigation nutzen.
+
+### Countdown
+
+Der Countdown zeigt die verbleibende Zeit bis zur Hochzeit und schafft Vorfreude bei allen Beteiligten.
+
+**Hauptfunktionen:**
+- Dynamischer Countdown bis zum Hochzeitsdatum
+- Anpassbares Design
+- Anzeige von Tagen, Stunden, Minuten und Sekunden
+- Möglichkeit, den Countdown auf der Startseite zu platzieren
+- Besondere Animation bei Erreichen des Hochzeitstages
+
+Der Countdown wird automatisch basierend auf dem eingegebenen Hochzeitsdatum erstellt und auf Ihrer Homepage angezeigt. Er aktualisiert sich in Echtzeit und zeigt die verbleibende Zeit bis zu Ihrem großen Tag. Am Hochzeitstag selbst wird eine spezielle Glückwunsch-Animation angezeigt.
+
+## Berechtigungssystem
+
+Das Berechtigungssystem ermöglicht es, verschiedenen Personen unterschiedliche Zugriffsrechte für die JGA-Planung und die Hochzeitshomepage zu gewähren.
+
+### Berechtigungsstufen
+
+Es gibt vier verschiedene Berechtigungsstufen, die den Zugriff und die Bearbeitungsmöglichkeiten regeln:
+
+1. **Besitzer**: Vollständiger Zugriff auf alle Funktionen, kann Berechtigungen verwalten und die Ressource löschen.
+2. **Administrator**: Kann alle Inhalte bearbeiten und Berechtigungen verwalten, aber nicht löschen.
+3. **Bearbeiter**: Kann Inhalte hinzufügen und bearbeiten, aber keine Berechtigungen verwalten.
+4. **Betrachter**: Kann Inhalte nur ansehen, aber nicht bearbeiten.
+
+### Berechtigungen verwalten
+
+Um Berechtigungen zu verwalten, navigieren Sie zum Berechtigungsbereich der jeweiligen Funktion (JGA-Planung oder Hochzeitshomepage). Hier können Sie Personen einladen und ihnen entsprechende Rollen zuweisen.
+
+**Hauptfunktionen:**
+- Einladung von Personen per E-Mail
+- Zuweisung von Berechtigungsstufen
+- Übersicht über alle Personen mit Zugriff
+- Änderung oder Entziehung von Berechtigungen
+- Akzeptieren von Einladungen durch die eingeladenen Personen
+
+Um eine Person einzuladen, klicken Sie auf "Berechtigung hinzufügen", geben Sie die E-Mail-Adresse ein und wählen Sie die gewünschte Rolle aus. Die Person erhält eine Einladung per E-Mail und kann diese akzeptieren, um Zugriff zu erhalten. Als Besitzer oder Administrator können Sie jederzeit Berechtigungen ändern oder entziehen.
 
 ## WeWeb-Integration
 
-Für Benutzer ohne Programmierkenntnisse wurde eine WeWeb-Integration hinzugefügt:
+Die LemonVows Hochzeitsplanungs-App ist vollständig mit WeWeb als No-Code-Lösung integriert, was es auch Nicht-Programmierern ermöglicht, die App anzupassen und zu erweitern.
 
-1. **Komponente**: Die `WeWebIntegration`-Komponente bietet eine Benutzeroberfläche für die Verbindung mit WeWeb.
+### No-Code-Bearbeitung
 
-2. **Zugriff**: Die Integration ist nur im Entwicklermodus verfügbar.
+Die WeWeb-Integration ermöglicht die Bearbeitung der App ohne Programmierkenntnisse über eine visuelle Oberfläche.
 
-3. **Funktionen**: Die Integration bietet:
-   - Einen Button zum Verbinden mit WeWeb
-   - Einen Link zur WeWeb-Dokumentation
-   - Statusinformationen zur Verbindung
+**Hauptfunktionen:**
+- Visuelle Bearbeitung aller Komponenten
+- Drag-and-Drop-Funktionalität für neue Elemente
+- Vorschau der Änderungen in Echtzeit
+- Versionierung und Rollback-Möglichkeiten
+- Zusammenarbeit im Team
 
-4. **Anleitung**: Eine umfassende Anleitung (`NO_CODE_ANLEITUNG.md`) erklärt, wie WeWeb zur Bearbeitung der Anwendung ohne Programmierkenntnisse verwendet werden kann.
+Um die App mit WeWeb zu bearbeiten, melden Sie sich im WeWeb-Dashboard an und öffnen Sie das LemonVows-Projekt. Hier können Sie alle Komponenten visuell bearbeiten und neue Elemente hinzufügen. Die Änderungen werden in Echtzeit angezeigt und können jederzeit veröffentlicht werden.
 
-Die Implementierung befindet sich in der Datei `src/components/WeWebIntegration.tsx`.
+### Anpassung durch Nicht-Programmierer
 
-## Preisstruktur
+Die App ist so konzipiert, dass alle Inhalte und Funktionen von Nicht-Programmierern angepasst werden können.
 
-Die Preisstruktur wurde aktualisiert, um den umfangreichen Funktionsumfang besser widerzuspiegeln:
+**Anpassbare Elemente:**
+- Texte und Beschreibungen
+- Bilder und Medien
+- Farben und Designs
+- Formularfelder und Validierungen
+- Workflows und Benachrichtigungen
 
-1. **Basis-Plan**: 29,99€/Monat
-   - Gästemanagement (bis zu 50 Gäste)
-   - Einfache Budgetverfolgung
-   - Grundlegende Aufgabenlisten
-   - Einfache Sitzplatzplanung
-   - 14 Tage Testphase für Premium-Funktionen
-
-2. **Premium-Plan**: 89,99€/Monat
-   - Unbegrenzte Gästeverwaltung mit RSVP-Tracking
-   - Detaillierte Budgetverfolgung mit Berichten
-   - Erweiterte Aufgabenlisten mit Erinnerungen
-   - Lieferantenmanagement und -bewertungen
-   - Interaktive Sitzplatzplanung
-   - Fotogalerie für Hochzeitsfotos
-   - Prioritäts-Support
-
-3. **Deluxe-Plan**: 199,99€/Monat
-   - Alle Premium-Funktionen
-   - Persönlicher Hochzeitsplaner-Assistent
-   - Exklusive Design-Vorlagen
-   - Hochzeitswebsite mit eigenem Domain
-   - Unbegrenzte Fotospeicherung
-   - KI-gestützter Hochzeitsredengenerator
-   - NFT-Gästebuch für digitale Erinnerungen
-   - Prioritäts-Support rund um die Uhr
-
-Die Implementierung befindet sich in der Datei `src/pages/landing/sections/Pricing.tsx`.
-
-## Mobile Optimierung
-
-Die mobile Benutzeroberfläche wurde erheblich verbessert:
-
-1. **Responsive Design**: Alle Komponenten passen sich automatisch an verschiedene Bildschirmgrößen an.
-
-2. **Mobile-First-Ansatz**: Das Design wurde mit einem Mobile-First-Ansatz entwickelt, um eine optimale Darstellung auf Smartphones zu gewährleisten.
-
-3. **Touch-Optimierung**: Interaktive Elemente wurden für Touch-Eingaben optimiert, mit ausreichend großen Zielbereichen.
-
-4. **Performance**: Die Ladezeiten wurden für mobile Geräte optimiert, um eine schnelle Benutzererfahrung zu gewährleisten.
-
-Die mobile Optimierung wurde durch CSS-Media-Queries in den Dateien `src/pages/landing/landing.css` und `src/pages/landing/mobile.css` implementiert.
-
-## SEO-Optimierungen
-
-Für eine bessere Sichtbarkeit in Suchmaschinen wurden folgende SEO-Optimierungen implementiert:
-
-1. **Meta-Tags**: Hinzufügung von relevanten Meta-Tags für Titel, Beschreibung und Keywords.
-
-2. **Strukturierte Daten**: Implementierung von strukturierten Daten für eine bessere Darstellung in Suchergebnissen.
-
-3. **Sitemap**: Erstellung einer Sitemap für Suchmaschinen-Crawler.
-
-4. **robots.txt**: Konfiguration einer robots.txt-Datei für die Steuerung des Crawler-Verhaltens.
-
-5. **Semantisches HTML**: Verwendung von semantischem HTML für eine bessere Zugänglichkeit und SEO.
-
-Die SEO-Optimierungen wurden in der `index.html`-Datei und durch die Komponenten in `src/components/SEO.tsx` und `src/components/ImageWithSEO.tsx` implementiert.
-
-## Bekannte Probleme und Lösungen
-
-### Problem: Vercel-Deployment zeigt leere Seite
-
-**Symptom**: Nach dem Deployment auf Vercel wird eine leere Seite angezeigt.
-
-**Lösung**: 
-1. Stellen Sie sicher, dass die Vercel-Konfiguration korrekt ist:
-   - Überprüfen Sie die `vercel.json`-Datei
-   - Stellen Sie sicher, dass der Build-Befehl korrekt ist
-   - Überprüfen Sie die Umgebungsvariablen
-
-2. Wenn das Problem weiterhin besteht, versuchen Sie:
-   - Löschen Sie den `.next`-Ordner und führen Sie einen neuen Build durch
-   - Überprüfen Sie die Vercel-Logs auf spezifische Fehler
-   - Stellen Sie sicher, dass alle erforderlichen Abhängigkeiten installiert sind
-
-### Problem: Entwicklermodus wird nicht aktiviert
-
-**Symptom**: Der Entwicklermodus wird nicht aktiviert, wenn der Toggle-Button geklickt wird.
-
-**Lösung**:
-1. Überprüfen Sie die Browser-Konsole auf Fehler
-2. Stellen Sie sicher, dass `localStorage` verfügbar ist und funktioniert
-3. Versuchen Sie, den Entwicklermodus manuell zu aktivieren:
-   ```javascript
-   localStorage.setItem('devMode', 'true');
-   window.location.reload();
-   ```
-
-### Problem: Login funktioniert nicht
-
-**Symptom**: Die Anmeldung funktioniert nicht, obwohl gültige Anmeldedaten eingegeben wurden.
-
-**Lösung**:
-1. Überprüfen Sie die Browser-Konsole auf Fehler
-2. Stellen Sie sicher, dass `localStorage` verfügbar ist und funktioniert
-3. Versuchen Sie, sich manuell anzumelden:
-   ```javascript
-   localStorage.setItem('authenticated', 'true');
-   window.location.href = '/';
-   ```
+Für detaillierte Anweisungen zur Anpassung der App mit WeWeb, lesen Sie bitte die separate Anleitung "NO_CODE_ANLEITUNG.md", die alle Schritte ausführlich erklärt.
 
 ---
 
-Diese Dokumentation wird regelmäßig aktualisiert, um neue Funktionen und Verbesserungen zu berücksichtigen. Letzte Aktualisierung: März 2025.
+Diese Dokumentation bietet einen umfassenden Überblick über die neuen Funktionen der LemonVows Hochzeitsplanungs-App. Für spezifische Fragen oder weitere Unterstützung wenden Sie sich bitte an den Support.

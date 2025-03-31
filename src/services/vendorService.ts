@@ -1,5 +1,21 @@
-import { supabase } from "@/lib/supabase";
-import { Vendor, VendorFormData } from "@/types/vendor";
+import { supabase } from "../lib/supabase";
+import { Vendor, VendorFormData } from "../types/vendor";
+
+// Create a new vendor
+export const createVendor = async (data: VendorFormData): Promise<Vendor> => {
+  try {
+    const { data: newVendor, error } = await supabase
+      .from("vendors")
+      .insert(data)
+      .select()
+      .single();
+    if (error) throw error;
+    return newVendor;
+  } catch (error) {
+    console.error("Error creating vendor:", error);
+    throw error;
+  }
+};
 
 // Get all vendors
 export const getVendors = async (): Promise<Vendor[]> => {
@@ -8,7 +24,6 @@ export const getVendors = async (): Promise<Vendor[]> => {
       .from("vendors")
       .select("*")
       .order("name");
-
     if (error) throw error;
     return data || [];
   } catch (error) {
@@ -25,7 +40,6 @@ export const getVendorById = async (id: string): Promise<Vendor> => {
       .select("*")
       .eq("id", id)
       .single();
-
     if (error) throw error;
     return data;
   } catch (error) {
@@ -34,69 +48,30 @@ export const getVendorById = async (id: string): Promise<Vendor> => {
   }
 };
 
-// Create a new vendor
-export const createVendor = async (
-  vendorData: VendorFormData,
-): Promise<Vendor> => {
-  try {
-    const { data, error } = await supabase
-      .from("vendors")
-      .insert([vendorData])
-      .select()
-      .single();
-
-    if (error) throw error;
-    return data;
-  } catch (error) {
-    console.error("Error creating vendor:", error);
-    throw error;
-  }
-};
-
-// Update a vendor
+// Update vendor
 export const updateVendor = async (
   id: string,
-  vendorData: Partial<VendorFormData>,
+  data: Partial<VendorFormData>
 ): Promise<Vendor> => {
   try {
-    const { data, error } = await supabase
+    const { data: updatedVendor, error } = await supabase
       .from("vendors")
-      .update({
-        ...vendorData,
-        updated_at: new Date().toISOString(),
-      })
+      .update(data)
       .eq("id", id)
       .select()
       .single();
-
     if (error) throw error;
-    return data;
+    return updatedVendor;
   } catch (error) {
     console.error("Error updating vendor:", error);
     throw error;
   }
 };
 
-// Delete a vendor
+// Delete vendor
 export const deleteVendor = async (id: string): Promise<boolean> => {
   try {
-    // First check if vendor is used in any expenses
-    const { data: expenses, error: expensesError } = await supabase
-      .from("expenses")
-      .select("id")
-      .eq("vendor_id", id);
-
-    if (expensesError) throw expensesError;
-
-    // If vendor is used in expenses, don't delete but set status to inactive
-    if (expenses && expenses.length > 0) {
-      await updateVendor(id, { status: "inactive" });
-      return true;
-    }
-
-    // If not used in expenses, delete the vendor
     const { error } = await supabase.from("vendors").delete().eq("id", id);
-
     if (error) throw error;
     return true;
   } catch (error) {
@@ -107,7 +82,7 @@ export const deleteVendor = async (id: string): Promise<boolean> => {
 
 // Get vendors by category
 export const getVendorsByCategory = async (
-  category: string,
+  category: string
 ): Promise<Vendor[]> => {
   try {
     const { data, error } = await supabase
@@ -115,7 +90,6 @@ export const getVendorsByCategory = async (
       .select("*")
       .eq("category", category)
       .order("name");
-
     if (error) throw error;
     return data || [];
   } catch (error) {
@@ -127,14 +101,13 @@ export const getVendorsByCategory = async (
 // Link vendor to expense
 export const linkVendorToExpense = async (
   expenseId: string,
-  vendorId: string,
+  vendorId: string
 ): Promise<boolean> => {
   try {
     const { error } = await supabase
       .from("expenses")
       .update({ vendor_id: vendorId })
       .eq("id", expenseId);
-
     if (error) throw error;
     return true;
   } catch (error) {
@@ -151,7 +124,6 @@ export const getExpensesByVendor = async (vendorId: string): Promise<any[]> => {
       .select("*")
       .eq("vendor_id", vendorId)
       .order("date", { ascending: false });
-
     if (error) throw error;
     return data || [];
   } catch (error) {
@@ -168,35 +140,27 @@ export const getVendorsWithExpenseSummaries = async (): Promise<any[]> => {
       .from("vendors")
       .select("*")
       .order("name");
-
     if (vendorsError) throw vendorsError;
-
     // Then get all expenses
     const { data: expenses, error: expensesError } = await supabase
       .from("expenses")
       .select("*")
       .not("vendor_id", "is", null);
-
     if (expensesError) throw expensesError;
-
     // Calculate expense summaries for each vendor
     const vendorsWithSummaries = vendors.map((vendor) => {
       const vendorExpenses = expenses.filter(
-        (expense) => expense.vendor_id === vendor.id,
+        (expense) => expense.vendor_id === vendor.id
       );
-
       const totalExpenses = vendorExpenses
         .filter((expense) => expense.status !== "cancelled")
         .reduce((sum, expense) => sum + expense.amount, 0);
-
       const paidExpenses = vendorExpenses
         .filter((expense) => expense.status === "paid")
         .reduce((sum, expense) => sum + expense.amount, 0);
-
       const pendingExpenses = vendorExpenses
         .filter((expense) => expense.status === "pending")
         .reduce((sum, expense) => sum + expense.amount, 0);
-
       return {
         ...vendor,
         total_expenses: totalExpenses,
@@ -204,7 +168,6 @@ export const getVendorsWithExpenseSummaries = async (): Promise<any[]> => {
         pending_expenses: pendingExpenses,
       };
     });
-
     return vendorsWithSummaries;
   } catch (error) {
     console.error("Error fetching vendors with expense summaries:", error);
@@ -214,17 +177,16 @@ export const getVendorsWithExpenseSummaries = async (): Promise<any[]> => {
 
 // Get expense summary by vendor
 export const getVendorExpenseSummary = async (
-  vendorId: string,
+  vendorId: string
 ): Promise<any> => {
   try {
-    const { data, error } = await supabase
-      .from("expenses")
-      .select("status, sum(amount)")
-      .eq("vendor_id", vendorId)
-      .group("status");
-
+    // Using raw SQL query instead of .group() which is causing TypeScript errors
+    const { data, error } = await supabase.rpc('get_vendor_expense_summary', {
+      vendor_id_param: vendorId
+    });
+    
     if (error) throw error;
-
+    
     // Format the summary data
     const summary = {
       total: 0,
@@ -232,15 +194,17 @@ export const getVendorExpenseSummary = async (
       pending: 0,
       cancelled: 0,
     };
-
-    data.forEach((item) => {
-      const amount = parseFloat(item.sum);
-      summary[item.status] = amount;
-      if (item.status !== "cancelled") {
-        summary.total += amount;
-      }
-    });
-
+    
+    if (data && Array.isArray(data)) {
+      data.forEach((item) => {
+        const amount = parseFloat(item.sum);
+        summary[item.status] = amount;
+        if (item.status !== "cancelled") {
+          summary.total += amount;
+        }
+      });
+    }
+    
     return summary;
   } catch (error) {
     console.error("Error fetching vendor expense summary:", error);
@@ -250,7 +214,7 @@ export const getVendorExpenseSummary = async (
 
 // Export vendor expense report
 export const exportVendorExpenseReport = async (
-  vendorId: string,
+  vendorId: string
 ): Promise<{ filename: string; content: string }> => {
   try {
     // Get vendor details
@@ -259,12 +223,9 @@ export const exportVendorExpenseReport = async (
       .select("name")
       .eq("id", vendorId)
       .single();
-
     if (vendorError) throw vendorError;
-
     // Get expenses
     const expenses = await getExpensesByVendor(vendorId);
-
     // Create CSV content
     const headers = [
       "Date",
@@ -274,7 +235,6 @@ export const exportVendorExpenseReport = async (
       "Status",
       "Notes",
     ];
-
     const csvContent = [
       headers.join(","),
       ...expenses.map((expense) =>
@@ -285,12 +245,10 @@ export const exportVendorExpenseReport = async (
           expense.amount,
           expense.status,
           expense.notes ? `"${expense.notes.replace(/"/g, '""')}"` : "",
-        ].join(","),
+        ].join(",")
       ),
     ].join("\n");
-
     const filename = `${vendor.name.replace(/\s+/g, "_")}_expenses_${new Date().toISOString().split("T")[0]}.csv`;
-
     return {
       filename,
       content: csvContent,

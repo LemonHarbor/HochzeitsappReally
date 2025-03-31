@@ -7,15 +7,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { CheckCircle, ShieldCheck, FileCheck, Award } from "lucide-react";
-import { VerificationType } from "@/types/review";
+import { VerificationBadgeProps } from "./VerificationBadgeProps";
 import { cn } from "@/lib/utils";
 
-interface VerificationBadgeProps {
-  type?: VerificationType;
-  size?: "sm" | "md" | "lg";
-  showLabel?: boolean;
-  className?: string;
-}
+// Using the imported VerificationBadgeProps interface
 
 const VerificationBadge: React.FC<VerificationBadgeProps> = ({
   type = "admin",
@@ -33,6 +28,7 @@ const VerificationBadge: React.FC<VerificationBadgeProps> = ({
     };
 
     switch (type) {
+      case "receipt":
       case "purchase":
         return <CheckCircle {...iconProps} />;
       case "booking":
@@ -49,6 +45,7 @@ const VerificationBadge: React.FC<VerificationBadgeProps> = ({
   // Get label based on verification type
   const getLabel = () => {
     switch (type) {
+      case "receipt":
       case "purchase":
         return "Verified Purchase";
       case "booking":
@@ -57,6 +54,10 @@ const VerificationBadge: React.FC<VerificationBadgeProps> = ({
         return "Verified Contract";
       case "admin":
         return "Verified by Admin";
+      case "photo":
+        return "Verified Photo";
+      case "other":
+        return "Verified";
       default:
         return "Verified";
     }
@@ -65,6 +66,7 @@ const VerificationBadge: React.FC<VerificationBadgeProps> = ({
   // Get tooltip text based on verification type
   const getTooltipText = () => {
     switch (type) {
+      case "receipt":
       case "purchase":
         return "This review is from a verified purchase";
       case "booking":
@@ -73,6 +75,10 @@ const VerificationBadge: React.FC<VerificationBadgeProps> = ({
         return "This reviewer has a contract with this vendor";
       case "admin":
         return "This review has been verified by an administrator";
+      case "photo":
+        return "This review includes verified photos";
+      case "other":
+        return "This review has been verified";
       default:
         return "This review has been verified";
     }
@@ -103,5 +109,6 @@ const VerificationBadge: React.FC<VerificationBadgeProps> = ({
   );
 };
 
-export { VerificationBadge, type VerificationType };
+export { VerificationBadge };
+export type { VerificationBadgeProps };
 export default VerificationBadge;
