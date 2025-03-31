@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
-import { DeveloperProvider } from "./lib/developer";
 import { LanguageProvider } from "./lib/language";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { LoginPage } from "./pages/login";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { LoginPage } from "./pages/auth/LoginPage";
 import LandingPage from "./pages/landing/LandingPage";
+import DashboardPage from "./pages/DashboardPage";
+import JGADashboard from "./pages/jga/JGADashboard";
+import WeddingHomepageDashboard from "./pages/wedding-homepage/WeddingHomepageDashboard";
+import TestingDashboard from "./pages/testing/TestingDashboard";
+import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 
 // Fix for click interaction issues
 const ClickInteractionFix = () => {
@@ -21,12 +25,6 @@ const ClickInteractionFix = () => {
       // Ensure body and html have proper event handling
       document.body.style.pointerEvents = 'auto';
       document.documentElement.style.pointerEvents = 'auto';
-      
-      // Add click debugging
-      document.addEventListener('click', (e) => {
-        console.log('Click detected at:', e.clientX, e.clientY);
-        console.log('Target:', e.target);
-      }, true);
     };
     
     // Run immediately and then periodically to catch dynamically added elements
@@ -40,40 +38,44 @@ const ClickInteractionFix = () => {
 };
 
 function App() {
-  // Check if user is authenticated
-  const isAuthenticated = localStorage.getItem("authenticated") === "true";
-  
   return (
-    <Router>
-      <LanguageProvider>
-        <DeveloperProvider>
-          <ClickInteractionFix />
-          <Routes>
-            <Route path="/landing" element={<LandingPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/" element={
-              isAuthenticated ? (
-                <div className="p-8">
-                  <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-                  <p>Welcome to Lemon Vows! This is your dashboard.</p>
-                  <button 
-                    className="mt-4 px-4 py-2 bg-primary text-white rounded"
-                    onClick={() => {
-                      localStorage.removeItem("authenticated");
-                      window.location.href = "/landing";
-                    }}
-                  >
-                    Logout
-                  </button>
-                </div>
-              ) : (
-                <Navigate to="/landing" replace />
-              )
-            } />
-          </Routes>
-        </DeveloperProvider>
-      </LanguageProvider>
-    </Router>
+    <LanguageProvider>
+      <ClickInteractionFix />
+      <Routes>
+        <Route path="/landing" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<LoginPage register />} />
+        
+        {/* Protected routes */}
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/jga/*" element={
+          <ProtectedRoute>
+            <JGADashboard />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/wedding-homepage/*" element={
+          <ProtectedRoute>
+            <WeddingHomepageDashboard />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/testing/*" element={
+          <ProtectedRoute>
+            <TestingDashboard />
+          </ProtectedRoute>
+        } />
+        
+        {/* Default routes */}
+        <Route path="/" element={<Navigate to="/landing" replace />} />
+        <Route path="*" element={<Navigate to="/landing" replace />} />
+      </Routes>
+    </LanguageProvider>
   );
 }
 

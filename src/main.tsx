@@ -1,9 +1,10 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
-import App from './App.tsx'
-import './index.css'
-import { DeveloperProvider } from './lib/developer.tsx'
+import React from 'react';
+import { AuthProvider } from './contexts/AuthContext';
+import { LanguageProvider } from './lib/language';
+import { BrowserRouter } from 'react-router-dom';
+import { DeveloperProvider } from './lib/developer';
+import App from './App';
+import './index.css';
 
 // Add global click handler to help debug click issues
 document.addEventListener('click', (e) => {
@@ -26,12 +27,21 @@ const makeElementsClickable = () => {
 window.addEventListener('load', makeElementsClickable);
 setInterval(makeElementsClickable, 2000);
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+import { createRoot } from 'react-dom/client';
+
+const container = document.getElementById('root');
+const root = createRoot(container!);
+
+root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <DeveloperProvider>
-        <App />
-      </DeveloperProvider>
+      <AuthProvider>
+        <LanguageProvider>
+          <DeveloperProvider>
+            <App />
+          </DeveloperProvider>
+        </LanguageProvider>
+      </AuthProvider>
     </BrowserRouter>
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);
