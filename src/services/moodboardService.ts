@@ -1,287 +1,159 @@
-import { supabase } from "../lib/supabase";
-import { MoodBoard, MoodBoardItem, MoodBoardShare } from "../types/moodboard";
+import { supabase } from '@/lib/supabaseClient';
+import { MoodBoard, MoodBoardItem, MoodBoardFormData } from '@/types/moodboard';
 
-// Get all mood boards for a user
-export async function getMoodBoards(userId: string): Promise<MoodBoard[]> {
-  try {
-    // Get boards created by the user
-    const { data: ownedBoards, error: ownedError } = await supabase
-      .from("mood_boards")
-      .select("*")
-      .eq("created_by", userId)
-      .order("created_at", { ascending: false });
+/**
+ * Get all mood boards for the current user
+ */
+export const getMoodBoards = async (): Promise<MoodBoard[]> => {
+  const { data, error } = await supabase
+    .from('moodboards')
+    .select('*')
+    .order('created_at', { ascending: false });
 
-    if (ownedError) throw ownedError;
-
-    // Get boards shared with the user
-    const { data: sharedBoards, error: sharedError } = await supabase
-      .from("mood_board_shares")
-      .select("mood_boards(*)")
-      .eq("shared_with_id", userId);
-
-    if (sharedError) throw sharedError;
-
-    // Combine and format the results
-    const sharedBoardsData = sharedBoards
-      ? sharedBoards.map((share) => share.mood_boards).filter(Boolean)
-      : [];
-
-    return [...(ownedBoards || []), ...sharedBoardsData] as MoodBoard[];
-  } catch (error) {
-    console.error("Error fetching mood boards:", error);
-    throw error;
+  if (error) {
+    console.error('Error fetching mood boards:', error);
+    throw new Error('Failed to fetch mood boards');
   }
-}
 
-// Get a single mood board by ID
-export async function getMoodBoard(boardId: string): Promise<MoodBoard> {
-  try {
-    const { data, error } = await supabase
-      .from("mood_boards")
-      .select("*")
-      .eq("id", boardId)
-      .single();
+  return data || [];
+};
 
-    if (error) throw error;
-    return data as MoodBoard;
-  } catch (error) {
-    console.error("Error fetching mood board:", error);
-    throw error;
+/**
+ * Get a specific mood board by ID
+ */
+export const getMoodBoard = async (boardId: string): Promise<MoodBoard> => {
+  const { data, error } = await supabase
+    .from('moodboards')
+    .select('*')
+    .eq('id', boardId)
+    .single();
+
+  if (error) {
+    console.error('Error fetching mood board:', error);
+    throw new Error('Failed to fetch mood board');
   }
-}
 
-// Create a new mood board
-export async function createMoodBoard(
-  board: Omit<MoodBoard, "id" | "created_at" | "updated_at">
-): Promise<MoodBoard> {
-  try {
-    const newBoard = {
-      ...board,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
+  return data;
+};
 
-    const { data, error } = await supabase
-      .from("mood_boards")
-      .insert([newBoard])
-      .select()
-      .single();
+/**
+ * Create a new mood board
+ */
+export const createMoodBoard = async (boardData: MoodBoardFormData): Promise<MoodBoard> => {
+  const { data, error } = await supabase
+    .from('moodboards')
+    .insert(boardData)
+    .select()
+    .single();
 
-    if (error) throw error;
-    return data as MoodBoard;
-  } catch (error) {
-    console.error("Error creating mood board:", error);
-    throw error;
+  if (error) {
+    console.error('Error creating mood board:', error);
+    throw new Error('Failed to create mood board');
   }
-}
 
-// Update a mood board
-export async function updateMoodBoard(
-  boardId: string,
-  updates: Partial<MoodBoard>
-): Promise<MoodBoard> {
-  try {
-    const { data, error } = await supabase
-      .from("mood_boards")
-      .update({
-        ...updates,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", boardId)
-      .select()
-      .single();
+  return data;
+};
 
-    if (error) throw error;
-    return data as MoodBoard;
-  } catch (error) {
-    console.error("Error updating mood board:", error);
-    throw error;
+/**
+ * Update a mood board
+ */
+export const updateMoodBoard = async (boardId: string, boardData: Partial<MoodBoardFormData>): Promise<MoodBoard> => {
+  const { data, error } = await supabase
+    .from('moodboards')
+    .update(boardData)
+    .eq('id', boardId)
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error updating mood board:', error);
+    throw new Error('Failed to update mood board');
   }
-}
 
-// Delete a mood board
-export async function deleteMoodBoard(boardId: string): Promise<void> {
-  try {
-    const { error } = await supabase
-      .from("mood_boards")
-      .delete()
-      .eq("id", boardId);
+  return data;
+};
 
-    if (error) throw error;
-  } catch (error) {
-    console.error("Error deleting mood board:", error);
-    throw error;
+/**
+ * Delete a mood board
+ */
+export const deleteMoodBoard = async (boardId: string): Promise<void> => {
+  const { error } = await supabase
+    .from('moodboards')
+    .delete()
+    .eq('id', boardId);
+
+  if (error) {
+    console.error('Error deleting mood board:', error);
+    throw new Error('Failed to delete mood board');
   }
-}
+};
 
-// Get all items for a mood board
-export async function getMoodBoardItems(
-  boardId: string
-): Promise<MoodBoardItem[]> {
-  try {
-    const { data, error } = await supabase
-      .from("mood_board_items")
-      .select("*")
-      .eq("board_id", boardId)
-      .order("created_at", { ascending: false });
+/**
+ * Get all items for a specific mood board
+ */
+export const getMoodBoardItems = async (boardId: string): Promise<MoodBoardItem[]> => {
+  const { data, error } = await supabase
+    .from('moodboard_items')
+    .select('*')
+    .eq('board_id', boardId)
+    .order('created_at', { ascending: true });
 
-    if (error) throw error;
-    return data as MoodBoardItem[];
-  } catch (error) {
-    console.error("Error fetching mood board items:", error);
-    throw error;
+  if (error) {
+    console.error('Error fetching mood board items:', error);
+    throw new Error('Failed to fetch mood board items');
   }
-}
 
-// Add an item to a mood board
-export async function addMoodBoardItem(
-  item: Omit<MoodBoardItem, "id" | "created_at" | "updated_at">
-): Promise<MoodBoardItem> {
-  try {
-    const newItem = {
-      ...item,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
+  return data || [];
+};
 
-    const { data, error } = await supabase
-      .from("mood_board_items")
-      .insert([newItem])
-      .select()
-      .single();
+/**
+ * Add an item to a mood board
+ */
+export const addMoodBoardItem = async (item: Omit<MoodBoardItem, 'id' | 'created_at' | 'updated_at'>): Promise<MoodBoardItem> => {
+  const { data, error } = await supabase
+    .from('moodboard_items')
+    .insert(item)
+    .select()
+    .single();
 
-    if (error) throw error;
-    return data as MoodBoardItem;
-  } catch (error) {
-    console.error("Error adding mood board item:", error);
-    throw error;
+  if (error) {
+    console.error('Error adding mood board item:', error);
+    throw new Error('Failed to add mood board item');
   }
-}
 
-// Update a mood board item
-export async function updateMoodBoardItem(
-  itemId: string,
-  updates: Partial<MoodBoardItem>
-): Promise<MoodBoardItem> {
-  try {
-    const { data, error } = await supabase
-      .from("mood_board_items")
-      .update({
-        ...updates,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", itemId)
-      .select()
-      .single();
+  return data;
+};
 
-    if (error) throw error;
-    return data as MoodBoardItem;
-  } catch (error) {
-    console.error("Error updating mood board item:", error);
-    throw error;
+/**
+ * Update a mood board item
+ */
+export const updateMoodBoardItem = async (itemId: string, itemData: Partial<MoodBoardItem>): Promise<MoodBoardItem> => {
+  const { data, error } = await supabase
+    .from('moodboard_items')
+    .update(itemData)
+    .eq('id', itemId)
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error updating mood board item:', error);
+    throw new Error('Failed to update mood board item');
   }
-}
 
-// Delete a mood board item
-export async function deleteMoodBoardItem(itemId: string): Promise<void> {
-  try {
-    const { error } = await supabase
-      .from("mood_board_items")
-      .delete()
-      .eq("id", itemId);
+  return data;
+};
 
-    if (error) throw error;
-  } catch (error) {
-    console.error("Error deleting mood board item:", error);
-    throw error;
+/**
+ * Delete a mood board item
+ */
+export const deleteMoodBoardItem = async (itemId: string): Promise<void> => {
+  const { error } = await supabase
+    .from('moodboard_items')
+    .delete()
+    .eq('id', itemId);
+
+  if (error) {
+    console.error('Error deleting mood board item:', error);
+    throw new Error('Failed to delete mood board item');
   }
-}
-
-// Share a mood board with another user
-export async function shareMoodBoard(
-  boardId: string,
-  sharedBy: string,
-  sharedWithId: string,
-  permission: "view" | "edit" | "admin"
-): Promise<MoodBoardShare> {
-  try {
-    const shareData = {
-      board_id: boardId,
-      shared_by: sharedBy,
-      shared_with_id: sharedWithId,
-      permission,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
-
-    const { data, error } = await supabase
-      .from("mood_board_shares")
-      .insert([shareData])
-      .select()
-      .single();
-
-    if (error) throw error;
-    return data as MoodBoardShare;
-  } catch (error) {
-    console.error("Error sharing mood board:", error);
-    throw error;
-  }
-}
-
-// Remove a share from a mood board
-export async function removeMoodBoardShare(shareId: string): Promise<void> {
-  try {
-    const { error } = await supabase
-      .from("mood_board_shares")
-      .delete()
-      .eq("id", shareId);
-
-    if (error) throw error;
-  } catch (error) {
-    console.error("Error removing mood board share:", error);
-    throw error;
-  }
-}
-
-// Generate a shareable link for a mood board
-export async function generateShareableLink(boardId: string): Promise<string> {
-  // In a real app, this might generate a special token or use a URL shortener
-  return `${window.location.origin}/mood-board/${boardId}`;
-}
-
-// Upload an image for a mood board
-export async function uploadMoodBoardImage(file: File): Promise<string> {
-  try {
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
-    const filePath = `mood-board-images/${fileName}`;
-    
-    const { error: uploadError } = await supabase.storage
-      .from('images')
-      .upload(filePath, file);
-      
-    if (uploadError) throw uploadError;
-    
-    const { data } = supabase.storage.from('images').getPublicUrl(filePath);
-    return data.publicUrl;
-  } catch (error) {
-    console.error("Error uploading image:", error);
-    throw error;
-  }
-}
-
-export default {
-  getMoodBoards,
-  getMoodBoard,
-  createMoodBoard,
-  updateMoodBoard,
-  deleteMoodBoard,
-  getMoodBoardItems,
-  addMoodBoardItem,
-  updateMoodBoardItem,
-  deleteMoodBoardItem,
-  shareMoodBoard,
-  removeMoodBoardShare,
-  generateShareableLink,
-  uploadMoodBoardImage,
 };

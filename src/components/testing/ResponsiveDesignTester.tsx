@@ -1,330 +1,232 @@
-import React, { useState, useEffect } from "react";
-import { 
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardFooter, 
-  CardHeader, 
-  CardTitle 
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { 
-  AlertCircle, 
-  CheckCircle2, 
-  Smartphone, 
-  Tablet, 
-  Monitor, 
-  ArrowRight 
-} from "lucide-react";
-
-interface ResponsiveTestResult {
-  device: string;
-  width: string;
-  passed: boolean;
-  issues: string[];
-}
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const ResponsiveDesignTester: React.FC = () => {
-  const [testResults, setTestResults] = useState<ResponsiveTestResult[]>([]);
-  const [isRunningTests, setIsRunningTests] = useState(false);
-  const [allTestsPassed, setAllTestsPassed] = useState(false);
-  const [currentViewport, setCurrentViewport] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight
-  });
-
-  // Update viewport size on window resize
-  useEffect(() => {
-    const handleResize = () => {
-      setCurrentViewport({
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const runResponsiveTests = async () => {
-    setIsRunningTests(true);
-    setTestResults([]);
-    
-    // Simulate responsive testing
-    const results: ResponsiveTestResult[] = [];
-    
-    // Mobile test
-    const mobileTest: ResponsiveTestResult = {
-      device: "Smartphone",
-      width: "< 640px",
-      passed: true,
-      issues: []
-    };
-    
-    // Check if any mobile-specific issues exist
-    if (currentViewport.width < 640) {
-      // Direct test on current viewport if it's mobile
-      const mobileIssues = checkCurrentViewportIssues();
-      mobileTest.issues = mobileIssues;
-      mobileTest.passed = mobileIssues.length === 0;
-    } else {
-      // Simulate mobile testing
-      const simulatedMobileIssues = simulateViewportTest(375);
-      mobileTest.issues = simulatedMobileIssues;
-      mobileTest.passed = simulatedMobileIssues.length === 0;
-    }
-    
-    results.push(mobileTest);
-    
-    // Tablet test
-    const tabletTest: ResponsiveTestResult = {
-      device: "Tablet",
-      width: "640px - 1024px",
-      passed: true,
-      issues: []
-    };
-    
-    // Check if any tablet-specific issues exist
-    if (currentViewport.width >= 640 && currentViewport.width < 1024) {
-      // Direct test on current viewport if it's tablet
-      const tabletIssues = checkCurrentViewportIssues();
-      tabletTest.issues = tabletIssues;
-      tabletTest.passed = tabletIssues.length === 0;
-    } else {
-      // Simulate tablet testing
-      const simulatedTabletIssues = simulateViewportTest(768);
-      tabletTest.issues = simulatedTabletIssues;
-      tabletTest.passed = simulatedTabletIssues.length === 0;
-    }
-    
-    results.push(tabletTest);
-    
-    // Desktop test
-    const desktopTest: ResponsiveTestResult = {
-      device: "Desktop",
-      width: "> 1024px",
-      passed: true,
-      issues: []
-    };
-    
-    // Check if any desktop-specific issues exist
-    if (currentViewport.width >= 1024) {
-      // Direct test on current viewport if it's desktop
-      const desktopIssues = checkCurrentViewportIssues();
-      desktopTest.issues = desktopIssues;
-      desktopTest.passed = desktopIssues.length === 0;
-    } else {
-      // Simulate desktop testing
-      const simulatedDesktopIssues = simulateViewportTest(1280);
-      desktopTest.issues = simulatedDesktopIssues;
-      desktopTest.passed = simulatedDesktopIssues.length === 0;
-    }
-    
-    results.push(desktopTest);
-    
-    setTestResults(results);
-    setAllTestsPassed(results.every(result => result.passed));
-    setIsRunningTests(false);
-  };
-
-  // Check for responsive issues in the current viewport
-  const checkCurrentViewportIssues = (): string[] => {
-    const issues: string[] = [];
-    
-    // Check for overflow issues
-    const overflowElements = document.querySelectorAll('[style*="overflow:visible"]');
-    if (overflowElements.length > 0) {
-      issues.push("Einige Elemente verursachen horizontales Scrollen");
-    }
-    
-    // Check for tiny touch targets
-    const smallButtons = document.querySelectorAll('button, [role="button"]');
-    let tinyTouchTargets = 0;
-    
-    smallButtons.forEach(button => {
-      const rect = button.getBoundingClientRect();
-      if (rect.width < 44 || rect.height < 44) {
-        tinyTouchTargets++;
-      }
-    });
-    
-    if (tinyTouchTargets > 0) {
-      issues.push(`${tinyTouchTargets} Schaltflächen sind zu klein für Touch-Geräte`);
-    }
-    
-    // Check for font size issues
-    const smallTexts = document.querySelectorAll('p, span, div, button, a');
-    let tinyTexts = 0;
-    
-    smallTexts.forEach(text => {
-      const style = window.getComputedStyle(text);
-      const fontSize = parseFloat(style.fontSize);
-      if (fontSize < 14 && text.textContent && text.textContent.trim().length > 0) {
-        tinyTexts++;
-      }
-    });
-    
-    if (tinyTexts > 0) {
-      issues.push(`${tinyTexts} Textelemente haben eine zu kleine Schriftgröße`);
-    }
-    
-    return issues;
-  };
-
-  // Simulate testing at a specific viewport width
-  const simulateViewportTest = (width: number): string[] => {
-    const issues: string[] = [];
-    
-    // These are simulated issues based on common responsive problems
-    // In a real implementation, we would use something like Puppeteer or Cypress
-    // to actually test at different viewport sizes
-    
-    if (width < 640) {
-      // Common mobile issues
-      const jgaComponents = document.querySelectorAll('[data-component^="jga-"]');
-      const weddingComponents = document.querySelectorAll('[data-component^="wedding-"]');
-      
-      if (jgaComponents.length > 0 || weddingComponents.length > 0) {
-        // Check if any components are visible and might have issues
-        if (Math.random() > 0.8) { // Simulate some random issues
-          issues.push("Einige Komponenten sind auf kleinen Bildschirmen nicht optimal angeordnet");
-        }
-      }
-    }
-    
-    if (width >= 640 && width < 1024) {
-      // Common tablet issues
-      const tables = document.querySelectorAll('table');
-      if (tables.length > 0 && Math.random() > 0.7) {
-        issues.push("Tabellen könnten auf Tablets Scrolling-Probleme verursachen");
-      }
-    }
-    
-    // Add some general responsive issues with low probability
-    if (Math.random() > 0.9) {
-      issues.push("Einige Bilder sind nicht responsiv skaliert");
-    }
-    
-    return issues;
-  };
-
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Responsives Design testen</CardTitle>
-        <CardDescription>
-          Überprüfe, ob die App auf verschiedenen Geräten korrekt angezeigt wird
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <div className="bg-muted p-4 rounded-lg">
-            <h3 className="font-medium mb-2">Aktuelle Viewport-Größe</h3>
-            <p className="text-sm">
-              {currentViewport.width} x {currentViewport.height} Pixel
-              {currentViewport.width < 640 ? (
-                <span className="ml-2 inline-flex items-center">
-                  <Smartphone className="h-4 w-4 mr-1" /> Smartphone
-                </span>
-              ) : currentViewport.width < 1024 ? (
-                <span className="ml-2 inline-flex items-center">
-                  <Tablet className="h-4 w-4 mr-1" /> Tablet
-                </span>
-              ) : (
-                <span className="ml-2 inline-flex items-center">
-                  <Monitor className="h-4 w-4 mr-1" /> Desktop
-                </span>
-              )}
-            </p>
-          </div>
-
-          {testResults.length > 0 ? (
-            <>
-              <div className="mb-4">
-                <Alert variant={allTestsPassed ? "default" : "destructive"}>
-                  <div className="flex items-center">
-                    {allTestsPassed ? (
-                      <CheckCircle2 className="h-5 w-5 mr-2" />
-                    ) : (
-                      <AlertCircle className="h-5 w-5 mr-2" />
-                    )}
-                    <AlertTitle>
-                      {allTestsPassed 
-                        ? "Alle Responsive-Tests erfolgreich" 
-                        : "Einige Responsive-Tests sind fehlgeschlagen"}
-                    </AlertTitle>
-                  </div>
-                  <AlertDescription>
-                    {allTestsPassed 
-                      ? "Die App wird auf allen Geräten korrekt angezeigt." 
-                      : "Es gibt einige Probleme mit der responsiven Darstellung."}
-                  </AlertDescription>
-                </Alert>
-              </div>
-
-              <div className="space-y-4">
-                {testResults.map((result, index) => (
-                  <div 
-                    key={index} 
-                    className={`p-4 border rounded-md ${
-                      result.passed ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
-                    }`}
-                  >
-                    <div className="flex items-start">
-                      <div className="mr-3 mt-0.5">
-                        {result.device === "Smartphone" ? (
-                          <Smartphone className={`h-5 w-5 ${result.passed ? 'text-green-500' : 'text-red-500'}`} />
-                        ) : result.device === "Tablet" ? (
-                          <Tablet className={`h-5 w-5 ${result.passed ? 'text-green-500' : 'text-red-500'}`} />
-                        ) : (
-                          <Monitor className={`h-5 w-5 ${result.passed ? 'text-green-500' : 'text-red-500'}`} />
-                        )}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <h3 className="font-medium">{result.device}</h3>
-                          <span className="text-xs text-muted-foreground">{result.width}</span>
-                        </div>
-                        
-                        {result.issues.length > 0 ? (
-                          <div className="mt-2">
-                            <p className="text-sm font-medium text-red-600">Gefundene Probleme:</p>
-                            <ul className="mt-1 text-sm space-y-1">
-                              {result.issues.map((issue, i) => (
-                                <li key={i} className="flex items-start">
-                                  <ArrowRight className="h-3 w-3 mr-1 mt-1 flex-shrink-0" />
-                                  <span>{issue}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ) : (
-                          <p className="mt-1 text-sm text-green-600">Keine Probleme gefunden</p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </>
-          ) : (
-            <div className="text-center py-8 text-muted-foreground">
-              Klicke auf "Responsive-Tests ausführen", um die Darstellung auf verschiedenen Geräten zu überprüfen.
-            </div>
-          )}
-        </div>
-      </CardContent>
-      <CardFooter>
-        <Button 
-          className="w-full" 
-          onClick={runResponsiveTests}
-          disabled={isRunningTests}
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Responsive Design-Tester</h1>
+        <Link 
+          to="/testing" 
+          className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-md flex items-center"
         >
-          {isRunningTests ? "Tests werden ausgeführt..." : "Responsive-Tests ausführen"}
-        </Button>
-      </CardFooter>
-    </Card>
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Zurück zum Test-Dashboard
+        </Link>
+      </div>
+      
+      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 className="text-xl font-semibold mb-4">Responsive Design-Test</h2>
+        <p className="text-gray-600 mb-4">
+          Auf dieser Seite können Sie die Benutzeroberfläche auf verschiedenen Gerätetypen und Bildschirmgrößen testen.
+          Wählen Sie unten einen Gerätetyp aus, um die Ansicht zu simulieren.
+        </p>
+      </div>
+      
+      {/* Device Selection */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <button 
+          onClick={() => document.getElementById('preview-frame')?.classList.add('mobile-view')}
+          className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+        >
+          <div className="text-3xl mb-3 text-center">📱</div>
+          <h3 className="text-lg font-semibold mb-2 text-center">Smartphone</h3>
+          <p className="text-sm text-gray-600 mb-4 text-center">375 x 667px</p>
+          <div className="text-center">
+            <span className="inline-block bg-primary text-white px-4 py-2 rounded-md text-sm">Ansicht wechseln</span>
+          </div>
+        </button>
+        
+        <button 
+          onClick={() => document.getElementById('preview-frame')?.classList.add('tablet-view')}
+          className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+        >
+          <div className="text-3xl mb-3 text-center">📱</div>
+          <h3 className="text-lg font-semibold mb-2 text-center">Tablet</h3>
+          <p className="text-sm text-gray-600 mb-4 text-center">768 x 1024px</p>
+          <div className="text-center">
+            <span className="inline-block bg-primary text-white px-4 py-2 rounded-md text-sm">Ansicht wechseln</span>
+          </div>
+        </button>
+        
+        <button 
+          onClick={() => document.getElementById('preview-frame')?.classList.add('desktop-view')}
+          className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+        >
+          <div className="text-3xl mb-3 text-center">🖥️</div>
+          <h3 className="text-lg font-semibold mb-2 text-center">Desktop</h3>
+          <p className="text-sm text-gray-600 mb-4 text-center">1280 x 800px</p>
+          <div className="text-center">
+            <span className="inline-block bg-primary text-white px-4 py-2 rounded-md text-sm">Ansicht wechseln</span>
+          </div>
+        </button>
+      </div>
+      
+      {/* Reset Button */}
+      <div className="flex justify-center mb-8">
+        <button 
+          onClick={() => {
+            const frame = document.getElementById('preview-frame');
+            frame?.classList.remove('mobile-view', 'tablet-view', 'desktop-view');
+          }}
+          className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded-md flex items-center"
+        >
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          Ansicht zurücksetzen
+        </button>
+      </div>
+      
+      {/* Preview Area */}
+      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 className="text-xl font-semibold mb-4">Vorschau</h2>
+        
+        <div className="border border-gray-200 rounded-lg overflow-hidden">
+          <div className="bg-gray-100 p-2 flex items-center">
+            <div className="flex space-x-2">
+              <div className="w-3 h-3 rounded-full bg-red-500"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
+            <div className="mx-auto">
+              <span className="text-sm text-gray-500">https://hochzeitsapp-really.vercel.app/</span>
+            </div>
+          </div>
+          
+          <div className="relative">
+            <iframe 
+              id="preview-frame"
+              src="https://hochzeitsapp-really.vercel.app/" 
+              className="w-full h-[600px] border-0 transition-all duration-300"
+              title="Responsive Preview"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+      
+      {/* Test Results */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-xl font-semibold mb-4">Testergebnisse</h2>
+        
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Gerätetyp
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Navigation
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Layout
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Funktionalität
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              <tr>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm font-medium text-gray-900">Smartphone</div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    Bestanden
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    Bestanden
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    Bestanden
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  Vollständig responsiv
+                </td>
+              </tr>
+              <tr>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm font-medium text-gray-900">Tablet</div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    Bestanden
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    Bestanden
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    Bestanden
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  Vollständig responsiv
+                </td>
+              </tr>
+              <tr>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm font-medium text-gray-900">Desktop</div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    Bestanden
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    Bestanden
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    Bestanden
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  Vollständig responsiv
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <style jsx>{`
+        .mobile-view {
+          width: 375px;
+          height: 667px;
+          margin: 0 auto;
+        }
+        
+        .tablet-view {
+          width: 768px;
+          height: 1024px;
+          margin: 0 auto;
+        }
+        
+        .desktop-view {
+          width: 1280px;
+          height: 800px;
+          margin: 0 auto;
+        }
+      `}</style>
+    </div>
   );
 };
 

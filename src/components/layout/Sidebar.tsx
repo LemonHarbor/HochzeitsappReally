@@ -1,290 +1,290 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
-import { cn } from "@/lib/utils";
-import {
-  Home,
-  Users,
-  TableProperties,
-  Settings,
-  Calendar,
-  Heart,
-  LogOut,
-  DollarSign,
-  ChevronLeft,
-  Menu,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useAuth } from "@/context/AuthContext";
-import { useLanguage } from "@/lib/language";
-import { PermissionGuard } from "@/components/ui/permission-guard";
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
-interface SidebarProps {
-  userName?: string;
-  userRole?: "Couple" | "Best Man" | "Maid of Honor" | "Guest";
-  weddingName?: string;
-  weddingDate?: Date;
-  avatarUrl?: string;
-  collapsed?: boolean;
-  onToggle?: () => void;
-}
+const Sidebar = () => {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
-const Sidebar = ({
-  userName,
-  userRole,
-  weddingName = "Smith-Johnson Wedding",
-  weddingDate = new Date("2024-06-15"),
-  avatarUrl,
-  collapsed = false,
-  onToggle,
-}: SidebarProps) => {
-  // Get user info from auth context
-  const auth = useAuth();
-  const user = auth?.user || null;
-  const logout = auth?.logout || (() => {});
-  const { t } = useLanguage();
-  const [isCollapsed, setIsCollapsed] = useState(collapsed);
-
-  const toggleSidebar = () => {
-    setIsCollapsed(!isCollapsed);
-    if (onToggle) onToggle();
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/login');
+    } catch (error) {
+      console.error('Failed to log out', error);
+    }
   };
 
-  // Use provided values or fall back to auth context values
-  const displayName = userName || (user ? user.name : "Guest");
-  const displayRole =
-    userRole ||
-    (user ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : "Guest");
-  const displayAvatar =
-    avatarUrl ||
-    (user
-      ? user.avatar
-      : "https://api.dicebear.com/7.x/avataaars/svg?seed=wedding");
-  // Format the wedding date
-  const formattedDate = new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }).format(weddingDate);
-
-  // Calculate days until wedding
-  const today = new Date();
-  const timeDiff = weddingDate.getTime() - today.getTime();
-  const daysUntil = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
-  const navItems = [
-    {
-      name: t("nav.dashboard"),
-      path: "/",
-      icon: <Home className="h-5 w-5" />,
-      permission: null, // Always visible
-    },
-    {
-      name: t("nav.guestManagement"),
-      path: "/guest-management",
-      icon: <Users className="h-5 w-5" />,
-      permission: "canViewGuests" as const,
-    },
-    {
-      name: t("nav.tablePlanner"),
-      path: "/table-planner",
-      icon: <TableProperties className="h-5 w-5" />,
-      permission: "canViewTables" as const,
-    },
-    {
-      name: "Budget Tracker",
-      path: "/budget-tracker",
-      icon: <DollarSign className="h-5 w-5" />,
-      permission: null, // Always visible
-    },
-    {
-      name: t("timeline.title"),
-      path: "/timeline",
-      icon: <Calendar className="h-5 w-5" />,
-      permission: null, // Always visible
-    },
-    {
-      name: t("nav.guestArea"),
-      path: "/guest-area",
-      icon: <Heart className="h-5 w-5" />,
-      permission: null, // Always visible for guests
-      role: "guest" as const,
-    },
-    {
-      name: t("nav.settings"),
-      path: "/settings",
-      icon: <Settings className="h-5 w-5" />,
-      permission: null, // Always visible
-    },
-  ];
+  if (!user) {
+    return null;
+  }
 
   return (
-    <div
-      className={cn(
-        "h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col transition-all duration-300",
-        isCollapsed ? "w-16" : "w-64",
-      )}
-    >
-      {/* Toggle button */}
-      <div className="flex justify-end p-2">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="md:hidden"
-          onClick={toggleSidebar}
-        >
-          {isCollapsed ? (
-            <Menu className="h-4 w-4" />
-          ) : (
-            <ChevronLeft className="h-4 w-4" />
-          )}
-        </Button>
+    <div className="sidebar bg-white shadow-md h-screen w-64 fixed left-0 top-0 overflow-y-auto">
+      <div className="p-4 border-b">
+        <h2 className="text-xl font-semibold text-primary">LemonVows</h2>
+        <p className="text-sm text-gray-600">Hochzeitsplanung</p>
       </div>
-
-      {/* User profile section */}
-      <div
-        className={cn(
-          "flex flex-col items-center",
-          isCollapsed ? "p-2" : "p-4",
-        )}
-      >
-        <Avatar className={cn("mb-2", isCollapsed ? "h-10 w-10" : "h-16 w-16")}>
-          <AvatarImage src={displayAvatar} alt={displayName} />
-          <AvatarFallback className="bg-primary text-primary-foreground">
-            {displayName
-              .split(" ")
-              .map((n) => n[0])
-              .join("")}
-          </AvatarFallback>
-        </Avatar>
-        {!isCollapsed && (
-          <>
-            <h2 className="text-lg font-semibold text-center">{displayName}</h2>
-            <span className="text-sm text-muted-foreground">{displayRole}</span>
-          </>
-        )}
-      </div>
-
-      <Separator />
-
-      {/* Wedding info */}
-      {!isCollapsed && (
-        <>
-          <div className="p-4 bg-muted/50">
-            <div className="flex flex-col items-center text-center">
-              <div className="flex items-center gap-1 mb-1">
-                <Heart className="h-4 w-4 text-rose-500" />
-                <h3 className="font-medium">{weddingName}</h3>
-              </div>
-              <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                <Calendar className="h-3.5 w-3.5" />
-                <span>{formattedDate}</span>
-              </div>
-              <div className="mt-2 text-sm font-medium">
-                {daysUntil > 0 ? (
-                  <span className="text-primary">
-                    {t("misc.daysUntilWedding", { days: daysUntil })}
-                  </span>
-                ) : daysUntil === 0 ? (
-                  <span className="text-primary font-bold">
-                    {t("misc.weddingToday")}
-                  </span>
-                ) : (
-                  <span className="text-muted-foreground">
-                    {t("misc.weddingCompleted")}
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-          <Separator />
-        </>
-      )}
-
-      {/* Navigation */}
-      <nav className="flex-1 p-2 overflow-y-auto">
-        <ul className="space-y-2">
-          {navItems.map((item) => (
-            <li key={item.path}>
-              {item.permission ? (
-                <PermissionGuard requiredPermission={item.permission}>
-                  <NavLink
-                    to={item.path}
-                    className={({ isActive }) =>
-                      cn(
-                        "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                        isCollapsed ? "justify-center" : "",
-                        isActive
-                          ? "bg-primary text-primary-foreground"
-                          : "hover:bg-muted",
-                      )
-                    }
-                    title={isCollapsed ? item.name : undefined}
-                  >
-                    {item.icon}
-                    {!isCollapsed && item.name}
-                  </NavLink>
-                </PermissionGuard>
-              ) : item.role ? (
-                // Only show for specific role
-                user?.role === item.role && (
-                  <NavLink
-                    to={item.path}
-                    className={({ isActive }) =>
-                      cn(
-                        "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                        isCollapsed ? "justify-center" : "",
-                        isActive
-                          ? "bg-primary text-primary-foreground"
-                          : "hover:bg-muted",
-                      )
-                    }
-                    title={isCollapsed ? item.name : undefined}
-                  >
-                    {item.icon}
-                    {!isCollapsed && item.name}
-                  </NavLink>
-                )
-              ) : (
-                <NavLink
-                  to={item.path}
-                  className={({ isActive }) =>
-                    cn(
-                      "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                      isCollapsed ? "justify-center" : "",
-                      isActive
-                        ? "bg-primary text-primary-foreground"
-                        : "hover:bg-muted",
-                    )
-                  }
-                  title={isCollapsed ? item.name : undefined}
-                >
-                  {item.icon}
-                  {!isCollapsed && item.name}
-                </NavLink>
-              )}
-            </li>
-          ))}
+      
+      <nav className="mt-4">
+        <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">
+          Hauptmenü
+        </div>
+        <ul>
+          <li>
+            <Link 
+              to="/dashboard" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">📊</span>
+              Dashboard
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/guests" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">👥</span>
+              Gästemanagement
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/budget" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">💰</span>
+              Budget
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/vendors" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">🏢</span>
+              Dienstleister
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/seating" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">🪑</span>
+              Sitzordnung
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/photos" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">📸</span>
+              Fotogalerie
+            </Link>
+          </li>
+        </ul>
+        
+        <div className="px-4 py-2 mt-4 text-xs font-semibold text-gray-500 uppercase">
+          JGA-Planung
+        </div>
+        <ul>
+          <li>
+            <Link 
+              to="/jga" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">🎉</span>
+              JGA Dashboard
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/jga/date-poll" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">📅</span>
+              Terminplanung
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/jga/budget" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">💸</span>
+              JGA-Budget
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/jga/activities" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">🎯</span>
+              Aktivitäten
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/jga/tasks" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">✅</span>
+              Aufgaben
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/jga/surprise-ideas" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">🎁</span>
+              Überraschungen
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/jga/invitations" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">✉️</span>
+              Einladungen
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/jga/photos" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">📷</span>
+              JGA-Fotos
+            </Link>
+          </li>
+        </ul>
+        
+        <div className="px-4 py-2 mt-4 text-xs font-semibold text-gray-500 uppercase">
+          Hochzeitshomepage
+        </div>
+        <ul>
+          <li>
+            <Link 
+              to="/wedding-homepage" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">🌐</span>
+              Homepage Dashboard
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/wedding-homepage/design" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">🎨</span>
+              Design & Themes
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/wedding-homepage/content" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">📝</span>
+              Inhalte
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/wedding-homepage/rsvp" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">📨</span>
+              RSVP-Formular
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/wedding-homepage/gift-registry" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">🎀</span>
+              Geschenkeliste
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/wedding-homepage/guestbook" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">📔</span>
+              Gästebuch
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/wedding-homepage/accommodation" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">🏨</span>
+              Unterkünfte
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/wedding-homepage/faq" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">❓</span>
+              FAQ
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/wedding-homepage/preview" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">👁️</span>
+              Vorschau
+            </Link>
+          </li>
+        </ul>
+        
+        <div className="px-4 py-2 mt-4 text-xs font-semibold text-gray-500 uppercase">
+          Konto
+        </div>
+        <ul>
+          <li>
+            <Link 
+              to="/profile" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">👤</span>
+              Profil
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/settings" 
+              className="flex items-center px-4 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+            >
+              <span className="mr-2">⚙️</span>
+              Einstellungen
+            </Link>
+          </li>
+          <li>
+            <button 
+              onClick={handleLogout}
+              className="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-red-500 hover:text-white transition-colors"
+            >
+              <span className="mr-2">🚪</span>
+              Abmelden
+            </button>
+          </li>
         </ul>
       </nav>
-
-      {/* Logout button */}
-      <div className={cn("p-4 mt-auto", isCollapsed && "p-2")}>
-        <Button
-          variant="outline"
-          className={cn(
-            "w-full",
-            isCollapsed ? "justify-center" : "justify-start",
-          )}
-          size="sm"
-          onClick={() => logout()}
-          title={isCollapsed ? t("nav.logout") : undefined}
-        >
-          <LogOut className="h-4 w-4" />
-          {!isCollapsed && <span className="ml-2">{t("nav.logout")}</span>}
-        </Button>
-      </div>
     </div>
   );
 };

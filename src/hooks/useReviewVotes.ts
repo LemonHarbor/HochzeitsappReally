@@ -1,225 +1,136 @@
-import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
-import { useToast } from "@/components/ui/use-toast";
-import { ReviewVote } from "@/types/review";
-import {
-  getUserVoteForReview,
-  voteOnReview,
-  removeVoteFromReview,
-} from "@/services/reviewVoteService";
+import { useEffect, useState } from 'react';
+import { RealtimeChannel } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabaseClient';
+import { ReviewVote } from '@/types/review';
 
-// Hook for managing a user's vote on a review
-export function useReviewVote(reviewId: string, userId?: string) {
-  const [userVote, setUserVote] = useState<ReviewVote | null>(null);
-  const [helpfulCount, setHelpfulCount] = useState<number>(0);
-  const [unhelpfulCount, setUnhelpfulCount] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
-  const { toast } = useToast();
-
-  // Fetch initial vote data
-  useEffect(() => {
-    if (!reviewId || !userId) {
-      setLoading(false);
-      return;
-    }
-
-    const fetchVoteData = async () => {
-      try {
-        setLoading(true);
-
-        // Get user's vote
-        const vote = await getUserVoteForReview(reviewId, userId);
-        setUserVote(vote);
-
-        // Get vote counts from the review
-        const { data, error } = await supabase
-          .from("vendor_reviews")
-          .select("helpful_votes, unhelpful_votes")
-          .eq("id", reviewId)
-          .single();
-
-        if (error) throw error;
-
-        setHelpfulCount(data.helpful_votes || 0);
-        setUnhelpfulCount(data.unhelpful_votes || 0);
-      } catch (err) {
-        console.error("Error fetching vote data:", err);
-        setError(err as Error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchVoteData();
-
-    // Set up real-time subscription for vote counts
-    const reviewSubscription = supabase
-      .channel(`review-votes-${reviewId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "vendor_reviews",
-          filter: `id=eq.${reviewId}`,
-        },
-        (payload) => {
-          const { new: newRecord } = payload;
-          setHelpfulCount(newRecord.helpful_votes || 0);
-          setUnhelpfulCount(newRecord.unhelpful_votes || 0);
-        },
-      )
-      .subscribe();
-
-    // Set up real-time subscription for user's vote
-    const voteSubscription = supabase
-      .channel(`user-vote-${reviewId}-${userId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "vendor_review_votes",
-          filter: `review_id=eq.${reviewId} AND user_id=eq.${userId}`,
-        },
-        (payload) => {
-          const { eventType, new: newRecord } = payload;
-
-          if (eventType === "INSERT" || eventType === "UPDATE") {
-            setUserVote(newRecord);
-          } else if (eventType === "DELETE") {
-            setUserVote(null);
-          }
-        },
-      )
-      .subscribe();
-
-    // Cleanup subscriptions
-    return () => {
-      reviewSubscription.unsubscribe();
-      voteSubscription.unsubscribe();
-    };
-  }, [reviewId, userId, toast]);
-
-  // Vote as helpful
-  const voteHelpful = async () => {
-    if (!userId || !reviewId) return;
-
-    try {
-      await voteOnReview(reviewId, userId, true);
-    } catch (err) {
-      console.error("Error voting as helpful:", err);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to mark review as helpful.",
-      });
-    }
-  };
-
-  // Vote as unhelpful
-  const voteUnhelpful = async () => {
-    if (!userId || !reviewId) return;
-
-    try {
-      await voteOnReview(reviewId, userId, false);
-    } catch (err) {
-      console.error("Error voting as unhelpful:", err);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to mark review as unhelpful.",
-      });
-    }
-  };
-
-  // Remove vote
-  const removeVote = async () => {
-    if (!userId || !reviewId) return;
-
-    try {
-      await removeVoteFromReview(reviewId, userId);
-    } catch (err) {
-      console.error("Error removing vote:", err);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to remove your vote.",
-      });
-    }
-  };
-
-  return {
-    userVote,
-    helpfulCount,
-    unhelpfulCount,
-    loading,
-    error,
-    voteHelpful,
-    voteUnhelpful,
-    removeVote,
-    isHelpful: userVote?.is_helpful === true,
-    isUnhelpful: userVote?.is_helpful === false,
-    hasVoted: !!userVote,
-  };
-}
-
-// Hook for getting all votes for a review
-export function useReviewVotes(reviewId: string) {
+export const useReviewVotes = (reviewId: string) => {
   const [votes, setVotes] = useState<ReviewVote[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [helpfulCount, setHelpfulCount] = useState(0);
+  const [unhelpfulCount, setUnhelpfulCount] = useState(0);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [userVote, setUserVote] = useState<ReviewVote | null>(null);
 
   useEffect(() => {
-    if (!reviewId) {
-      setLoading(false);
-      return;
-    }
+    let votesChannel: RealtimeChannel;
 
     const fetchVotes = async () => {
       try {
         setLoading(true);
-        const { data, error } = await supabase
-          .from("vendor_review_votes")
-          .select("*")
-          .eq("review_id", reviewId);
-
-        if (error) throw error;
+        
+        const { data, error: votesError } = await supabase
+          .from('review_votes')
+          .select('*')
+          .eq('review_id', reviewId);
+        
+        if (votesError) throw votesError;
+        
         setVotes(data || []);
+        
+        // Calculate counts
+        const helpful = data?.filter(vote => vote.vote_type === 'helpful').length || 0;
+        const unhelpful = data?.filter(vote => vote.vote_type === 'not_helpful').length || 0;
+        
+        setHelpfulCount(helpful);
+        setUnhelpfulCount(unhelpful);
+        
+        // Check if current user has voted
+        const { data: userData } = await supabase.auth.getUser();
+        if (userData?.user) {
+          const userVoteData = data?.find(vote => vote.user_id === userData.user.id) || null;
+          setUserVote(userVoteData);
+        }
+        
+        setLoading(false);
       } catch (err) {
-        console.error("Error fetching votes:", err);
-        setError(err as Error);
-      } finally {
+        console.error('Error fetching review votes:', err);
+        setError(err instanceof Error ? err : new Error('Unknown error occurred'));
         setLoading(false);
       }
     };
 
+    const setupSubscriptions = () => {
+      // Subscribe to votes changes
+      votesChannel = supabase
+        .channel(`review_votes:${reviewId}`)
+        .on('postgres_changes', 
+          { event: '*', schema: 'public', table: 'review_votes', filter: `review_id=eq.${reviewId}` },
+          async (payload) => {
+            if (payload.eventType === 'INSERT') {
+              const newVote = payload.new as ReviewVote;
+              setVotes(prev => [...prev, newVote]);
+              
+              if (newVote.vote_type === 'helpful') {
+                setHelpfulCount(prev => prev + 1);
+              } else {
+                setUnhelpfulCount(prev => prev + 1);
+              }
+              
+              // Check if it's the current user's vote
+              const { data: userData } = await supabase.auth.getUser();
+              if (userData?.user && newVote.user_id === userData.user.id) {
+                setUserVote(newVote);
+              }
+            } else if (payload.eventType === 'UPDATE') {
+              const updatedVote = payload.new as ReviewVote;
+              setVotes(prev => 
+                prev.map(vote => vote.id === updatedVote.id ? updatedVote : vote)
+              );
+              
+              // Recalculate counts
+              const { data } = await supabase
+                .from('review_votes')
+                .select('*')
+                .eq('review_id', reviewId);
+              
+              const helpful = data?.filter(vote => vote.vote_type === 'helpful').length || 0;
+              const unhelpful = data?.filter(vote => vote.vote_type === 'not_helpful').length || 0;
+              
+              setHelpfulCount(helpful);
+              setUnhelpfulCount(unhelpful);
+              
+              // Check if it's the current user's vote
+              const { data: userData } = await supabase.auth.getUser();
+              if (userData?.user && updatedVote.user_id === userData.user.id) {
+                setUserVote(updatedVote);
+              }
+            } else if (payload.eventType === 'DELETE') {
+              const deletedVote = payload.old as ReviewVote;
+              setVotes(prev => 
+                prev.filter(vote => vote.id !== deletedVote.id)
+              );
+              
+              if (deletedVote.vote_type === 'helpful') {
+                setHelpfulCount(prev => prev - 1);
+              } else {
+                setUnhelpfulCount(prev => prev - 1);
+              }
+              
+              // Check if it was the current user's vote
+              const { data: userData } = await supabase.auth.getUser();
+              if (userData?.user && deletedVote.user_id === userData.user.id) {
+                setUserVote(null);
+              }
+            }
+          }
+        )
+        .subscribe();
+    };
+
     fetchVotes();
+    setupSubscriptions();
 
-    // Set up real-time subscription
-    const subscription = supabase
-      .channel(`review-votes-all-${reviewId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "vendor_review_votes",
-          filter: `review_id=eq.${reviewId}`,
-        },
-        () => {
-          // Refetch all votes when any change occurs
-          fetchVotes();
-        },
-      )
-      .subscribe();
-
-    // Cleanup subscription
     return () => {
-      subscription.unsubscribe();
+      votesChannel?.unsubscribe();
     };
   }, [reviewId]);
 
-  return { votes, loading, error };
-}
+  return { 
+    votes, 
+    helpfulCount, 
+    unhelpfulCount, 
+    userVote, 
+    loading, 
+    error 
+  };
+};
