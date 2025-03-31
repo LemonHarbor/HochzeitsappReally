@@ -1,0 +1,109 @@
+{
+  "name": "JGAPlanningModuleIntegration",
+  "description": "Integration des JGA-Planungsmoduls mit WeWeb für LemonVows",
+  "version": "1.0.0",
+  
+  "dataModel": {
+    "jgaEvent": {
+      "id": "string",
+      "title": "string",
+      "description": "string",
+      "location": "string",
+      "startDate": "date",
+      "endDate": "date",
+      "isPrivate": "boolean",
+      "createdBy": "string",
+      "createdAt": "date",
+      "updatedAt": "date"
+    },
+    "jgaDatePoll": {
+      "id": "string",
+      "title": "string",
+      "description": "string",
+      "options": "array",
+      "votes": "array",
+      "isActive": "boolean",
+      "deadline": "date",
+      "createdBy": "string",
+      "createdAt": "date",
+      "updatedAt": "date"
+    },
+    "jgaBudget": {
+      "id": "string",
+      "title": "string",
+      "description": "string",
+      "totalAmount": "number",
+      "expenses": "array",
+      "participants": "array",
+      "perPersonAmount": "number",
+      "createdBy": "string",
+      "createdAt": "date",
+      "updatedAt": "date"
+    },
+    "jgaActivity": {
+      "id": "string",
+      "title": "string",
+      "description": "string",
+      "location": "string",
+      "cost": "number",
+      "duration": "number",
+      "category": "enum:entertainment,food,drinks,travel,accommodation,other",
+      "votes": "array",
+      "isSelected": "boolean",
+      "createdBy": "string",
+      "createdAt": "date",
+      "updatedAt": "date"
+    },
+    "jgaTask": {
+      "id": "string",
+      "title": "string",
+      "description": "string",
+      "assignedTo": "string",
+      "dueDate": "date",
+      "status": "enum:todo,in-progress,done",
+      "priority": "enum:low,medium,high",
+      "isPrivate": "boolean",
+      "createdBy": "string",
+      "createdAt": "date",
+      "updatedAt": "date",
+      "completedAt": "date"
+    },
+    "jgaSurpriseIdea": {
+      "id": "string",
+      "title": "string",
+      "description": "string",
+      "category": "enum:gift,activity,prank,other",
+      "cost": "number",
+      "votes": "array",
+      "isSelected": "boolean",
+      "isPrivate": "boolean",
+      "createdBy": "string",
+      "createdAt": "date",
+      "updatedAt": "date"
+    },
+    "jgaInvitation": {
+      "id": "string",
+      "recipientName": "string",
+      "recipientEmail": "string",
+      "status": "enum:pending,accepted,declined,maybe",
+      "message": "string",
+      "sentAt": "date",
+      "respondedAt": "date",
+      "createdBy": "string",
+      "createdAt": "date",
+      "updatedAt": "date"
+    },
+    "jgaPhoto": {
+      "id": "string",
+      "title": "string",
+      "description": "string",
+      "url": "string",
+      "thumbnailUrl": "string",
+      "uploadedBy": "string",
+      "isPrivate": "boolean",
+      "releaseAfterWedding": "boolean",
+      "createdAt": "date",
+      "updatedAt": "date"
+    }
+  }
+}
