@@ -1,0 +1,69 @@
+{
+  "name": "PhotoGalleryImplementation",
+  "description": "Implementierung der Fotogalerie für LemonVows",
+  "version": "1.0.0",
+  
+  "dataModel": {
+    "album": {
+      "id": "string",
+      "name": "string",
+      "description": "string",
+      "coverImageId": "string",
+      "isPublic": "boolean",
+      "createdAt": "date",
+      "updatedAt": "date"
+    },
+    "photo": {
+      "id": "string",
+      "albumId": "string",
+      "title": "string",
+      "description": "string",
+      "url": "string",
+      "thumbnailUrl": "string",
+      "uploadedBy": "string",
+      "tags": "array",
+      "likes": "number",
+      "width": "number",
+      "height": "number",
+      "size": "number",
+      "uploadedAt": "date"
+    },
+    "comment": {
+      "id": "string",
+      "photoId": "string",
+      "author": "string",
+      "text": "string",
+      "createdAt": "date"
+    },
+    "shareLink": {
+      "id": "string",
+      "albumId": "string",
+      "token": "string",
+      "expiresAt": "date",
+      "createdAt": "date"
+    }
+  },
+  
+  "defaultAlbums": [
+    {
+      "name": "Hochzeitstag",
+      "description": "Fotos vom Hochzeitstag",
+      "isPublic": true
+    },
+    {
+      "name": "Standesamt",
+      "description": "Fotos von der standesamtlichen Trauung",
+      "isPublic": true
+    },
+    {
+      "name": "Junggesellenabschied",
+      "description": "Fotos vom Junggesellenabschied",
+      "isPublic": false
+    },
+    {
+      "name": "Hochzeitsvorbereitungen",
+      "description": "Fotos von den Hochzeitsvorbereitungen",
+      "isPublic": true
+    }
+  ]
+}

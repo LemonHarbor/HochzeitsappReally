@@ -1,0 +1,103 @@
+{
+  "name": "BudgetPlanningImplementation",
+  "description": "Implementierung der Budget-Planung für LemonVows",
+  "version": "1.0.0",
+  
+  "dataModel": {
+    "budgetItem": {
+      "id": "string",
+      "category": "string",
+      "description": "string",
+      "estimatedCost": "number",
+      "actualCost": "number",
+      "paid": "boolean",
+      "paymentDate": "date",
+      "vendor": "string",
+      "notes": "string",
+      "receiptImage": "string",
+      "createdAt": "date",
+      "updatedAt": "date"
+    },
+    "budgetCategory": {
+      "id": "string",
+      "name": "string",
+      "allocation": "number",
+      "color": "string",
+      "icon": "string",
+      "description": "string"
+    }
+  },
+  
+  "defaultCategories": [
+    {
+      "name": "Veranstaltungsort",
+      "allocation": 40,
+      "color": "#F8C3CD",
+      "icon": "location",
+      "description": "Location, Raummiete, Dekorationen für den Veranstaltungsort"
+    },
+    {
+      "name": "Catering",
+      "allocation": 20,
+      "color": "#7ED321",
+      "icon": "food",
+      "description": "Essen, Getränke, Hochzeitstorte, Servicepersonal"
+    },
+    {
+      "name": "Kleidung",
+      "allocation": 10,
+      "color": "#F5E6E8",
+      "icon": "clothing",
+      "description": "Hochzeitskleid, Anzug, Accessoires, Schuhe"
+    },
+    {
+      "name": "Fotografie",
+      "allocation": 10,
+      "color": "#4A90E2",
+      "icon": "camera",
+      "description": "Fotograf, Videograf, Fotobox"
+    },
+    {
+      "name": "Musik",
+      "allocation": 5,
+      "color": "#BD10E0",
+      "icon": "music",
+      "description": "DJ, Band, Unterhaltung"
+    },
+    {
+      "name": "Blumen",
+      "allocation": 5,
+      "color": "#FF9500",
+      "icon": "flower",
+      "description": "Brautstrauß, Tischdekoration, Blumenschmuck"
+    },
+    {
+      "name": "Einladungen",
+      "allocation": 2,
+      "color": "#4A4A4A",
+      "icon": "invitation",
+      "description": "Einladungskarten, Save-the-Date, Dankeskarten"
+    },
+    {
+      "name": "Ringe",
+      "allocation": 3,
+      "color": "#D4AF37",
+      "icon": "ring",
+      "description": "Eheringe, Schmuck"
+    },
+    {
+      "name": "Transport",
+      "allocation": 2,
+      "color": "#5AC8FA",
+      "icon": "car",
+      "description": "Hochzeitsauto, Gästetransport"
+    },
+    {
+      "name": "Sonstiges",
+      "allocation": 3,
+      "color": "#8E8E93",
+      "icon": "misc",
+      "description": "Unvorhergesehene Ausgaben, Geschenke, Sonstiges"
+    }
+  ]
+}

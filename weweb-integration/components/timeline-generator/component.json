@@ -1,0 +1,201 @@
+{
+  "name": "TimelineGenerator",
+  "description": "Komponente zur automatischen Generierung und Verwaltung von Hochzeitszeitplänen",
+  "version": "1.0.0",
+  "props": {
+    "weddingDate": {
+      "type": "date",
+      "description": "Datum der Hochzeit",
+      "default": null
+    },
+    "enableCustomEvents": {
+      "type": "boolean",
+      "description": "Benutzerdefinierte Ereignisse aktivieren",
+      "default": true
+    },
+    "enableReminders": {
+      "type": "boolean",
+      "description": "Erinnerungen für Zeitplanereignisse aktivieren",
+      "default": true
+    },
+    "enableSharing": {
+      "type": "boolean",
+      "description": "Teilen des Zeitplans aktivieren",
+      "default": false
+    },
+    "timelineTemplate": {
+      "type": "string",
+      "description": "Vorlage für den Zeitplan (Standard, Traditionell, Modern)",
+      "default": "Standard"
+    }
+  },
+  "dataSchema": {
+    "timelineEvent": {
+      "title": "string",
+      "description": "string",
+      "startTime": "datetime",
+      "endTime": "datetime",
+      "location": "string",
+      "category": "string",
+      "participants": "array",
+      "notes": "string",
+      "reminder": "datetime",
+      "isCustom": "boolean",
+      "isCompleted": "boolean"
+    },
+    "milestone": {
+      "title": "string",
+      "description": "string",
+      "date": "date",
+      "daysBeforeWedding": "number",
+      "isCompleted": "boolean"
+    },
+    "category": {
+      "name": "string",
+      "color": "string"
+    }
+  },
+  "methods": {
+    "generateTimeline": {
+      "description": "Generiert einen Zeitplan basierend auf dem Hochzeitsdatum",
+      "parameters": ["weddingDate", "template"]
+    },
+    "addEvent": {
+      "description": "Fügt ein Ereignis zum Zeitplan hinzu",
+      "parameters": ["event"]
+    },
+    "updateEvent": {
+      "description": "Aktualisiert ein Ereignis im Zeitplan",
+      "parameters": ["id", "event"]
+    },
+    "removeEvent": {
+      "description": "Entfernt ein Ereignis aus dem Zeitplan",
+      "parameters": ["id"]
+    },
+    "markEventCompleted": {
+      "description": "Markiert ein Ereignis als abgeschlossen",
+      "parameters": ["id"]
+    },
+    "addMilestone": {
+      "description": "Fügt einen Meilenstein zum Zeitplan hinzu",
+      "parameters": ["milestone"]
+    },
+    "updateMilestone": {
+      "description": "Aktualisiert einen Meilenstein im Zeitplan",
+      "parameters": ["id", "milestone"]
+    },
+    "removeMilestone": {
+      "description": "Entfernt einen Meilenstein aus dem Zeitplan",
+      "parameters": ["id"]
+    },
+    "markMilestoneCompleted": {
+      "description": "Markiert einen Meilenstein als abgeschlossen",
+      "parameters": ["id"]
+    },
+    "addCategory": {
+      "description": "Fügt eine neue Kategorie hinzu",
+      "parameters": ["category"]
+    },
+    "updateCategory": {
+      "description": "Aktualisiert eine Kategorie",
+      "parameters": ["id", "category"]
+    },
+    "removeCategory": {
+      "description": "Entfernt eine Kategorie",
+      "parameters": ["id"]
+    },
+    "setReminder": {
+      "description": "Setzt eine Erinnerung für ein Ereignis",
+      "parameters": ["eventId", "reminderTime"]
+    },
+    "shareTimeline": {
+      "description": "Teilt den Zeitplan",
+      "parameters": ["recipients", "message"]
+    },
+    "exportTimeline": {
+      "description": "Exportiert den Zeitplan",
+      "parameters": ["format"]
+    }
+  },
+  "events": {
+    "onTimelineGenerated": {
+      "description": "Wird ausgelöst, wenn ein Zeitplan generiert wird"
+    },
+    "onEventAdded": {
+      "description": "Wird ausgelöst, wenn ein Ereignis hinzugefügt wird"
+    },
+    "onEventUpdated": {
+      "description": "Wird ausgelöst, wenn ein Ereignis aktualisiert wird"
+    },
+    "onEventRemoved": {
+      "description": "Wird ausgelöst, wenn ein Ereignis entfernt wird"
+    },
+    "onEventCompleted": {
+      "description": "Wird ausgelöst, wenn ein Ereignis als abgeschlossen markiert wird"
+    },
+    "onMilestoneAdded": {
+      "description": "Wird ausgelöst, wenn ein Meilenstein hinzugefügt wird"
+    },
+    "onMilestoneCompleted": {
+      "description": "Wird ausgelöst, wenn ein Meilenstein als abgeschlossen markiert wird"
+    },
+    "onReminderDue": {
+      "description": "Wird ausgelöst, wenn eine Erinnerung fällig ist"
+    },
+    "onTimelineShared": {
+      "description": "Wird ausgelöst, wenn ein Zeitplan geteilt wird"
+    }
+  },
+  "slots": {
+    "timelineHeader": {
+      "description": "Kopfzeile des Zeitplans"
+    },
+    "timelineFooter": {
+      "description": "Fußzeile des Zeitplans"
+    },
+    "eventItem": {
+      "description": "Benutzerdefiniertes Layout für ein Ereignis im Zeitplan"
+    },
+    "milestoneItem": {
+      "description": "Benutzerdefiniertes Layout für einen Meilenstein im Zeitplan"
+    },
+    "dayDivider": {
+      "description": "Trenner zwischen Tagen im Zeitplan"
+    }
+  },
+  "styles": {
+    "container": {
+      "description": "Hauptcontainer der Komponente"
+    },
+    "timeline": {
+      "description": "Zeitplanbereich"
+    },
+    "timelineDay": {
+      "description": "Tag im Zeitplan"
+    },
+    "eventItem": {
+      "description": "Ereignis im Zeitplan"
+    },
+    "eventItemCompleted": {
+      "description": "Abgeschlossenes Ereignis im Zeitplan"
+    },
+    "milestoneItem": {
+      "description": "Meilenstein im Zeitplan"
+    },
+    "milestoneItemCompleted": {
+      "description": "Abgeschlossener Meilenstein im Zeitplan"
+    },
+    "categoryIndicator": {
+      "description": "Kategorieindikator für Ereignisse"
+    },
+    "timeIndicator": {
+      "description": "Zeitindikator für Ereignisse"
+    },
+    "addEventForm": {
+      "description": "Formular zum Hinzufügen eines Ereignisses"
+    },
+    "button": {
+      "description": "Schaltflächen in der Komponente"
+    }
+  }
+}

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LemonVows by LemonHarbor - WeWeb Integration</title>
+    <style>
+        :root {
+            --primary-color: #F8C3CD;
+            --secondary-color: #F5E6E8;
+            --accent-color: #D4AF37;
+            --background-color: #FFFFFF;
+            --text-color: #333333;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background-color: var(--primary-color);
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+        
+        .weweb-integration {
+            margin-top: 40px;
+            text-align: center;
+        }
+        
+        .button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px;
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        
+        .feature {
+            flex-basis: calc(33.33% - 20px);
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .pricing {
+            margin-top: 40px;
+        }
+        
+        .pricing-table {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .pricing-plan {
+            flex-basis: calc(25% - 20px);
+            padding: 20px;
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .pricing-plan.highlighted {
+            border: 2px solid var(--accent-color);
+            transform: scale(1.05);
+        }
+        
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .feature-list {
+            list-style-type: none;
+            padding: 0;
+            text-align: left;
+        }
+        
+        .feature-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .feature-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+        }
+        
+        @media (max-width: 768px) {
+            .feature {
+                flex-basis: calc(50% - 20px);
+            }
+            
+            .pricing-plan {
+                flex-basis: calc(50% - 20px);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .feature {
+                flex-basis: 100%;
+            }
+            
+            .pricing-plan {
+                flex-basis: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">LemonVows by LemonHarbor</div>
+    </div>
+    
+    <div class="container">
+        <div class="weweb-integration">
+            <h1>WeWeb No-Code Integration</h1>
+            <p>Diese Seite dient als Startpunkt für die Integration von LemonVows mit WeWeb als No-Code-Lösung.</p>
+            <a href="#" class="button" id="connect-weweb">Mit WeWeb verbinden</a>
+            <a href="#" class="button" id="toggle-dev-mode">Entwicklermodus umschalten</a>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>Gästemanagement</h3>
+                <p>Verwalten Sie Ihre Gästeliste, verfolgen Sie Zu- und Absagen und behalten Sie den Überblick über spezielle Anforderungen.</p>
+            </div>
+            <div class="feature">
+                <h3>Budget-Planung</h3>
+                <p>Behalten Sie die Kontrolle über Ihre Ausgaben mit detaillierten Budgetkategorien und Echtzeit-Kostenübersicht.</p>
+            </div>
+            <div class="feature">
+                <h3>Aufgabenlisten</h3>
+                <p>Organisieren Sie Ihre To-Dos mit personalisierten Checklisten und Erinnerungen für wichtige Meilensteine.</p>
+            </div>
+            <div class="feature">
+                <h3>Lieferantenmanagement</h3>
+                <p>Vergleichen und verwalten Sie Ihre Dienstleister und behalten Sie alle Verträge und Termine im Blick.</p>
+            </div>
+            <div class="feature">
+                <h3>Sitzplatzplanung</h3>
+                <p>Erstellen Sie mühelos Ihre Tischordnung mit unserem intuitiven Drag-and-Drop-Tool.</p>
+            </div>
+            <div class="feature">
+                <h3>Fotogalerie</h3>
+                <p>Sammeln und teilen Sie Ihre schönsten Momente in einer privaten Galerie mit Ihren Gästen.</p>
+            </div>
+        </div>
+        
+        <div class="pricing">
+            <h2>Preispläne</h2>
+            <div class="pricing-table">
+                <div class="pricing-plan">
+                    <h3>Free Version</h3>
+                    <div class="price">0€</div>
+                    <p>Grundfunktionen für bis zu 20 Gäste</p>
+                    <ul class="feature-list">
+                        <li>Automatischer Zeitplangenerator</li>
+                        <li>Einfache Budgetverfolgung</li>
+                        <li>Grundlegende Aufgabenlisten</li>
+                    </ul>
+                </div>
+                <div class="pricing-plan">
+                    <h3>Basis</h3>
+                    <div class="price">29,99€/Monat</div>
+                    <p>Erweiterte Funktionen für bis zu 50 Gäste</p>
+                    <ul class="feature-list">
+                        <li>Detaillierte Budgetverfolgung</li>
+                        <li>Erweiterte Aufgabenlisten</li>
+                        <li>Einfache Sitzplatzplanung</li>
+                        <li>14 Tage Testphase für Premium-Funktionen</li>
+                    </ul>
+                </div>
+                <div class="pricing-plan highlighted">
+                    <h3>Premium</h3>
+                    <div class="price">89,99€/Monat</div>
+                    <p>Alle Funktionen mit unbegrenzter Gästeanzahl</p>
+                    <ul class="feature-list">
+                        <li>Detaillierte Budgetverfolgung mit Berichten</li>
+                        <li>Erweiterte Aufgabenlisten mit Erinnerungen</li>
+                        <li>Lieferantenmanagement und -bewertungen</li>
+                        <li>Interaktive Sitzplatzplanung</li>
+                        <li>Fotogalerie für Hochzeitsfotos</li>
+                        <li>Prioritäts-Support</li>
+                    </ul>
+                </div>
+                <div class="pricing-plan">
+                    <h3>Deluxe</h3>
+                    <div class="price">199,99€/Monat</div>
+                    <p>Premium-Funktionen plus zusätzliche Features</p>
+                    <ul class="feature-list">
+                        <li>Persönlicher Hochzeitsplaner-Assistent</li>
+                        <li>Exklusive Design-Vorlagen</li>
+                        <li>Hochzeitswebsite mit eigenem Domain</li>
+                        <li>Unbegrenzte Fotospeicherung</li>
+                        <li>KI-gestützter Hochzeitsredengenerator</li>
+                        <li>NFT-Gästebuch für digitale Erinnerungen</li>
+                        <li>Prioritäts-Support rund um die Uhr</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('connect-weweb').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('WeWeb-Verbindung wird initialisiert...');
+            // Hier würde die tatsächliche WeWeb-Verbindungslogik implementiert werden
+        });
+        
+        document.getElementById('toggle-dev-mode').addEventListener('click', function(e) {
+            e.preventDefault();
+            const devMode = localStorage.getItem('devMode') === 'true';
+            localStorage.setItem('devMode', !devMode);
+            alert(devMode ? 'Entwicklermodus deaktiviert!' : 'Entwicklermodus aktiviert!');
+            document.body.classList.toggle('developer-mode', !devMode);
+        });
+        
+        // Entwicklermodus-Status beim Laden der Seite prüfen
+        const devMode = localStorage.getItem('devMode') === 'true';
+        document.body.classList.toggle('developer-mode', devMode);
+    </script>
+</body>
+</html>

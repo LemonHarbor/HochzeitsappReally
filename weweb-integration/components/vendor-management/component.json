@@ -1,0 +1,167 @@
+{
+  "name": "VendorManagement",
+  "description": "Komponente zur Verwaltung und Bewertung von Hochzeitsdienstleistern",
+  "version": "1.0.0",
+  "props": {
+    "enableRatings": {
+      "type": "boolean",
+      "description": "Bewertungen für Dienstleister aktivieren",
+      "default": true
+    },
+    "enableContractStorage": {
+      "type": "boolean",
+      "description": "Speicherung von Verträgen ermöglichen",
+      "default": false
+    },
+    "enablePaymentTracking": {
+      "type": "boolean",
+      "description": "Zahlungsverfolgung aktivieren",
+      "default": true
+    },
+    "maxVendors": {
+      "type": "number",
+      "description": "Maximale Anzahl der Dienstleister basierend auf dem Preisplan",
+      "default": 10
+    }
+  },
+  "dataSchema": {
+    "vendor": {
+      "name": "string",
+      "category": "string",
+      "contactPerson": "string",
+      "email": "string",
+      "phone": "string",
+      "website": "string",
+      "address": "string",
+      "notes": "string",
+      "rating": "number",
+      "contractSigned": "boolean",
+      "contractDate": "date",
+      "contractFile": "file",
+      "price": "number",
+      "depositPaid": "boolean",
+      "depositAmount": "number",
+      "depositDate": "date",
+      "finalPaymentDue": "date",
+      "finalPaymentPaid": "boolean"
+    },
+    "category": {
+      "name": "string",
+      "icon": "string"
+    }
+  },
+  "methods": {
+    "addVendor": {
+      "description": "Fügt einen neuen Dienstleister hinzu",
+      "parameters": ["vendor"]
+    },
+    "updateVendor": {
+      "description": "Aktualisiert einen Dienstleister",
+      "parameters": ["id", "vendor"]
+    },
+    "removeVendor": {
+      "description": "Entfernt einen Dienstleister",
+      "parameters": ["id"]
+    },
+    "rateVendor": {
+      "description": "Bewertet einen Dienstleister",
+      "parameters": ["id", "rating"]
+    },
+    "uploadContract": {
+      "description": "Lädt einen Vertrag für einen Dienstleister hoch",
+      "parameters": ["id", "file"]
+    },
+    "trackPayment": {
+      "description": "Verfolgt eine Zahlung für einen Dienstleister",
+      "parameters": ["id", "paymentType", "amount", "date"]
+    },
+    "addCategory": {
+      "description": "Fügt eine neue Kategorie hinzu",
+      "parameters": ["category"]
+    },
+    "updateCategory": {
+      "description": "Aktualisiert eine Kategorie",
+      "parameters": ["id", "category"]
+    },
+    "removeCategory": {
+      "description": "Entfernt eine Kategorie",
+      "parameters": ["id"]
+    },
+    "exportVendorList": {
+      "description": "Exportiert die Dienstleisterliste",
+      "parameters": ["format"]
+    }
+  },
+  "events": {
+    "onVendorAdded": {
+      "description": "Wird ausgelöst, wenn ein Dienstleister hinzugefügt wird"
+    },
+    "onVendorUpdated": {
+      "description": "Wird ausgelöst, wenn ein Dienstleister aktualisiert wird"
+    },
+    "onVendorRemoved": {
+      "description": "Wird ausgelöst, wenn ein Dienstleister entfernt wird"
+    },
+    "onVendorRated": {
+      "description": "Wird ausgelöst, wenn ein Dienstleister bewertet wird"
+    },
+    "onContractUploaded": {
+      "description": "Wird ausgelöst, wenn ein Vertrag hochgeladen wird"
+    },
+    "onPaymentTracked": {
+      "description": "Wird ausgelöst, wenn eine Zahlung verfolgt wird"
+    },
+    "onPaymentDue": {
+      "description": "Wird ausgelöst, wenn eine Zahlung fällig ist"
+    }
+  },
+  "slots": {
+    "vendorListHeader": {
+      "description": "Kopfzeile der Dienstleisterliste"
+    },
+    "vendorListFooter": {
+      "description": "Fußzeile der Dienstleisterliste"
+    },
+    "vendorListEmpty": {
+      "description": "Wird angezeigt, wenn die Dienstleisterliste leer ist"
+    },
+    "vendorListItem": {
+      "description": "Benutzerdefiniertes Layout für einen Dienstleister in der Liste"
+    },
+    "vendorDetail": {
+      "description": "Detailansicht eines Dienstleisters"
+    }
+  },
+  "styles": {
+    "container": {
+      "description": "Hauptcontainer der Komponente"
+    },
+    "header": {
+      "description": "Kopfzeile der Komponente"
+    },
+    "vendorList": {
+      "description": "Liste der Dienstleister"
+    },
+    "vendorItem": {
+      "description": "Einzelner Dienstleister in der Liste"
+    },
+    "vendorDetail": {
+      "description": "Detailansicht eines Dienstleisters"
+    },
+    "categoryList": {
+      "description": "Liste der Kategorien"
+    },
+    "categoryItem": {
+      "description": "Einzelne Kategorie in der Liste"
+    },
+    "addVendorForm": {
+      "description": "Formular zum Hinzufügen eines Dienstleisters"
+    },
+    "ratingStars": {
+      "description": "Sternebewertung für Dienstleister"
+    },
+    "button": {
+      "description": "Schaltflächen in der Komponente"
+    }
+  }
+}

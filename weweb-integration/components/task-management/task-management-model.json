@@ -1,0 +1,93 @@
+{
+  "name": "TaskManagementImplementation",
+  "description": "Implementierung des Aufgabenmanagements für LemonVows",
+  "version": "1.0.0",
+  
+  "dataModel": {
+    "task": {
+      "id": "string",
+      "title": "string",
+      "description": "string",
+      "dueDate": "date",
+      "category": "string",
+      "priority": "enum:low,medium,high",
+      "status": "enum:todo,in-progress,done",
+      "assignee": "string",
+      "reminder": "date",
+      "notes": "string",
+      "createdAt": "date",
+      "updatedAt": "date",
+      "completedAt": "date"
+    },
+    "category": {
+      "id": "string",
+      "name": "string",
+      "color": "string",
+      "icon": "string",
+      "description": "string"
+    }
+  },
+  
+  "defaultCategories": [
+    {
+      "name": "Planung",
+      "color": "#4A90E2",
+      "icon": "planning",
+      "description": "Allgemeine Planungsaufgaben"
+    },
+    {
+      "name": "Veranstaltungsort",
+      "color": "#F8C3CD",
+      "icon": "location",
+      "description": "Aufgaben im Zusammenhang mit der Location"
+    },
+    {
+      "name": "Catering",
+      "color": "#7ED321",
+      "icon": "food",
+      "description": "Aufgaben im Zusammenhang mit Essen und Getränken"
+    },
+    {
+      "name": "Kleidung",
+      "color": "#F5E6E8",
+      "icon": "clothing",
+      "description": "Aufgaben im Zusammenhang mit Hochzeitskleid, Anzug, etc."
+    },
+    {
+      "name": "Dekoration",
+      "color": "#FF9500",
+      "icon": "decoration",
+      "description": "Aufgaben im Zusammenhang mit der Dekoration"
+    },
+    {
+      "name": "Einladungen",
+      "color": "#4A4A4A",
+      "icon": "invitation",
+      "description": "Aufgaben im Zusammenhang mit Einladungen"
+    },
+    {
+      "name": "Musik",
+      "color": "#BD10E0",
+      "icon": "music",
+      "description": "Aufgaben im Zusammenhang mit Musik und Unterhaltung"
+    },
+    {
+      "name": "Fotografie",
+      "color": "#4A90E2",
+      "icon": "camera",
+      "description": "Aufgaben im Zusammenhang mit Fotografie und Video"
+    },
+    {
+      "name": "Transport",
+      "color": "#5AC8FA",
+      "icon": "car",
+      "description": "Aufgaben im Zusammenhang mit Transport"
+    },
+    {
+      "name": "Sonstiges",
+      "color": "#8E8E93",
+      "icon": "misc",
+      "description": "Sonstige Aufgaben"
+    }
+  ]
+}

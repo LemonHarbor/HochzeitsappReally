@@ -1,0 +1,147 @@
+{
+  "name": "PricingTiers",
+  "description": "Komponente zur Verwaltung und Anzeige der Preisstufen für LemonVows",
+  "version": "1.0.0",
+  "props": {
+    "currentTier": {
+      "type": "string",
+      "description": "Aktuell ausgewählte Preisstufe des Benutzers",
+      "default": "free"
+    },
+    "showComparison": {
+      "type": "boolean",
+      "description": "Vergleichstabelle der Preisstufen anzeigen",
+      "default": true
+    },
+    "enableUpgrade": {
+      "type": "boolean",
+      "description": "Upgrade-Funktionalität aktivieren",
+      "default": true
+    },
+    "highlightedTier": {
+      "type": "string",
+      "description": "Hervorgehobene Preisstufe in der Anzeige",
+      "default": "premium"
+    }
+  },
+  "dataSchema": {
+    "pricingTier": {
+      "id": "string",
+      "name": "string",
+      "price": "number",
+      "currency": "string",
+      "period": "string",
+      "features": "array",
+      "limits": "object"
+    },
+    "feature": {
+      "id": "string",
+      "name": "string",
+      "description": "string",
+      "includedIn": "array"
+    }
+  },
+  "methods": {
+    "getPricingTiers": {
+      "description": "Ruft alle verfügbaren Preisstufen ab",
+      "parameters": []
+    },
+    "getCurrentTier": {
+      "description": "Ruft die aktuelle Preisstufe des Benutzers ab",
+      "parameters": []
+    },
+    "upgradeTier": {
+      "description": "Führt ein Upgrade auf eine höhere Preisstufe durch",
+      "parameters": ["tierId"]
+    },
+    "downgradeTier": {
+      "description": "Führt ein Downgrade auf eine niedrigere Preisstufe durch",
+      "parameters": ["tierId"]
+    },
+    "checkFeatureAccess": {
+      "description": "Prüft, ob der Benutzer Zugriff auf eine bestimmte Funktion hat",
+      "parameters": ["featureId"]
+    },
+    "checkLimit": {
+      "description": "Prüft, ob der Benutzer ein bestimmtes Limit erreicht hat",
+      "parameters": ["limitId", "currentValue"]
+    },
+    "getFeatureList": {
+      "description": "Ruft die Liste aller verfügbaren Funktionen ab",
+      "parameters": []
+    },
+    "getTierComparison": {
+      "description": "Generiert einen Vergleich aller Preisstufen",
+      "parameters": []
+    }
+  },
+  "events": {
+    "onTierChanged": {
+      "description": "Wird ausgelöst, wenn die Preisstufe des Benutzers geändert wird"
+    },
+    "onFeatureAccessDenied": {
+      "description": "Wird ausgelöst, wenn der Zugriff auf eine Funktion verweigert wird"
+    },
+    "onLimitReached": {
+      "description": "Wird ausgelöst, wenn ein Limit erreicht wird"
+    },
+    "onUpgradeRequested": {
+      "description": "Wird ausgelöst, wenn ein Upgrade angefordert wird"
+    }
+  },
+  "slots": {
+    "pricingHeader": {
+      "description": "Kopfzeile des Preisbereichs"
+    },
+    "pricingFooter": {
+      "description": "Fußzeile des Preisbereichs"
+    },
+    "tierCard": {
+      "description": "Benutzerdefiniertes Layout für eine Preisstufe"
+    },
+    "featureList": {
+      "description": "Liste der Funktionen einer Preisstufe"
+    },
+    "comparisonTable": {
+      "description": "Vergleichstabelle aller Preisstufen"
+    }
+  },
+  "styles": {
+    "container": {
+      "description": "Hauptcontainer der Komponente"
+    },
+    "pricingGrid": {
+      "description": "Raster für die Preisstufen"
+    },
+    "tierCard": {
+      "description": "Karte für eine Preisstufe"
+    },
+    "tierCardHighlighted": {
+      "description": "Hervorgehobene Karte für eine Preisstufe"
+    },
+    "tierName": {
+      "description": "Name einer Preisstufe"
+    },
+    "tierPrice": {
+      "description": "Preis einer Preisstufe"
+    },
+    "featureList": {
+      "description": "Liste der Funktionen"
+    },
+    "featureItem": {
+      "description": "Einzelne Funktion in der Liste"
+    },
+    "featureItemIncluded": {
+      "description": "Enthaltene Funktion"
+    },
+    "featureItemExcluded": {
+      "description": "Nicht enthaltene Funktion"
+    },
+    "comparisonTable": {
+      "description": "Vergleichstabelle"
+    },
+    "button": {
+      "description": "Schaltflächen in der Komponente"
+    }
+  }
+}

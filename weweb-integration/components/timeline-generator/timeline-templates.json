@@ -1,0 +1,295 @@
+{
+  "name": "TimelineGeneratorImplementation",
+  "description": "Implementierung des automatischen Zeitplangenerators für LemonVows",
+  "version": "1.0.0",
+  
+  "templates": {
+    "standard": [
+      {
+        "title": "Hochzeitsdatum festlegen",
+        "description": "Wählen Sie das Datum für Ihre Hochzeit",
+        "daysBeforeWedding": 365,
+        "category": "Planung"
+      },
+      {
+        "title": "Budget festlegen",
+        "description": "Legen Sie Ihr Gesamtbudget für die Hochzeit fest",
+        "daysBeforeWedding": 360,
+        "category": "Finanzen"
+      },
+      {
+        "title": "Location besichtigen",
+        "description": "Potenzielle Locations für die Zeremonie und Feier besichtigen",
+        "daysBeforeWedding": 330,
+        "category": "Location"
+      },
+      {
+        "title": "Location buchen",
+        "description": "Verbindliche Buchung der Location für Zeremonie und Feier",
+        "daysBeforeWedding": 300,
+        "category": "Location"
+      },
+      {
+        "title": "Gästeliste erstellen",
+        "description": "Vorläufige Gästeliste erstellen",
+        "daysBeforeWedding": 270,
+        "category": "Gäste"
+      },
+      {
+        "title": "Trauzeugen auswählen",
+        "description": "Trauzeugen und Brautjungfern auswählen und fragen",
+        "daysBeforeWedding": 240,
+        "category": "Planung"
+      },
+      {
+        "title": "Catering planen",
+        "description": "Catering-Service auswählen und Menü besprechen",
+        "daysBeforeWedding": 210,
+        "category": "Essen & Getränke"
+      },
+      {
+        "title": "Fotografen buchen",
+        "description": "Hochzeitsfotografen auswählen und buchen",
+        "daysBeforeWedding": 180,
+        "category": "Dienstleister"
+      },
+      {
+        "title": "DJ oder Band buchen",
+        "description": "Musik für die Feier organisieren",
+        "daysBeforeWedding": 180,
+        "category": "Unterhaltung"
+      },
+      {
+        "title": "Save-the-Date versenden",
+        "description": "Save-the-Date-Karten an Gäste versenden",
+        "daysBeforeWedding": 180,
+        "category": "Einladungen"
+      },
+      {
+        "title": "Hochzeitskleid auswählen",
+        "description": "Hochzeitskleid anprobieren und bestellen",
+        "daysBeforeWedding": 150,
+        "category": "Kleidung"
+      },
+      {
+        "title": "Anzug auswählen",
+        "description": "Hochzeitsanzug anprobieren und bestellen",
+        "daysBeforeWedding": 150,
+        "category": "Kleidung"
+      },
+      {
+        "title": "Eheringe aussuchen",
+        "description": "Eheringe aussuchen und bestellen",
+        "daysBeforeWedding": 120,
+        "category": "Schmuck"
+      },
+      {
+        "title": "Einladungen versenden",
+        "description": "Offizielle Einladungen an Gäste versenden",
+        "daysBeforeWedding": 90,
+        "category": "Einladungen"
+      },
+      {
+        "title": "Hochzeitstorte bestellen",
+        "description": "Hochzeitstorte auswählen und bestellen",
+        "daysBeforeWedding": 90,
+        "category": "Essen & Getränke"
+      },
+      {
+        "title": "Blumenschmuck bestellen",
+        "description": "Blumenschmuck für Zeremonie und Feier bestellen",
+        "daysBeforeWedding": 60,
+        "category": "Dekoration"
+      },
+      {
+        "title": "Probetermin Frisur und Make-up",
+        "description": "Probetermin für Frisur und Make-up vereinbaren",
+        "daysBeforeWedding": 60,
+        "category": "Styling"
+      },
+      {
+        "title": "Hochzeitsrede vorbereiten",
+        "description": "Hochzeitsrede schreiben und üben",
+        "daysBeforeWedding": 30,
+        "category": "Zeremonie"
+      },
+      {
+        "title": "Sitzordnung planen",
+        "description": "Endgültige Sitzordnung für die Feier festlegen",
+        "daysBeforeWedding": 30,
+        "category": "Planung"
+      },
+      {
+        "title": "Finale Anprobe",
+        "description": "Finale Anprobe von Hochzeitskleid und Anzug",
+        "daysBeforeWedding": 14,
+        "category": "Kleidung"
+      },
+      {
+        "title": "Ablaufplan erstellen",
+        "description": "Detaillierten Ablaufplan für den Hochzeitstag erstellen",
+        "daysBeforeWedding": 14,
+        "category": "Planung"
+      },
+      {
+        "title": "Friseur- und Make-up-Termin",
+        "description": "Friseur- und Make-up-Termin für den Hochzeitstag",
+        "daysBeforeWedding": 1,
+        "category": "Styling"
+      },
+      {
+        "title": "Hochzeitstag",
+        "description": "Ihr großer Tag!",
+        "daysBeforeWedding": 0,
+        "category": "Hochzeitstag"
+      }
+    ],
+    "traditionell": [
+      {
+        "title": "Hochzeitsdatum festlegen",
+        "description": "Wählen Sie das Datum für Ihre Hochzeit",
+        "daysBeforeWedding": 365,
+        "category": "Planung"
+      },
+      {
+        "title": "Kirche/Standesamt reservieren",
+        "description": "Reservierung der Kirche oder des Standesamts für die Trauung",
+        "daysBeforeWedding": 330,
+        "category": "Zeremonie"
+      },
+      {
+        "title": "Polterabend planen",
+        "description": "Datum und Location für den Polterabend festlegen",
+        "daysBeforeWedding": 120,
+        "category": "Tradition"
+      },
+      {
+        "title": "Brautstrauß bestellen",
+        "description": "Brautstrauß und Anstecker für den Bräutigam bestellen",
+        "daysBeforeWedding": 60,
+        "category": "Tradition"
+      },
+      {
+        "title": "Etwas Altes, Neues, Geliehenes und Blaues",
+        "description": "Traditionelle Glücksbringer für die Braut besorgen",
+        "daysBeforeWedding": 30,
+        "category": "Tradition"
+      }
+    ],
+    "modern": [
+      {
+        "title": "Hochzeits-Website erstellen",
+        "description": "Erstellen Sie eine Website für Ihre Hochzeit mit allen wichtigen Informationen",
+        "daysBeforeWedding": 270,
+        "category": "Digital"
+      },
+      {
+        "title": "Digitale Save-the-Dates versenden",
+        "description": "Digitale Save-the-Date-Nachrichten an Gäste versenden",
+        "daysBeforeWedding": 180,
+        "category": "Digital"
+      },
+      {
+        "title": "Hashtag für die Hochzeit erstellen",
+        "description": "Einzigartigen Hashtag für Ihre Hochzeit erstellen",
+        "daysBeforeWedding": 90,
+        "category": "Digital"
+      },
+      {
+        "title": "Online-RSVP einrichten",
+        "description": "Online-RSVP-System für Gäste einrichten",
+        "daysBeforeWedding": 90,
+        "category": "Digital"
+      },
+      {
+        "title": "Fotobox organisieren",
+        "description": "Fotobox oder Selfie-Station für die Feier organisieren",
+        "daysBeforeWedding": 60,
+        "category": "Unterhaltung"
+      }
+    ]
+  },
+  
+  "categories": [
+    {
+      "id": "planung",
+      "name": "Planung",
+      "color": "#4A90E2"
+    },
+    {
+      "id": "finanzen",
+      "name": "Finanzen",
+      "color": "#50E3C2"
+    },
+    {
+      "id": "location",
+      "name": "Location",
+      "color": "#F5A623"
+    },
+    {
+      "id": "gaeste",
+      "name": "Gäste",
+      "color": "#D0021B"
+    },
+    {
+      "id": "essen",
+      "name": "Essen & Getränke",
+      "color": "#7ED321"
+    },
+    {
+      "id": "dienstleister",
+      "name": "Dienstleister",
+      "color": "#9013FE"
+    },
+    {
+      "id": "unterhaltung",
+      "name": "Unterhaltung",
+      "color": "#BD10E0"
+    },
+    {
+      "id": "einladungen",
+      "name": "Einladungen",
+      "color": "#4A4A4A"
+    },
+    {
+      "id": "kleidung",
+      "name": "Kleidung",
+      "color": "#F8E71C"
+    },
+    {
+      "id": "schmuck",
+      "name": "Schmuck",
+      "color": "#B8E986"
+    },
+    {
+      "id": "dekoration",
+      "name": "Dekoration",
+      "color": "#FF9500"
+    },
+    {
+      "id": "styling",
+      "name": "Styling",
+      "color": "#FF2D55"
+    },
+    {
+      "id": "zeremonie",
+      "name": "Zeremonie",
+      "color": "#5AC8FA"
+    },
+    {
+      "id": "hochzeitstag",
+      "name": "Hochzeitstag",
+      "color": "#FF3B30"
+    },
+    {
+      "id": "tradition",
+      "name": "Tradition",
+      "color": "#8E8E93"
+    },
+    {
+      "id": "digital",
+      "name": "Digital",
+      "color": "#007AFF"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "name": "GuestManagementImplementation",
+  "description": "Implementierung des Gästemanagements für LemonVows",
+  "version": "1.0.0",
+  
+  "dataModel": {
+    "guest": {
+      "id": "string",
+      "firstName": "string",
+      "lastName": "string",
+      "email": "string",
+      "phone": "string",
+      "rsvpStatus": "enum:pending,confirmed,declined",
+      "dietaryRestrictions": "string",
+      "accommodation": "boolean",
+      "plusOne": "boolean",
+      "plusOneName": "string",
+      "notes": "string",
+      "tableAssignment": "number",
+      "group": "string",
+      "isChild": "boolean",
+      "age": "number",
+      "invitationSent": "boolean",
+      "invitationSentDate": "date",
+      "thankYouSent": "boolean",
+      "thankYouSentDate": "date"
+    },
+    "group": {
+      "id": "string",
+      "name": "string",
+      "description": "string",
+      "color": "string"
+    }
+  }
+}

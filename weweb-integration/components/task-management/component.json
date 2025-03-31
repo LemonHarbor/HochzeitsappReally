@@ -1,0 +1,143 @@
+{
+  "name": "TaskManagement",
+  "description": "Komponente zur Verwaltung von Aufgabenlisten und Zeitplänen mit Erinnerungsfunktion",
+  "version": "1.0.0",
+  "props": {
+    "showReminders": {
+      "type": "boolean",
+      "description": "Erinnerungen anzeigen",
+      "default": true
+    },
+    "maxTasks": {
+      "type": "number",
+      "description": "Maximale Anzahl der Aufgaben basierend auf dem Preisplan",
+      "default": 50
+    },
+    "enableCategories": {
+      "type": "boolean",
+      "description": "Kategorisierung von Aufgaben ermöglichen",
+      "default": true
+    },
+    "enableAssignees": {
+      "type": "boolean",
+      "description": "Zuweisung von Aufgaben an Personen ermöglichen",
+      "default": false
+    }
+  },
+  "dataSchema": {
+    "task": {
+      "title": "string",
+      "description": "string",
+      "dueDate": "date",
+      "category": "string",
+      "priority": "enum:low,medium,high",
+      "status": "enum:todo,in-progress,done",
+      "assignee": "string",
+      "reminder": "date",
+      "notes": "string"
+    },
+    "category": {
+      "name": "string",
+      "color": "string"
+    }
+  },
+  "methods": {
+    "addTask": {
+      "description": "Fügt eine neue Aufgabe hinzu",
+      "parameters": ["task"]
+    },
+    "updateTask": {
+      "description": "Aktualisiert eine Aufgabe",
+      "parameters": ["id", "task"]
+    },
+    "removeTask": {
+      "description": "Entfernt eine Aufgabe",
+      "parameters": ["id"]
+    },
+    "completeTask": {
+      "description": "Markiert eine Aufgabe als erledigt",
+      "parameters": ["id"]
+    },
+    "addCategory": {
+      "description": "Fügt eine neue Kategorie hinzu",
+      "parameters": ["category"]
+    },
+    "updateCategory": {
+      "description": "Aktualisiert eine Kategorie",
+      "parameters": ["id", "category"]
+    },
+    "removeCategory": {
+      "description": "Entfernt eine Kategorie",
+      "parameters": ["id"]
+    },
+    "setReminder": {
+      "description": "Setzt eine Erinnerung für eine Aufgabe",
+      "parameters": ["id", "reminderDate"]
+    },
+    "assignTask": {
+      "description": "Weist eine Aufgabe einer Person zu",
+      "parameters": ["id", "assignee"]
+    },
+    "exportTasks": {
+      "description": "Exportiert die Aufgabenliste",
+      "parameters": ["format"]
+    }
+  },
+  "events": {
+    "onTaskAdded": {
+      "description": "Wird ausgelöst, wenn eine Aufgabe hinzugefügt wird"
+    },
+    "onTaskUpdated": {
+      "description": "Wird ausgelöst, wenn eine Aufgabe aktualisiert wird"
+    },
+    "onTaskRemoved": {
+      "description": "Wird ausgelöst, wenn eine Aufgabe entfernt wird"
+    },
+    "onTaskCompleted": {
+      "description": "Wird ausgelöst, wenn eine Aufgabe als erledigt markiert wird"
+    },
+    "onReminderDue": {
+      "description": "Wird ausgelöst, wenn eine Erinnerung fällig ist"
+    }
+  },
+  "slots": {
+    "taskListHeader": {
+      "description": "Kopfzeile der Aufgabenliste"
+    },
+    "taskListFooter": {
+      "description": "Fußzeile der Aufgabenliste"
+    },
+    "taskListEmpty": {
+      "description": "Wird angezeigt, wenn die Aufgabenliste leer ist"
+    },
+    "taskListItem": {
+      "description": "Benutzerdefiniertes Layout für eine Aufgabe in der Liste"
+    }
+  },
+  "styles": {
+    "container": {
+      "description": "Hauptcontainer der Komponente"
+    },
+    "header": {
+      "description": "Kopfzeile der Komponente"
+    },
+    "taskList": {
+      "description": "Liste der Aufgaben"
+    },
+    "taskItem": {
+      "description": "Einzelne Aufgabe in der Liste"
+    },
+    "categoryList": {
+      "description": "Liste der Kategorien"
+    },
+    "categoryItem": {
+      "description": "Einzelne Kategorie in der Liste"
+    },
+    "addTaskForm": {
+      "description": "Formular zum Hinzufügen einer Aufgabe"
+    },
+    "button": {
+      "description": "Schaltflächen in der Komponente"
+    }
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "name": "BudgetPlanning",
+  "description": "Komponente zur Planung und Verfolgung des Hochzeitsbudgets mit detaillierten Berichten",
+  "version": "1.0.0",
+  "props": {
+    "totalBudget": {
+      "type": "number",
+      "description": "Gesamtbudget für die Hochzeit",
+      "default": 10000
+    },
+    "currency": {
+      "type": "string",
+      "description": "Währung für das Budget",
+      "default": "EUR"
+    },
+    "showDetailedReports": {
+      "type": "boolean",
+      "description": "Detaillierte Berichte anzeigen (Premium-Funktion)",
+      "default": false
+    },
+    "showCategoryBreakdown": {
+      "type": "boolean",
+      "description": "Aufschlüsselung nach Kategorien anzeigen",
+      "default": true
+    }
+  },
+  "dataSchema": {
+    "budgetItem": {
+      "category": "string",
+      "description": "string",
+      "estimatedCost": "number",
+      "actualCost": "number",
+      "paid": "boolean",
+      "paymentDate": "date",
+      "vendor": "string",
+      "notes": "string"
+    },
+    "budgetCategory": {
+      "name": "string",
+      "allocation": "number",
+      "color": "string"
+    }
+  },
+  "methods": {
+    "addBudgetItem": {
+      "description": "Fügt einen neuen Budgetposten hinzu",
+      "parameters": ["budgetItem"]
+    },
+    "updateBudgetItem": {
+      "description": "Aktualisiert einen Budgetposten",
+      "parameters": ["id", "budgetItem"]
+    },
+    "removeBudgetItem": {
+      "description": "Entfernt einen Budgetposten",
+      "parameters": ["id"]
+    },
+    "addCategory": {
+      "description": "Fügt eine neue Budgetkategorie hinzu",
+      "parameters": ["budgetCategory"]
+    },
+    "updateCategory": {
+      "description": "Aktualisiert eine Budgetkategorie",
+      "parameters": ["id", "budgetCategory"]
+    },
+    "removeCategory": {
+      "description": "Entfernt eine Budgetkategorie",
+      "parameters": ["id"]
+    },
+    "generateReport": {
+      "description": "Generiert einen detaillierten Budgetbericht",
+      "parameters": ["format"]
+    }
+  },
+  "events": {
+    "onBudgetItemAdded": {
+      "description": "Wird ausgelöst, wenn ein Budgetposten hinzugefügt wird"
+    },
+    "onBudgetItemUpdated": {
+      "description": "Wird ausgelöst, wenn ein Budgetposten aktualisiert wird"
+    },
+    "onBudgetItemRemoved": {
+      "description": "Wird ausgelöst, wenn ein Budgetposten entfernt wird"
+    },
+    "onBudgetExceeded": {
+      "description": "Wird ausgelöst, wenn das Budget überschritten wird"
+    }
+  },
+  "slots": {
+    "budgetHeader": {
+      "description": "Kopfzeile des Budgetbereichs"
+    },
+    "budgetFooter": {
+      "description": "Fußzeile des Budgetbereichs"
+    },
+    "budgetSummary": {
+      "description": "Zusammenfassung des Budgets"
+    },
+    "categoryBreakdown": {
+      "description": "Aufschlüsselung nach Kategorien"
+    }
+  },
+  "styles": {
+    "container": {
+      "description": "Hauptcontainer der Komponente"
+    },
+    "header": {
+      "description": "Kopfzeile der Komponente"
+    },
+    "budgetList": {
+      "description": "Liste der Budgetposten"
+    },
+    "budgetItem": {
+      "description": "Einzelner Budgetposten in der Liste"
+    },
+    "categoryList": {
+      "description": "Liste der Budgetkategorien"
+    },
+    "categoryItem": {
+      "description": "Einzelne Budgetkategorie in der Liste"
+    },
+    "chart": {
+      "description": "Diagramme und Grafiken"
+    },
+    "form": {
+      "description": "Formulare in der Komponente"
+    },
+    "button": {
+      "description": "Schaltflächen in der Komponente"
+    }
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "name": "PhotoGallery",
+  "description": "Komponente zur Verwaltung und Anzeige von Hochzeitsfotos mit Sharing-Optionen",
+  "version": "1.0.0",
+  "props": {
+    "maxPhotos": {
+      "type": "number",
+      "description": "Maximale Anzahl der Fotos basierend auf dem Preisplan",
+      "default": 100
+    },
+    "enableSharing": {
+      "type": "boolean",
+      "description": "Sharing-Funktionen aktivieren",
+      "default": true
+    },
+    "enableComments": {
+      "type": "boolean",
+      "description": "Kommentarfunktion aktivieren",
+      "default": false
+    },
+    "enableLikes": {
+      "type": "boolean",
+      "description": "Like-Funktion aktivieren",
+      "default": true
+    },
+    "allowGuestUploads": {
+      "type": "boolean",
+      "description": "Gästen erlauben, Fotos hochzuladen",
+      "default": false
+    }
+  },
+  "dataSchema": {
+    "photo": {
+      "title": "string",
+      "description": "string",
+      "url": "string",
+      "thumbnailUrl": "string",
+      "uploadDate": "date",
+      "uploadedBy": "string",
+      "tags": "array",
+      "album": "string",
+      "likes": "number",
+      "featured": "boolean",
+      "private": "boolean"
+    },
+    "album": {
+      "name": "string",
+      "description": "string",
+      "coverPhotoUrl": "string",
+      "creationDate": "date",
+      "private": "boolean"
+    },
+    "comment": {
+      "photoId": "string",
+      "author": "string",
+      "text": "string",
+      "date": "date"
+    }
+  },
+  "methods": {
+    "uploadPhoto": {
+      "description": "Lädt ein neues Foto hoch",
+      "parameters": ["file", "metadata"]
+    },
+    "updatePhoto": {
+      "description": "Aktualisiert die Metadaten eines Fotos",
+      "parameters": ["id", "metadata"]
+    },
+    "removePhoto": {
+      "description": "Entfernt ein Foto",
+      "parameters": ["id"]
+    },
+    "createAlbum": {
+      "description": "Erstellt ein neues Album",
+      "parameters": ["album"]
+    },
+    "updateAlbum": {
+      "description": "Aktualisiert ein Album",
+      "parameters": ["id", "album"]
+    },
+    "removeAlbum": {
+      "description": "Entfernt ein Album",
+      "parameters": ["id"]
+    },
+    "addPhotoToAlbum": {
+      "description": "Fügt ein Foto zu einem Album hinzu",
+      "parameters": ["photoId", "albumId"]
+    },
+    "removePhotoFromAlbum": {
+      "description": "Entfernt ein Foto aus einem Album",
+      "parameters": ["photoId", "albumId"]
+    },
+    "likePhoto": {
+      "description": "Liked ein Foto",
+      "parameters": ["id"]
+    },
+    "unlikePhoto": {
+      "description": "Entfernt den Like von einem Foto",
+      "parameters": ["id"]
+    },
+    "addComment": {
+      "description": "Fügt einen Kommentar zu einem Foto hinzu",
+      "parameters": ["photoId", "comment"]
+    },
+    "removeComment": {
+      "description": "Entfernt einen Kommentar",
+      "parameters": ["commentId"]
+    },
+    "sharePhoto": {
+      "description": "Teilt ein Foto",
+      "parameters": ["id", "platform"]
+    },
+    "shareAlbum": {
+      "description": "Teilt ein Album",
+      "parameters": ["id", "platform"]
+    },
+    "generateShareLink": {
+      "description": "Generiert einen Sharing-Link",
+      "parameters": ["type", "id"]
+    }
+  },
+  "events": {
+    "onPhotoUploaded": {
+      "description": "Wird ausgelöst, wenn ein Foto hochgeladen wird"
+    },
+    "onPhotoUpdated": {
+      "description": "Wird ausgelöst, wenn ein Foto aktualisiert wird"
+    },
+    "onPhotoRemoved": {
+      "description": "Wird ausgelöst, wenn ein Foto entfernt wird"
+    },
+    "onAlbumCreated": {
+      "description": "Wird ausgelöst, wenn ein Album erstellt wird"
+    },
+    "onAlbumUpdated": {
+      "description": "Wird ausgelöst, wenn ein Album aktualisiert wird"
+    },
+    "onAlbumRemoved": {
+      "description": "Wird ausgelöst, wenn ein Album entfernt wird"
+    },
+    "onPhotoLiked": {
+      "description": "Wird ausgelöst, wenn ein Foto geliked wird"
+    },
+    "onCommentAdded": {
+      "description": "Wird ausgelöst, wenn ein Kommentar hinzugefügt wird"
+    },
+    "onPhotoShared": {
+      "description": "Wird ausgelöst, wenn ein Foto geteilt wird"
+    }
+  },
+  "slots": {
+    "galleryHeader": {
+      "description": "Kopfzeile der Galerie"
+    },
+    "galleryFooter": {
+      "description": "Fußzeile der Galerie"
+    },
+    "photoItem": {
+      "description": "Benutzerdefiniertes Layout für ein Foto in der Galerie"
+    },
+    "albumItem": {
+      "description": "Benutzerdefiniertes Layout für ein Album in der Galerie"
+    },
+    "photoDetail": {
+      "description": "Detailansicht eines Fotos"
+    },
+    "commentSection": {
+      "description": "Kommentarbereich für ein Foto"
+    }
+  },
+  "styles": {
+    "container": {
+      "description": "Hauptcontainer der Komponente"
+    },
+    "gallery": {
+      "description": "Galeriebereich"
+    },
+    "photoGrid": {
+      "description": "Raster für Fotos"
+    },
+    "photoItem": {
+      "description": "Einzelnes Foto im Raster"
+    },
+    "albumGrid": {
+      "description": "Raster für Alben"
+    },
+    "albumItem": {
+      "description": "Einzelnes Album im Raster"
+    },
+    "photoDetail": {
+      "description": "Detailansicht eines Fotos"
+    },
+    "photoControls": {
+      "description": "Steuerelemente für ein Foto"
+    },
+    "commentSection": {
+      "description": "Kommentarbereich"
+    },
+    "commentItem": {
+      "description": "Einzelner Kommentar"
+    },
+    "uploadArea": {
+      "description": "Bereich zum Hochladen von Fotos"
+    },
+    "button": {
+      "description": "Schaltflächen in der Komponente"
+    }
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "name": "SeatingPlannerImplementation",
+  "description": "Implementierung der Sitzplatzplanung für LemonVows",
+  "version": "1.0.0",
+  
+  "dataModel": {
+    "table": {
+      "id": "string",
+      "name": "string",
+      "shape": "enum:round,rectangular,oval,custom",
+      "capacity": "number",
+      "positionX": "number",
+      "positionY": "number",
+      "rotation": "number",
+      "width": "number",
+      "height": "number",
+      "notes": "string"
+    },
+    "seat": {
+      "id": "string",
+      "tableId": "string",
+      "position": "number",
+      "guestId": "string",
+      "menuChoice": "string",
+      "specialRequirements": "string"
+    },
+    "menuOption": {
+      "id": "string",
+      "name": "string",
+      "description": "string",
+      "type": "enum:starter,main,dessert,special",
+      "dietaryInfo": "string",
+      "color": "string"
+    },
+    "room": {
+      "id": "string",
+      "name": "string",
+      "width": "number",
+      "height": "number",
+      "backgroundImage": "string"
+    },
+    "obstacle": {
+      "id": "string",
+      "name": "string",
+      "type": "enum:wall,door,window,stage,bar,other",
+      "positionX": "number",
+      "positionY": "number",
+      "width": "number",
+      "height": "number",
+      "rotation": "number"
+    }
+  },
+  
+  "defaultTableShapes": [
+    {
+      "name": "Rund",
+      "shape": "round",
+      "defaultCapacity": 8,
+      "defaultWidth": 100,
+      "defaultHeight": 100
+    },
+    {
+      "name": "Rechteckig",
+      "shape": "rectangular",
+      "defaultCapacity": 10,
+      "defaultWidth": 150,
+      "defaultHeight": 80
+    },
+    {
+      "name": "Oval",
+      "shape": "oval",
+      "defaultCapacity": 8,
+      "defaultWidth": 120,
+      "defaultHeight": 90
+    }
+  ],
+  
+  "defaultMenuOptions": [
+    {
+      "name": "Vegetarisch",
+      "description": "Vegetarisches Hauptgericht",
+      "type": "main",
+      "dietaryInfo": "vegetarisch",
+      "color": "#7ED321"
+    },
+    {
+      "name": "Vegan",
+      "description": "Veganes Hauptgericht",
+      "type": "main",
+      "dietaryInfo": "vegan",
+      "color": "#50E3C2"
+    },
+    {
+      "name": "Fleisch",
+      "description": "Fleisch-Hauptgericht",
+      "type": "main",
+      "dietaryInfo": "",
+      "color": "#D0021B"
+    },
+    {
+      "name": "Fisch",
+      "description": "Fisch-Hauptgericht",
+      "type": "main",
+      "dietaryInfo": "",
+      "color": "#4A90E2"
+    },
+    {
+      "name": "Kindergericht",
+      "description": "Spezielles Menü für Kinder",
+      "type": "special",
+      "dietaryInfo": "",
+      "color": "#F8E71C"
+    },
+    {
+      "name": "Glutenfrei",
+      "description": "Glutenfreie Option",
+      "type": "special",
+      "dietaryInfo": "glutenfrei",
+      "color": "#9013FE"
+    }
+  ]
+}

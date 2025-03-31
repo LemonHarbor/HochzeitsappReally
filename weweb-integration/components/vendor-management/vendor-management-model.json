@@ -1,0 +1,90 @@
+{
+  "name": "VendorManagementImplementation",
+  "description": "Implementierung des Lieferantenmanagements für LemonVows",
+  "version": "1.0.0",
+  
+  "dataModel": {
+    "vendor": {
+      "id": "string",
+      "name": "string",
+      "category": "string",
+      "contactPerson": "string",
+      "email": "string",
+      "phone": "string",
+      "website": "string",
+      "address": "string",
+      "notes": "string",
+      "rating": "number",
+      "contractSigned": "boolean",
+      "contractDate": "date",
+      "contractFile": "string",
+      "price": "number",
+      "depositPaid": "boolean",
+      "depositAmount": "number",
+      "depositDate": "date",
+      "finalPaymentDue": "date",
+      "finalPaymentPaid": "boolean",
+      "createdAt": "date",
+      "updatedAt": "date"
+    },
+    "category": {
+      "id": "string",
+      "name": "string",
+      "icon": "string",
+      "description": "string"
+    }
+  },
+  
+  "defaultCategories": [
+    {
+      "name": "Location",
+      "icon": "location",
+      "description": "Veranstaltungsorte für Zeremonie und Feier"
+    },
+    {
+      "name": "Catering",
+      "icon": "food",
+      "description": "Catering-Services und Hochzeitstorten"
+    },
+    {
+      "name": "Fotografie",
+      "icon": "camera",
+      "description": "Fotografen und Videografen"
+    },
+    {
+      "name": "Musik",
+      "icon": "music",
+      "description": "DJs, Bands und andere Unterhaltung"
+    },
+    {
+      "name": "Blumen",
+      "icon": "flower",
+      "description": "Floristen und Blumendekoration"
+    },
+    {
+      "name": "Kleidung",
+      "icon": "clothing",
+      "description": "Brautmode, Anzüge und Accessoires"
+    },
+    {
+      "name": "Transport",
+      "icon": "car",
+      "description": "Hochzeitsautos und Gästetransport"
+    },
+    {
+      "name": "Dekoration",
+      "icon": "decoration",
+      "description": "Dekorationsservices und Verleih"
+    },
+    {
+      "name": "Beauty",
+      "icon": "beauty",
+      "description": "Friseure, Make-up-Artisten und Stylisten"
+    },
+    {
+      "name": "Sonstiges",
+      "icon": "misc",
+      "description": "Andere Dienstleister"
+    }
+  ]
+}

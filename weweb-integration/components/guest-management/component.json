@@ -1,0 +1,116 @@
+{
+  "name": "GuestManagement",
+  "description": "Komponente zur Verwaltung der Hochzeitsgäste mit RSVP-Tracking",
+  "version": "1.0.0",
+  "props": {
+    "maxGuests": {
+      "type": "number",
+      "description": "Maximale Anzahl der Gäste basierend auf dem Preisplan",
+      "default": 20
+    },
+    "showRSVP": {
+      "type": "boolean",
+      "description": "RSVP-Tracking anzeigen",
+      "default": true
+    },
+    "showDietaryRestrictions": {
+      "type": "boolean",
+      "description": "Diätbeschränkungen anzeigen",
+      "default": true
+    },
+    "showAccommodation": {
+      "type": "boolean",
+      "description": "Unterkunftsinformationen anzeigen",
+      "default": false
+    }
+  },
+  "dataSchema": {
+    "guest": {
+      "firstName": "string",
+      "lastName": "string",
+      "email": "string",
+      "phone": "string",
+      "rsvpStatus": "enum:pending,confirmed,declined",
+      "dietaryRestrictions": "string",
+      "accommodation": "boolean",
+      "plusOne": "boolean",
+      "plusOneName": "string",
+      "notes": "string",
+      "tableAssignment": "number"
+    }
+  },
+  "methods": {
+    "addGuest": {
+      "description": "Fügt einen neuen Gast zur Liste hinzu",
+      "parameters": ["guest"]
+    },
+    "updateGuest": {
+      "description": "Aktualisiert die Informationen eines Gastes",
+      "parameters": ["id", "guest"]
+    },
+    "removeGuest": {
+      "description": "Entfernt einen Gast aus der Liste",
+      "parameters": ["id"]
+    },
+    "sendInvitation": {
+      "description": "Sendet eine Einladung an einen Gast",
+      "parameters": ["id"]
+    },
+    "sendReminderEmail": {
+      "description": "Sendet eine Erinnerungs-E-Mail an Gäste, die noch nicht geantwortet haben",
+      "parameters": []
+    },
+    "exportGuestList": {
+      "description": "Exportiert die Gästeliste als CSV",
+      "parameters": []
+    }
+  },
+  "events": {
+    "onGuestAdded": {
+      "description": "Wird ausgelöst, wenn ein Gast hinzugefügt wird"
+    },
+    "onGuestUpdated": {
+      "description": "Wird ausgelöst, wenn ein Gast aktualisiert wird"
+    },
+    "onGuestRemoved": {
+      "description": "Wird ausgelöst, wenn ein Gast entfernt wird"
+    },
+    "onRSVPReceived": {
+      "description": "Wird ausgelöst, wenn eine RSVP-Antwort eingeht"
+    }
+  },
+  "slots": {
+    "guestListHeader": {
+      "description": "Kopfzeile der Gästeliste"
+    },
+    "guestListFooter": {
+      "description": "Fußzeile der Gästeliste"
+    },
+    "guestListEmpty": {
+      "description": "Wird angezeigt, wenn die Gästeliste leer ist"
+    },
+    "guestListItem": {
+      "description": "Benutzerdefiniertes Layout für einen Gast in der Liste"
+    }
+  },
+  "styles": {
+    "container": {
+      "description": "Hauptcontainer der Komponente"
+    },
+    "header": {
+      "description": "Kopfzeile der Komponente"
+    },
+    "guestList": {
+      "description": "Liste der Gäste"
+    },
+    "guestItem": {
+      "description": "Einzelner Gast in der Liste"
+    },
+    "addGuestForm": {
+      "description": "Formular zum Hinzufügen eines Gastes"
+    },
+    "button": {
+      "description": "Schaltflächen in der Komponente"
+    }
+  }
+}

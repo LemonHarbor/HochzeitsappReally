@@ -1,0 +1,79 @@
+{
+  "name": "BestManSectionImplementation",
+  "description": "Implementierung des geschützten Bereichs für Trauzeugen für LemonVows",
+  "version": "1.0.0",
+  
+  "dataModel": {
+    "bestManUser": {
+      "id": "string",
+      "name": "string",
+      "email": "string",
+      "role": "enum:bestMan,maidOfHonor,groomsman,bridesmaid,other",
+      "accessCode": "string",
+      "isActive": "boolean",
+      "lastLogin": "date",
+      "createdAt": "date"
+    },
+    "task": {
+      "id": "string",
+      "title": "string",
+      "description": "string",
+      "assignedTo": "string",
+      "dueDate": "date",
+      "status": "enum:todo,in-progress,done",
+      "priority": "enum:low,medium,high",
+      "isPrivate": "boolean",
+      "createdAt": "date",
+      "updatedAt": "date",
+      "completedAt": "date"
+    },
+    "note": {
+      "id": "string",
+      "title": "string",
+      "content": "string",
+      "author": "string",
+      "isPrivate": "boolean",
+      "createdAt": "date",
+      "updatedAt": "date"
+    },
+    "event": {
+      "id": "string",
+      "title": "string",
+      "description": "string",
+      "location": "string",
+      "startDate": "date",
+      "endDate": "date",
+      "isPrivate": "boolean",
+      "createdAt": "date",
+      "updatedAt": "date"
+    }
+  },
+  
+  "defaultRoles": [
+    {
+      "name": "Trauzeuge",
+      "role": "bestMan",
+      "description": "Hauptverantwortlicher auf Seiten des Bräutigams"
+    },
+    {
+      "name": "Trauzeugin",
+      "role": "maidOfHonor",
+      "description": "Hauptverantwortliche auf Seiten der Braut"
+    },
+    {
+      "name": "Bräutigamsführer",
+      "role": "groomsman",
+      "description": "Unterstützung für den Bräutigam"
+    },
+    {
+      "name": "Brautjungfer",
+      "role": "bridesmaid",
+      "description": "Unterstützung für die Braut"
+    },
+    {
+      "name": "Sonstige Rolle",
+      "role": "other",
+      "description": "Andere unterstützende Rolle"
+    }
+  ]
+}

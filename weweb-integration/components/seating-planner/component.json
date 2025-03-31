@@ -1,0 +1,176 @@
+{
+  "name": "SeatingPlanner",
+  "description": "Komponente zur interaktiven Sitzplatzplanung mit Drag-and-Drop-Funktionalität",
+  "version": "1.0.0",
+  "props": {
+    "enableDragAndDrop": {
+      "type": "boolean",
+      "description": "Drag-and-Drop-Funktionalität aktivieren",
+      "default": true
+    },
+    "maxTables": {
+      "type": "number",
+      "description": "Maximale Anzahl der Tische basierend auf dem Preisplan",
+      "default": 10
+    },
+    "enableConflictDetection": {
+      "type": "boolean",
+      "description": "Erkennung von Sitzplatz-Konflikten aktivieren",
+      "default": false
+    },
+    "enableMenuSelection": {
+      "type": "boolean",
+      "description": "Menüauswahl für Gäste aktivieren",
+      "default": true
+    }
+  },
+  "dataSchema": {
+    "table": {
+      "name": "string",
+      "number": "number",
+      "shape": "enum:round,rectangular,oval,custom",
+      "capacity": "number",
+      "positionX": "number",
+      "positionY": "number",
+      "rotation": "number",
+      "category": "string"
+    },
+    "seat": {
+      "tableId": "string",
+      "position": "number",
+      "guestId": "string",
+      "menuSelection": "string",
+      "specialRequirements": "string"
+    },
+    "conflict": {
+      "guestId1": "string",
+      "guestId2": "string",
+      "severity": "enum:low,medium,high",
+      "reason": "string"
+    }
+  },
+  "methods": {
+    "addTable": {
+      "description": "Fügt einen neuen Tisch hinzu",
+      "parameters": ["table"]
+    },
+    "updateTable": {
+      "description": "Aktualisiert einen Tisch",
+      "parameters": ["id", "table"]
+    },
+    "removeTable": {
+      "description": "Entfernt einen Tisch",
+      "parameters": ["id"]
+    },
+    "assignGuest": {
+      "description": "Weist einen Gast einem Sitzplatz zu",
+      "parameters": ["tableId", "position", "guestId"]
+    },
+    "unassignGuest": {
+      "description": "Entfernt einen Gast von einem Sitzplatz",
+      "parameters": ["guestId"]
+    },
+    "moveGuest": {
+      "description": "Verschiebt einen Gast zu einem anderen Sitzplatz",
+      "parameters": ["guestId", "newTableId", "newPosition"]
+    },
+    "addConflict": {
+      "description": "Fügt einen Konflikt zwischen zwei Gästen hinzu",
+      "parameters": ["conflict"]
+    },
+    "removeConflict": {
+      "description": "Entfernt einen Konflikt zwischen zwei Gästen",
+      "parameters": ["guestId1", "guestId2"]
+    },
+    "setMenuSelection": {
+      "description": "Setzt die Menüauswahl für einen Gast",
+      "parameters": ["guestId", "menuSelection"]
+    },
+    "checkConflicts": {
+      "description": "Überprüft auf Konflikte in der aktuellen Sitzordnung",
+      "parameters": []
+    },
+    "exportSeatingPlan": {
+      "description": "Exportiert den Sitzplan",
+      "parameters": ["format"]
+    }
+  },
+  "events": {
+    "onTableAdded": {
+      "description": "Wird ausgelöst, wenn ein Tisch hinzugefügt wird"
+    },
+    "onTableUpdated": {
+      "description": "Wird ausgelöst, wenn ein Tisch aktualisiert wird"
+    },
+    "onTableRemoved": {
+      "description": "Wird ausgelöst, wenn ein Tisch entfernt wird"
+    },
+    "onGuestAssigned": {
+      "description": "Wird ausgelöst, wenn ein Gast einem Sitzplatz zugewiesen wird"
+    },
+    "onGuestUnassigned": {
+      "description": "Wird ausgelöst, wenn ein Gast von einem Sitzplatz entfernt wird"
+    },
+    "onGuestMoved": {
+      "description": "Wird ausgelöst, wenn ein Gast zu einem anderen Sitzplatz verschoben wird"
+    },
+    "onConflictDetected": {
+      "description": "Wird ausgelöst, wenn ein Konflikt erkannt wird"
+    },
+    "onMenuSelectionChanged": {
+      "description": "Wird ausgelöst, wenn die Menüauswahl eines Gastes geändert wird"
+    }
+  },
+  "slots": {
+    "floorPlanHeader": {
+      "description": "Kopfzeile des Saalplans"
+    },
+    "floorPlanFooter": {
+      "description": "Fußzeile des Saalplans"
+    },
+    "tableTemplate": {
+      "description": "Benutzerdefiniertes Layout für einen Tisch"
+    },
+    "seatTemplate": {
+      "description": "Benutzerdefiniertes Layout für einen Sitzplatz"
+    },
+    "guestList": {
+      "description": "Liste der Gäste für Drag-and-Drop"
+    }
+  },
+  "styles": {
+    "container": {
+      "description": "Hauptcontainer der Komponente"
+    },
+    "floorPlan": {
+      "description": "Saalplan-Bereich"
+    },
+    "table": {
+      "description": "Tisch im Saalplan"
+    },
+    "seat": {
+      "description": "Sitzplatz an einem Tisch"
+    },
+    "occupiedSeat": {
+      "description": "Besetzter Sitzplatz"
+    },
+    "emptySeat": {
+      "description": "Leerer Sitzplatz"
+    },
+    "guestList": {
+      "description": "Liste der Gäste für Drag-and-Drop"
+    },
+    "guestItem": {
+      "description": "Gast in der Gästeliste"
+    },
+    "conflictIndicator": {
+      "description": "Indikator für Konflikte"
+    },
+    "controls": {
+      "description": "Steuerelemente für den Saalplan"
+    },
+    "button": {
+      "description": "Schaltflächen in der Komponente"
+    }
+  }
+}

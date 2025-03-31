@@ -1,0 +1,129 @@
+{
+  "projectName": "LemonVows by LemonHarbor",
+  "description": "Hochzeitsplanungs-App mit WeWeb No-Code-Integration",
+  "version": "1.0.0",
+  "theme": {
+    "colors": {
+      "primary": "#F8C3CD",
+      "secondary": "#F5E6E8",
+      "accent": "#D4AF37",
+      "background": "#FFFFFF",
+      "text": "#333333"
+    },
+    "fonts": {
+      "heading": "Montserrat",
+      "body": "Open Sans"
+    },
+    "borderRadius": "8px",
+    "spacing": {
+      "small": "8px",
+      "medium": "16px",
+      "large": "24px"
+    }
+  },
+  "pricingTiers": [
+    {
+      "id": "free",
+      "name": "Free Version",
+      "price": 0,
+      "currency": "EUR",
+      "period": "month",
+      "features": [
+        "Grundfunktionen für bis zu 20 Gäste",
+        "Automatischer Zeitplangenerator",
+        "Einfache Budgetverfolgung",
+        "Grundlegende Aufgabenlisten"
+      ],
+      "limits": {
+        "guests": 20,
+        "tasks": 50,
+        "photos": 100
+      }
+    },
+    {
+      "id": "basis",
+      "name": "Basis",
+      "price": 29.99,
+      "currency": "EUR",
+      "period": "month",
+      "features": [
+        "Erweiterte Funktionen für bis zu 50 Gäste",
+        "Detaillierte Budgetverfolgung",
+        "Erweiterte Aufgabenlisten",
+        "Einfache Sitzplatzplanung",
+        "14 Tage Testphase für Premium-Funktionen"
+      ],
+      "limits": {
+        "guests": 50,
+        "tasks": 200,
+        "photos": 500
+      }
+    },
+    {
+      "id": "premium",
+      "name": "Premium",
+      "price": 89.99,
+      "currency": "EUR",
+      "period": "month",
+      "features": [
+        "Alle Funktionen mit unbegrenzter Gästeanzahl",
+        "Detaillierte Budgetverfolgung mit Berichten",
+        "Erweiterte Aufgabenlisten mit Erinnerungen",
+        "Lieferantenmanagement und -bewertungen",
+        "Interaktive Sitzplatzplanung",
+        "Fotogalerie für Hochzeitsfotos",
+        "Prioritäts-Support"
+      ],
+      "limits": {
+        "guests": -1,
+        "tasks": -1,
+        "photos": 2000
+      }
+    },
+    {
+      "id": "deluxe",
+      "name": "Deluxe",
+      "price": 199.99,
+      "currency": "EUR",
+      "period": "month",
+      "features": [
+        "Alle Premium-Funktionen",
+        "Persönlicher Hochzeitsplaner-Assistent",
+        "Exklusive Design-Vorlagen",
+        "Hochzeitswebsite mit eigenem Domain",
+        "Unbegrenzte Fotospeicherung",
+        "KI-gestützter Hochzeitsredengenerator",
+        "NFT-Gästebuch für digitale Erinnerungen",
+        "Prioritäts-Support rund um die Uhr"
+      ],
+      "limits": {
+        "guests": -1,
+        "tasks": -1,
+        "photos": -1
+      }
+    }
+  ],
+  "supabaseConfig": {
+    "apiUrl": "${SUPABASE_URL}",
+    "apiKey": "${SUPABASE_KEY}",
+    "tables": [
+      "users",
+      "guests",
+      "budget_items",
+      "tasks",
+      "vendors",
+      "seating_plans",
+      "photos"
+    ]
+  },
+  "features": {
+    "guestManagement": true,
+    "budgetPlanning": true,
+    "taskManagement": true,
+    "vendorManagement": true,
+    "seatingPlanner": true,
+    "photoGallery": true,
+    "timelineGenerator": true,
+    "bestManSection": true
+  }
+}
