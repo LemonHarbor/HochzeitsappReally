@@ -5,37 +5,60 @@ import { CurrencyProvider } from "@/lib/currency";
 import AppointmentCalendar from "@/components/vendor/AppointmentCalendar";
 import { addDays, subDays } from "date-fns";
 
-const AppointmentCalendarDemo = () => {
+interface Vendor {
+  id: string;
+  name: string;
+  category: string;
+  status: "active" | "inactive" | "pending";
+  created_at: string;
+}
+
+interface Appointment {
+  id: string;
+  vendor_id: string;
+  title: string;
+  description: string;
+  start_time: string;
+  end_time: string;
+  location: string;
+  status: "scheduled" | "completed" | "cancelled" | "rescheduled";
+  notes: string;
+  reminder_sent: boolean;
+  created_at: string;
+  updated_at?: string;
+}
+
+const AppointmentCalendarDemo: React.FC = () => {
   // Current date for reference
   const now = new Date();
 
   // Sample vendor data
-  const sampleVendors = [
+  const sampleVendors: Vendor[] = [
     {
       id: "vendor-1",
       name: "Grand Plaza Hotel",
       category: "venue",
-      status: "active" as "active" | "inactive" | "pending",
+      status: "active",
       created_at: new Date().toISOString(),
     },
     {
       id: "vendor-2",
       name: "Elegant Catering",
       category: "catering",
-      status: "active" as "active" | "inactive" | "pending",
+      status: "active",
       created_at: new Date().toISOString(),
     },
     {
       id: "vendor-3",
       name: "Perfect Moments Photography",
       category: "photography",
-      status: "active" as "active" | "inactive" | "pending",
+      status: "active",
       created_at: new Date().toISOString(),
     },
   ];
 
   // Sample appointment data
-  const sampleAppointments = [
+  const sampleAppointments: Appointment[] = [
     {
       id: "appointment-1",
       vendor_id: "vendor-1",
@@ -56,7 +79,7 @@ const AppointmentCalendarDemo = () => {
         30,
       ).toISOString(),
       location: "Grand Plaza Hotel, Main Entrance",
-      status: "scheduled" as "scheduled" | "completed" | "cancelled" | "rescheduled",
+      status: "scheduled",
       notes: "Ask about outdoor ceremony options and rain contingency plans",
       reminder_sent: false,
       created_at: subDays(now, 10).toISOString(),
@@ -69,7 +92,7 @@ const AppointmentCalendarDemo = () => {
       start_time: addDays(now, 2).toISOString(),
       end_time: new Date(addDays(now, 2).setHours(14, 0)).toISOString(),
       location: "Elegant Catering Studio",
-      status: "scheduled" as "scheduled" | "completed" | "cancelled" | "rescheduled",
+      status: "scheduled",
       notes: "Bring dietary restriction information for guests",
       reminder_sent: false,
       created_at: subDays(now, 5).toISOString(),
@@ -82,7 +105,7 @@ const AppointmentCalendarDemo = () => {
       start_time: addDays(now, 5).toISOString(),
       end_time: new Date(addDays(now, 5).setHours(16, 0)).toISOString(),
       location: "Video Call",
-      status: "scheduled" as "scheduled" | "completed" | "cancelled" | "rescheduled",
+      status: "scheduled",
       notes: "Prepare list of must-have photos",
       reminder_sent: false,
       created_at: subDays(now, 3).toISOString(),
@@ -95,7 +118,7 @@ const AppointmentCalendarDemo = () => {
       start_time: addDays(now, 7).toISOString(),
       end_time: new Date(addDays(now, 7).setHours(11, 0)).toISOString(),
       location: "Grand Plaza Hotel, Business Center",
-      status: "scheduled" as "scheduled" | "completed" | "cancelled" | "rescheduled",
+      status: "scheduled",
       notes: "Bring payment for deposit",
       reminder_sent: false,
       created_at: subDays(now, 2).toISOString(),
@@ -108,7 +131,7 @@ const AppointmentCalendarDemo = () => {
       start_time: addDays(now, 14).toISOString(),
       end_time: new Date(addDays(now, 14).setHours(15, 30)).toISOString(),
       location: "Elegant Catering Studio",
-      status: "scheduled" as "scheduled" | "completed" | "cancelled" | "rescheduled",
+      status: "scheduled",
       notes: "Confirm final guest count and dietary restrictions",
       reminder_sent: false,
       created_at: subDays(now, 1).toISOString(),

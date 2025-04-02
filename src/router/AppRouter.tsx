@@ -1,44 +1,44 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
-import Layout from './components/layout/Layout';
-import LoadingSpinner from './components/ui/LoadingSpinner';
-import ProtectedRoute from './components/auth/ProtectedRoute';
-import LoginPage from './pages/auth/LoginPage';
-import RegisterPage from './pages/auth/RegisterPage';
-import HomePage from './pages/HomePage';
-import NotFoundPage from './pages/NotFoundPage';
+import Layout from '../components/layout/Layout';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import ProtectedRoute from '../components/auth/ProtectedRoute';
+import LoginPage from '../pages/auth/LoginPage';
+import RegisterPage from '../pages/auth/RegisterPage';
+import HomePage from '../pages/HomePage';
+import NotFoundPage from '../pages/NotFoundPage';
 
 // Lazy load pages to improve initial load performance
-const DashboardPage = lazy(() => import('./pages/DashboardPage'));
-const GuestManagementPage = lazy(() => import('./pages/guest-management'));
-const BudgetPlanningPage = lazy(() => import('./pages/budget-planning'));
-const VendorManagementPage = lazy(() => import('./pages/vendor-management'));
-const SeatingPlannerPage = lazy(() => import('./pages/seating-planner'));
-const PhotoGalleryPage = lazy(() => import('./pages/photo-gallery'));
+const DashboardPage = lazy(() => import('../pages/DashboardPage'));
+const GuestManagementPage = lazy(() => import('../pages/guest-management'));
+const BudgetPlanningPage = lazy(() => import('../pages/budget-planning'));
+const VendorManagementPage = lazy(() => import('../pages/vendor-management'));
+const SeatingPlannerPage = lazy(() => import('../pages/seating-planner'));
+const PhotoGalleryPage = lazy(() => import('../pages/photo-gallery'));
 
 // JGA Planning Module Pages
-const JGADashboardPage = lazy(() => import('./pages/jga/JGADashboard'));
-const JGADatePollPage = lazy(() => import('./pages/jga/JGADatePollPage'));
-const JGABudgetPage = lazy(() => import('./pages/jga/JGABudgetPage'));
-const JGAActivitiesPage = lazy(() => import('./pages/jga/JGAActivitiesPage'));
-const JGATasksPage = lazy(() => import('./pages/jga/JGATasksPage'));
-const JGASurpriseIdeasPage = lazy(() => import('./pages/jga/JGASurpriseIdeasPage'));
-const JGAInvitationsPage = lazy(() => import('./pages/jga/JGAInvitationsPage'));
-const JGAPhotoGalleryPage = lazy(() => import('./pages/jga/JGAPhotoGalleryPage'));
+const JGADashboardPage = lazy(() => import('../pages/jga/JGADashboard'));
+const JGADatePollPage = lazy(() => import('../pages/jga/JGADatePollPage'));
+const JGABudgetPage = lazy(() => import('../pages/jga/JGABudgetPage'));
+const JGAActivitiesPage = lazy(() => import('../pages/jga/JGAActivitiesPage'));
+const JGATasksPage = lazy(() => import('../pages/jga/JGATasksPage'));
+const JGASurpriseIdeasPage = lazy(() => import('../pages/jga/JGASurpriseIdeasPage'));
+const JGAInvitationsPage = lazy(() => import('../pages/jga/JGAInvitationsPage'));
+const JGAPhotoGalleryPage = lazy(() => import('../pages/jga/JGAPhotoGalleryPage'));
 
 // Wedding Homepage Pages
-const WeddingHomepageDashboard = lazy(() => import('./pages/wedding-homepage/WeddingHomepageDashboard'));
-const WeddingHomepageDesignPage = lazy(() => import('./pages/wedding-homepage/WeddingHomepageDesignPage'));
-const WeddingHomepageContentPage = lazy(() => import('./pages/wedding-homepage/WeddingHomepageContentPage'));
-const WeddingHomepageRSVPPage = lazy(() => import('./pages/wedding-homepage/WeddingHomepageRSVPPage'));
-const WeddingHomepageGiftRegistryPage = lazy(() => import('./pages/wedding-homepage/WeddingHomepageGiftRegistryPage'));
-const WeddingHomepageGuestbookPage = lazy(() => import('./pages/wedding-homepage/WeddingHomepageGuestbookPage'));
-const WeddingHomepageAccommodationPage = lazy(() => import('./pages/wedding-homepage/WeddingHomepageAccommodationPage'));
-const WeddingHomepageFAQPage = lazy(() => import('./pages/wedding-homepage/WeddingHomepageFAQPage'));
-const WeddingHomepagePreviewPage = lazy(() => import('./pages/wedding-homepage/WeddingHomepagePreviewPage'));
+const WeddingHomepageDashboard = lazy(() => import('../pages/wedding-homepage/WeddingHomepageDashboard'));
+const WeddingHomepageDesignPage = lazy(() => import('../pages/wedding-homepage/WeddingHomepageDesignPage'));
+const WeddingHomepageContentPage = lazy(() => import('../pages/wedding-homepage/WeddingHomepageContentPage'));
+const WeddingHomepageRSVPPage = lazy(() => import('../pages/wedding-homepage/WeddingHomepageRSVPPage'));
+const WeddingHomepageGiftRegistryPage = lazy(() => import('../pages/wedding-homepage/WeddingHomepageGiftRegistryPage'));
+const WeddingHomepageGuestbookPage = lazy(() => import('../pages/wedding-homepage/WeddingHomepageGuestbookPage'));
+const WeddingHomepageAccommodationPage = lazy(() => import('../pages/wedding-homepage/WeddingHomepageAccommodationPage'));
+const WeddingHomepageFAQPage = lazy(() => import('../pages/wedding-homepage/WeddingHomepageFAQPage'));
+const WeddingHomepagePreviewPage = lazy(() => import('../pages/wedding-homepage/WeddingHomepagePreviewPage'));
 
 // Testing Pages
-const TestingDashboard = lazy(() => import('./pages/testing/TestingDashboard'));
+const TestingDashboard = lazy(() => import('../pages/testing/TestingDashboard'));
 
 // Create router configuration
 const router = createBrowserRouter([

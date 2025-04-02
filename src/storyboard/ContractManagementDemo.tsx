@@ -8,9 +8,29 @@ import ContractList from "@/components/vendor/ContractList";
 import ContractForm from "@/components/vendor/ContractForm";
 import ExpiringContractsAlert from "@/components/vendor/ExpiringContractsAlert";
 
-const ContractManagementDemo = () => {
+interface ContractKeyTerms {
+  [key: string]: string;
+}
+
+interface Contract {
+  id: string;
+  vendor_id: string;
+  name: string;
+  file_url?: string;
+  file_type?: string;
+  file_size?: number;
+  signed_date?: string;
+  expiration_date?: string;
+  status: "draft" | "pending" | "active" | "expired" | "cancelled";
+  key_terms?: ContractKeyTerms;
+  notes?: string;
+  created_at: string;
+  updated_at?: string;
+}
+
+const ContractManagementDemo: React.FC = () => {
   // Sample contract data
-  const sampleContracts = [
+  const sampleContracts: Contract[] = [
     {
       id: "contract-1",
       vendor_id: "vendor-1",
@@ -20,7 +40,7 @@ const ContractManagementDemo = () => {
       file_size: 2500000,
       signed_date: new Date(2024, 5, 15).toISOString(),
       expiration_date: new Date(2025, 5, 15).toISOString(),
-      status: "active" as "draft" | "pending" | "active" | "expired" | "cancelled",
+      status: "active",
       key_terms: {
         "Rental Fee": "$5,000",
         Deposit: "$1,000",
@@ -40,7 +60,7 @@ const ContractManagementDemo = () => {
       expiration_date: new Date(
         new Date().getTime() + 15 * 24 * 60 * 60 * 1000,
       ).toISOString(), // 15 days from now
-      status: "active" as "draft" | "pending" | "active" | "expired" | "cancelled",
+      status: "active",
       key_terms: {
         "Cost Per Person": "$85",
         "Minimum Guests": "100",
@@ -59,7 +79,7 @@ const ContractManagementDemo = () => {
       file_size: 1200000,
       signed_date: new Date(2024, 6, 15).toISOString(),
       expiration_date: new Date(2025, 0, 15).toISOString(),
-      status: "pending" as "draft" | "pending" | "active" | "expired" | "cancelled",
+      status: "pending",
       key_terms: {
         "Package Price": "$3,500",
         "Hours of Coverage": "8 hours",
@@ -75,7 +95,7 @@ const ContractManagementDemo = () => {
       file_type:
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       file_size: 950000,
-      status: "draft" as "draft" | "pending" | "active" | "expired" | "cancelled",
+      status: "draft",
       created_at: new Date(2024, 7, 1).toISOString(),
     },
   ];
@@ -95,7 +115,8 @@ const ContractManagementDemo = () => {
             </p>
 
             <ExpiringContractsAlert
-              onViewContract={(url) => window.open(url, "_blank")}
+              contracts={sampleContracts}
+              onViewContract={(url) => window.open(url || "", "_blank")}
               daysThreshold={30}
             />
 
@@ -113,7 +134,7 @@ const ContractManagementDemo = () => {
                   <CardContent>
                     <ContractList
                       contracts={sampleContracts}
-                      onViewContract={(url) => window.open(url, "_blank")}
+                      onViewContract={(url) => window.open(url || "", "_blank")}
                     />
                   </CardContent>
                 </Card>
@@ -129,8 +150,10 @@ const ContractManagementDemo = () => {
                       vendorId="vendor-1"
                       initialData={{
                         name: "",
-                        status: "draft" as "draft" | "pending" | "active" | "expired" | "cancelled",
+                        status: "draft",
                       }}
+                      onSubmit={(data) => console.log("Form submitted:", data)}
+                      onCancel={() => console.log("Form cancelled")}
                     />
                   </CardContent>
                 </Card>

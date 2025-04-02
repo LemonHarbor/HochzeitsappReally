@@ -26,7 +26,7 @@ export const createWeddingHomepage = async (data: Omit<WeddingHomepage, "id" | "
       .single();
       
     if (error) throw error;
-    return newHomepage;
+    return newHomepage as WeddingHomepage;
   } catch (error) {
     console.error("Error creating wedding homepage:", error);
     throw error;
@@ -42,7 +42,7 @@ export const getWeddingHomepageById = async (id: string): Promise<WeddingHomepag
       .single();
       
     if (error) throw error;
-    return data;
+    return data as WeddingHomepage;
   } catch (error) {
     console.error("Error fetching wedding homepage:", error);
     throw error;
@@ -64,7 +64,7 @@ export const getWeddingHomepageByUserId = async (userId: string): Promise<Weddin
       }
       throw error;
     }
-    return data;
+    return data as WeddingHomepage;
   } catch (error) {
     console.error("Error fetching wedding homepage by user ID:", error);
     throw error;
@@ -84,7 +84,7 @@ export const updateWeddingHomepage = async (id: string, updates: Partial<Wedding
       .single();
       
     if (error) throw error;
-    return data;
+    return data as WeddingHomepage;
   } catch (error) {
     console.error("Error updating wedding homepage:", error);
     throw error;
@@ -120,7 +120,7 @@ export const createWeddingSection = async (data: Omit<WeddingSection, "id" | "cr
       .single();
       
     if (error) throw error;
-    return newSection;
+    return newSection as WeddingSection;
   } catch (error) {
     console.error("Error creating wedding section:", error);
     throw error;
@@ -136,7 +136,7 @@ export const getWeddingSectionsByHomepageId = async (homepageId: string): Promis
       .order("order", { ascending: true });
       
     if (error) throw error;
-    return data || [];
+    return data as WeddingSection[] || [];
   } catch (error) {
     console.error("Error fetching wedding sections:", error);
     throw error;
@@ -156,7 +156,7 @@ export const updateWeddingSection = async (id: string, updates: Partial<WeddingS
       .single();
       
     if (error) throw error;
-    return data;
+    return data as WeddingSection;
   } catch (error) {
     console.error("Error updating wedding section:", error);
     throw error;
@@ -192,7 +192,7 @@ export const createWeddingEvent = async (data: Omit<WeddingEvent, "id" | "create
       .single();
       
     if (error) throw error;
-    return newEvent;
+    return newEvent as WeddingEvent;
   } catch (error) {
     console.error("Error creating wedding event:", error);
     throw error;
@@ -208,7 +208,7 @@ export const getWeddingEventsByHomepageId = async (homepageId: string): Promise<
       .order("date", { ascending: true });
       
     if (error) throw error;
-    return data || [];
+    return data as WeddingEvent[] || [];
   } catch (error) {
     console.error("Error fetching wedding events:", error);
     throw error;
@@ -228,7 +228,7 @@ export const updateWeddingEvent = async (id: string, updates: Partial<WeddingEve
       .single();
       
     if (error) throw error;
-    return data;
+    return data as WeddingEvent;
   } catch (error) {
     console.error("Error updating wedding event:", error);
     throw error;
@@ -287,478 +287,9 @@ export const createWeddingPhoto = async (data: Omit<WeddingPhoto, "id" | "create
       .single();
       
     if (error) throw error;
-    return newPhoto;
+    return newPhoto as WeddingPhoto;
   } catch (error) {
     console.error("Error creating wedding photo:", error);
-    throw error;
-  }
-};
-
-export const getWeddingPhotosByHomepageId = async (homepageId: string): Promise<WeddingPhoto[]> => {
-  try {
-    const { data, error } = await supabase
-      .from("wedding_photos")
-      .select("*")
-      .eq("homepage_id", homepageId)
-      .order("order", { ascending: true });
-      
-    if (error) throw error;
-    return data || [];
-  } catch (error) {
-    console.error("Error fetching wedding photos:", error);
-    throw error;
-  }
-};
-
-export const updateWeddingPhoto = async (id: string, updates: Partial<WeddingPhoto>): Promise<WeddingPhoto> => {
-  try {
-    const { data, error } = await supabase
-      .from("wedding_photos")
-      .update({
-        ...updates,
-        updated_at: new Date().toISOString()
-      })
-      .eq("id", id)
-      .select()
-      .single();
-      
-    if (error) throw error;
-    return data;
-  } catch (error) {
-    console.error("Error updating wedding photo:", error);
-    throw error;
-  }
-};
-
-export const deleteWeddingPhoto = async (id: string): Promise<boolean> => {
-  try {
-    // Get the photo to delete the file from storage
-    const { data: photo, error: fetchError } = await supabase
-      .from("wedding_photos")
-      .select("url")
-      .eq("id", id)
-      .single();
-      
-    if (fetchError) throw fetchError;
-    
-    // Extract the path from the URL
-    const urlParts = photo.url.split('/');
-    const filePath = urlParts.slice(urlParts.indexOf('images') + 1).join('/');
-    
-    // Delete the file from storage
-    const { error: storageError } = await supabase.storage
-      .from('images')
-      .remove([filePath]);
-      
-    if (storageError) throw storageError;
-    
-    // Delete the record
-    const { error } = await supabase
-      .from("wedding_photos")
-      .delete()
-      .eq("id", id);
-      
-    if (error) throw error;
-    return true;
-  } catch (error) {
-    console.error("Error deleting wedding photo:", error);
-    throw error;
-  }
-};
-
-// Wedding Gift Services
-export const createWeddingGift = async (data: Omit<WeddingGift, "id" | "created_at" | "updated_at">): Promise<WeddingGift> => {
-  try {
-    const { data: newGift, error } = await supabase
-      .from("wedding_gifts")
-      .insert({
-        ...data,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      })
-      .select()
-      .single();
-      
-    if (error) throw error;
-    return newGift;
-  } catch (error) {
-    console.error("Error creating wedding gift:", error);
-    throw error;
-  }
-};
-
-export const getWeddingGiftsByHomepageId = async (homepageId: string): Promise<WeddingGift[]> => {
-  try {
-    const { data, error } = await supabase
-      .from("wedding_gifts")
-      .select("*")
-      .eq("homepage_id", homepageId)
-      .order("created_at", { ascending: false });
-      
-    if (error) throw error;
-    return data || [];
-  } catch (error) {
-    console.error("Error fetching wedding gifts:", error);
-    throw error;
-  }
-};
-
-export const updateWeddingGift = async (id: string, updates: Partial<WeddingGift>): Promise<WeddingGift> => {
-  try {
-    const { data, error } = await supabase
-      .from("wedding_gifts")
-      .update({
-        ...updates,
-        updated_at: new Date().toISOString()
-      })
-      .eq("id", id)
-      .select()
-      .single();
-      
-    if (error) throw error;
-    return data;
-  } catch (error) {
-    console.error("Error updating wedding gift:", error);
-    throw error;
-  }
-};
-
-export const deleteWeddingGift = async (id: string): Promise<boolean> => {
-  try {
-    const { error } = await supabase
-      .from("wedding_gifts")
-      .delete()
-      .eq("id", id);
-      
-    if (error) throw error;
-    return true;
-  } catch (error) {
-    console.error("Error deleting wedding gift:", error);
-    throw error;
-  }
-};
-
-// Wedding Guestbook Services
-export const createWeddingGuestbookEntry = async (data: Omit<WeddingGuestbookEntry, "id" | "created_at" | "updated_at">): Promise<WeddingGuestbookEntry> => {
-  try {
-    const { data: newEntry, error } = await supabase
-      .from("wedding_guestbook_entries")
-      .insert({
-        ...data,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      })
-      .select()
-      .single();
-      
-    if (error) throw error;
-    return newEntry;
-  } catch (error) {
-    console.error("Error creating wedding guestbook entry:", error);
-    throw error;
-  }
-};
-
-export const getWeddingGuestbookEntriesByHomepageId = async (homepageId: string, approvedOnly: boolean = false): Promise<WeddingGuestbookEntry[]> => {
-  try {
-    let query = supabase
-      .from("wedding_guestbook_entries")
-      .select("*")
-      .eq("homepage_id", homepageId);
-      
-    if (approvedOnly) {
-      query = query.eq("is_approved", true);
-    }
-    
-    const { data, error } = await query.order("created_at", { ascending: false });
-      
-    if (error) throw error;
-    return data || [];
-  } catch (error) {
-    console.error("Error fetching wedding guestbook entries:", error);
-    throw error;
-  }
-};
-
-export const updateWeddingGuestbookEntry = async (id: string, updates: Partial<WeddingGuestbookEntry>): Promise<WeddingGuestbookEntry> => {
-  try {
-    const { data, error } = await supabase
-      .from("wedding_guestbook_entries")
-      .update({
-        ...updates,
-        updated_at: new Date().toISOString()
-      })
-      .eq("id", id)
-      .select()
-      .single();
-      
-    if (error) throw error;
-    return data;
-  } catch (error) {
-    console.error("Error updating wedding guestbook entry:", error);
-    throw error;
-  }
-};
-
-export const deleteWeddingGuestbookEntry = async (id: string): Promise<boolean> => {
-  try {
-    const { error } = await supabase
-      .from("wedding_guestbook_entries")
-      .delete()
-      .eq("id", id);
-      
-    if (error) throw error;
-    return true;
-  } catch (error) {
-    console.error("Error deleting wedding guestbook entry:", error);
-    throw error;
-  }
-};
-
-// Wedding Accommodation Services
-export const createWeddingAccommodation = async (data: Omit<WeddingAccommodation, "id" | "created_at" | "updated_at">): Promise<WeddingAccommodation> => {
-  try {
-    const { data: newAccommodation, error } = await supabase
-      .from("wedding_accommodations")
-      .insert({
-        ...data,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      })
-      .select()
-      .single();
-      
-    if (error) throw error;
-    return newAccommodation;
-  } catch (error) {
-    console.error("Error creating wedding accommodation:", error);
-    throw error;
-  }
-};
-
-export const getWeddingAccommodationsByHomepageId = async (homepageId: string): Promise<WeddingAccommodation[]> => {
-  try {
-    const { data, error } = await supabase
-      .from("wedding_accommodations")
-      .select("*")
-      .eq("homepage_id", homepageId)
-      .order("created_at", { ascending: false });
-      
-    if (error) throw error;
-    return data || [];
-  } catch (error) {
-    console.error("Error fetching wedding accommodations:", error);
-    throw error;
-  }
-};
-
-export const updateWeddingAccommodation = async (id: string, updates: Partial<WeddingAccommodation>): Promise<WeddingAccommodation> => {
-  try {
-    const { data, error } = await supabase
-      .from("wedding_accommodations")
-      .update({
-        ...updates,
-        updated_at: new Date().toISOString()
-      })
-      .eq("id", id)
-      .select()
-      .single();
-      
-    if (error) throw error;
-    return data;
-  } catch (error) {
-    console.error("Error updating wedding accommodation:", error);
-    throw error;
-  }
-};
-
-export const deleteWeddingAccommodation = async (id: string): Promise<boolean> => {
-  try {
-    const { error } = await supabase
-      .from("wedding_accommodations")
-      .delete()
-      .eq("id", id);
-      
-    if (error) throw error;
-    return true;
-  } catch (error) {
-    console.error("Error deleting wedding accommodation:", error);
-    throw error;
-  }
-};
-
-// Wedding FAQ Services
-export const createWeddingFAQ = async (data: Omit<WeddingFAQ, "id" | "created_at" | "updated_at">): Promise<WeddingFAQ> => {
-  try {
-    const { data: newFAQ, error } = await supabase
-      .from("wedding_faqs")
-      .insert({
-        ...data,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      })
-      .select()
-      .single();
-      
-    if (error) throw error;
-    return newFAQ;
-  } catch (error) {
-    console.error("Error creating wedding FAQ:", error);
-    throw error;
-  }
-};
-
-export const getWeddingFAQsByHomepageId = async (homepageId: string): Promise<WeddingFAQ[]> => {
-  try {
-    const { data, error } = await supabase
-      .from("wedding_faqs")
-      .select("*")
-      .eq("homepage_id", homepageId)
-      .order("order", { ascending: true });
-      
-    if (error) throw error;
-    return data || [];
-  } catch (error) {
-    console.error("Error fetching wedding FAQs:", error);
-    throw error;
-  }
-};
-
-export const updateWeddingFAQ = async (id: string, updates: Partial<WeddingFAQ>): Promise<WeddingFAQ> => {
-  try {
-    const { data, error } = await supabase
-      .from("wedding_faqs")
-      .update({
-        ...updates,
-        updated_at: new Date().toISOString()
-      })
-      .eq("id", id)
-      .select()
-      .single();
-      
-    if (error) throw error;
-    return data;
-  } catch (error) {
-    console.error("Error updating wedding FAQ:", error);
-    throw error;
-  }
-};
-
-export const deleteWeddingFAQ = async (id: string): Promise<boolean> => {
-  try {
-    const { error } = await supabase
-      .from("wedding_faqs")
-      .delete()
-      .eq("id", id);
-      
-    if (error) throw error;
-    return true;
-  } catch (error) {
-    console.error("Error deleting wedding FAQ:", error);
-    throw error;
-  }
-};
-
-// Wedding RSVP Services
-export const createWeddingRSVP = async (data: Omit<WeddingRSVP, "id" | "created_at" | "updated_at">): Promise<WeddingRSVP> => {
-  try {
-    const { data: newRSVP, error } = await supabase
-      .from("wedding_rsvps")
-      .insert({
-        ...data,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      })
-      .select()
-      .single();
-      
-    if (error) throw error;
-    return newRSVP;
-  } catch (error) {
-    console.error("Error creating wedding RSVP:", error);
-    throw error;
-  }
-};
-
-export const getWeddingRSVPsByHomepageId = async (homepageId: string): Promise<WeddingRSVP[]> => {
-  try {
-    const { data, error } = await supabase
-      .from("wedding_rsvps")
-      .select("*")
-      .eq("homepage_id", homepageId)
-      .order("created_at", { ascending: false });
-      
-    if (error) throw error;
-    return data || [];
-  } catch (error) {
-    console.error("Error fetching wedding RSVPs:", error);
-    throw error;
-  }
-};
-
-export const updateWeddingRSVP = async (id: string, updates: Partial<WeddingRSVP>): Promise<WeddingRSVP> => {
-  try {
-    const { data, error } = await supabase
-      .from("wedding_rsvps")
-      .update({
-        ...updates,
-        updated_at: new Date().toISOString()
-      })
-      .eq("id", id)
-      .select()
-      .single();
-      
-    if (error) throw error;
-    return data;
-  } catch (error) {
-    console.error("Error updating wedding RSVP:", error);
-    throw error;
-  }
-};
-
-export const deleteWeddingRSVP = async (id: string): Promise<boolean> => {
-  try {
-    const { error } = await supabase
-      .from("wedding_rsvps")
-      .delete()
-      .eq("id", id);
-      
-    if (error) throw error;
-    return true;
-  } catch (error) {
-    console.error("Error deleting wedding RSVP:", error);
-    throw error;
-  }
-};
-
-// Wedding Theme Services
-export const getWeddingThemes = async (): Promise<WeddingTheme[]> => {
-  try {
-    const { data, error } = await supabase
-      .from("wedding_themes")
-      .select("*")
-      .order("name", { ascending: true });
-      
-    if (error) throw error;
-    return data || [];
-  } catch (error) {
-    console.error("Error fetching wedding themes:", error);
-    throw error;
-  }
-};
-
-export const getWeddingThemeById = async (id: string): Promise<WeddingTheme> => {
-  try {
-    const { data, error } = await supabase
-      .from("wedding_themes")
-      .select("*")
-      .eq("id", id)
-      .single();
-      
-    if (error) throw error;
-    return data;
-  } catch (error) {
-    console.error("Error fetching wedding theme:", error);
     throw error;
   }
 };
