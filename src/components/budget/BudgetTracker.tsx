@@ -25,7 +25,7 @@ import {
 } from "@/services/budgetService";
 import { linkVendorToExpense } from "@/services/vendorService";
 import { exportBudgetReportCSV } from "@/services/reportService";
-import { Expense, BudgetCategory } from "@/types/budget";
+import { Expense, BudgetCategory, DashboardBudgetCategory } from "@/types/budget";
 
 interface BudgetTrackerProps {
   initialTotalBudget?: number;
@@ -61,8 +61,23 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
         const expensesData = await getExpenses();
         const categoriesData = await getBudgetCategories();
 
-        setExpenses(expensesData);
-        setCategories(categoriesData);
+        // Convert database data to match our type definitions
+        const typedExpenses: Expense[] = expensesData.map((expense: any) => ({
+          ...expense,
+          // Ensure status is one of the allowed values
+          status: ['paid', 'pending', 'cancelled'].includes(expense.status) 
+            ? expense.status as "paid" | "pending" | "cancelled" 
+            : "pending"
+        }));
+
+        const typedCategories: BudgetCategory[] = categoriesData.map((category: any) => ({
+          ...category,
+          // Ensure spent is initialized if not present
+          spent: category.spent || 0
+        }));
+
+        setExpenses(typedExpenses);
+        setCategories(typedCategories);
       } catch (error) {
         console.error("Error fetching budget data:", error);
         toast({
@@ -152,18 +167,22 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
         category: data.category,
         amount: data.amount,
         date: data.date.toISOString().split("T")[0],
-        status: data.status,
+        status: data.status as "paid" | "pending" | "cancelled",
         notes: data.notes,
       };
 
       // Store the vendor ID if it's selected
       const vendorId = data.vendor_id !== "none" ? data.vendor_id : null;
 
-      let savedExpense;
+      let savedExpense: Expense;
 
       if (isEditing && currentExpense?.id) {
         // Update existing expense
-        savedExpense = await updateExpense(currentExpense.id, expenseData);
+        const updatedExpense = await updateExpense(currentExpense.id, expenseData);
+        savedExpense = {
+          ...updatedExpense,
+          status: updatedExpense.status as "paid" | "pending" | "cancelled"
+        };
 
         // Link to vendor if provided
         if (vendorId) {
@@ -183,10 +202,14 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
         });
       } else {
         // Add new expense
-        savedExpense = await createExpense(expenseData);
+        const newExpense = await createExpense(expenseData as Expense);
+        savedExpense = {
+          ...newExpense,
+          status: newExpense.status as "paid" | "pending" | "cancelled"
+        };
 
         // Link to vendor if provided
-        if (vendorId) {
+        if (vendorId && savedExpense.id) {
           await linkVendorToExpense(savedExpense.id, vendorId);
         }
 
@@ -341,14 +364,16 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
         });
       } else {
         // Add new category
-        const newCategory = await createBudgetCategory({
+        const newCategoryData = {
           name: formData.name,
           percentage: formData.percentage,
           amount: formData.amount,
           color: formData.color,
           recommended: formData.recommended,
           spent: 0,
-        });
+        };
+        
+        const newCategory = await createBudgetCategory(newCategoryData);
 
         // Update categories state
         setCategories([...categories, newCategory]);
@@ -425,7 +450,7 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
               allocated: cat.amount,
               spent: cat.spent,
               color: cat.color,
-            })) as DashboardBudgetCategory[]}
+            }))}
             recentExpenses={expenses.slice(0, 4)}
             onAddExpense={handleAddExpense}
             onViewAllExpenses={() => setActiveTab("expenses")}
@@ -435,7 +460,7 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
 
         <TabsContent value="expenses" className="space-y-4">
           <ExpenseList
-            expenses={expenses as Expense[]}
+            expenses={expenses}
             categories={categories.map((c) => c.name)}
             onAddExpense={handleAddExpense}
             onEditExpense={handleEditExpense}
@@ -459,7 +484,7 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
           </div>
           <BudgetPlanner
             totalBudget={totalBudget}
-            categories={categories as BudgetCategory[]}
+            categories={categories}
             onSaveBudget={handleSaveBudgetPlan}
             onAddEditCategory={handleAddEditCategory}
           />
@@ -473,7 +498,7 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
               allocated: cat.amount,
               spent: cat.spent,
               color: cat.color,
-            })) as DashboardBudgetCategory[]}
+            }))}
             totalBudget={totalBudget}
             totalSpent={totalSpent}
             onExportReport={handleExportReport}
