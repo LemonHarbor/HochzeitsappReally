@@ -1,0 +1,7 @@
+{
+  "appointments": [],
+  "vendors": [],
+  "currentMonth": "",
+  "selectedDate": "",
+  "selectedAppointment": null
+}

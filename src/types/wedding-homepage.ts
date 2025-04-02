@@ -18,8 +18,21 @@ export interface WeddingHomepage {
   welcome_text: string;
   contact_email: string;
   theme_id: string;
+  user_id: string; // Hinzugefügt, da in getWeddingHomepageByUserId verwendet
   custom_domain?: string;
   is_published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface WeddingSection {
+  id: string;
+  homepage_id: string;
+  title: string;
+  content: string;
+  order: number;
+  type: string;
+  is_visible: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -35,6 +48,19 @@ export interface WeddingEvent {
   address: string;
   description: string;
   is_main_event: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface WeddingPhoto {
+  id: string;
+  homepage_id: string;
+  title?: string;
+  description?: string;
+  url: string;
+  thumbnail_url: string;
+  order?: number;
+  is_featured?: boolean;
   created_at: string;
   updated_at: string;
 }

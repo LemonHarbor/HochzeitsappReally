@@ -1,0 +1,120 @@
+{
+  "name": "AppointmentCalendar",
+  "description": "Kalenderkomponente zur Verwaltung von Terminen mit Dienstleistern",
+  "version": "1.0.0",
+  "props": {
+    "appointments": {
+      "type": "array",
+      "description": "Liste der Termine",
+      "default": []
+    },
+    "vendors": {
+      "type": "array",
+      "description": "Liste der Dienstleister",
+      "default": []
+    },
+    "showAddButton": {
+      "type": "boolean",
+      "description": "Schaltfläche zum Hinzufügen von Terminen anzeigen",
+      "default": true
+    },
+    "showVendorName": {
+      "type": "boolean",
+      "description": "Namen des Dienstleisters anzeigen",
+      "default": true
+    }
+  },
+  "dataSchema": {
+    "appointment": {
+      "id": "string",
+      "vendor_id": "string",
+      "title": "string",
+      "description": "string",
+      "start_time": "string",
+      "end_time": "string",
+      "location": "string",
+      "status": "enum:scheduled,completed,cancelled,rescheduled",
+      "notes": "string",
+      "reminder_sent": "boolean",
+      "created_at": "string",
+      "updated_at": "string"
+    },
+    "vendor": {
+      "id": "string",
+      "name": "string",
+      "category": "string",
+      "status": "enum:active,inactive,pending",
+      "created_at": "string"
+    }
+  },
+  "methods": {
+    "addAppointment": {
+      "description": "Fügt einen neuen Termin hinzu",
+      "parameters": ["appointment"]
+    },
+    "updateAppointment": {
+      "description": "Aktualisiert einen bestehenden Termin",
+      "parameters": ["id", "appointment"]
+    },
+    "removeAppointment": {
+      "description": "Entfernt einen Termin",
+      "parameters": ["id"]
+    },
+    "viewAppointment": {
+      "description": "Zeigt die Details eines Termins an",
+      "parameters": ["id"]
+    },
+    "exportCalendar": {
+      "description": "Exportiert den Kalender im iCal-Format",
+      "parameters": []
+    }
+  },
+  "events": {
+    "onAppointmentAdded": {
+      "description": "Wird ausgelöst, wenn ein Termin hinzugefügt wird"
+    },
+    "onAppointmentUpdated": {
+      "description": "Wird ausgelöst, wenn ein Termin aktualisiert wird"
+    },
+    "onAppointmentRemoved": {
+      "description": "Wird ausgelöst, wenn ein Termin entfernt wird"
+    },
+    "onAppointmentViewed": {
+      "description": "Wird ausgelöst, wenn ein Termin angezeigt wird"
+    }
+  },
+  "slots": {
+    "calendarHeader": {
+      "description": "Kopfzeile des Kalenders"
+    },
+    "appointmentItem": {
+      "description": "Benutzerdefiniertes Layout für einen Termin"
+    },
+    "emptyState": {
+      "description": "Wird angezeigt, wenn keine Termine vorhanden sind"
+    }
+  },
+  "styles": {
+    "container": {
+      "description": "Hauptcontainer der Komponente"
+    },
+    "header": {
+      "description": "Kopfzeile der Komponente"
+    },
+    "calendar": {
+      "description": "Kalenderansicht"
+    },
+    "calendarDay": {
+      "description": "Einzelner Tag im Kalender"
+    },
+    "appointmentList": {
+      "description": "Liste der Termine für den ausgewählten Tag"
+    },
+    "appointmentItem": {
+      "description": "Einzelner Termin in der Liste"
+    },
+    "button": {
+      "description": "Schaltflächen in der Komponente"
+    }
+  }
+}

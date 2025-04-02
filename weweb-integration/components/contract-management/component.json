@@ -1,0 +1,117 @@
+{
+  "name": "ContractManagement",
+  "description": "Komponente zur Verwaltung von Verträgen mit Dienstleistern",
+  "version": "1.0.0",
+  "props": {
+    "contracts": {
+      "type": "array",
+      "description": "Liste der Verträge",
+      "default": []
+    },
+    "showExpiringAlert": {
+      "type": "boolean",
+      "description": "Warnung für ablaufende Verträge anzeigen",
+      "default": true
+    },
+    "daysThreshold": {
+      "type": "number",
+      "description": "Schwellenwert in Tagen für ablaufende Verträge",
+      "default": 30
+    },
+    "showAddButton": {
+      "type": "boolean",
+      "description": "Schaltfläche zum Hinzufügen von Verträgen anzeigen",
+      "default": true
+    }
+  },
+  "dataSchema": {
+    "contract": {
+      "id": "string",
+      "vendor_id": "string",
+      "name": "string",
+      "file_url": "string",
+      "file_type": "string",
+      "file_size": "number",
+      "signed_date": "string",
+      "expiration_date": "string",
+      "status": "enum:draft,pending,active,expired,cancelled",
+      "key_terms": "object",
+      "notes": "string",
+      "created_at": "string",
+      "updated_at": "string"
+    }
+  },
+  "methods": {
+    "addContract": {
+      "description": "Fügt einen neuen Vertrag hinzu",
+      "parameters": ["contract"]
+    },
+    "updateContract": {
+      "description": "Aktualisiert einen bestehenden Vertrag",
+      "parameters": ["id", "contract"]
+    },
+    "removeContract": {
+      "description": "Entfernt einen Vertrag",
+      "parameters": ["id"]
+    },
+    "viewContract": {
+      "description": "Öffnet einen Vertrag zur Ansicht",
+      "parameters": ["url"]
+    },
+    "getExpiringContracts": {
+      "description": "Gibt eine Liste der ablaufenden Verträge zurück",
+      "parameters": ["daysThreshold"]
+    }
+  },
+  "events": {
+    "onContractAdded": {
+      "description": "Wird ausgelöst, wenn ein Vertrag hinzugefügt wird"
+    },
+    "onContractUpdated": {
+      "description": "Wird ausgelöst, wenn ein Vertrag aktualisiert wird"
+    },
+    "onContractRemoved": {
+      "description": "Wird ausgelöst, wenn ein Vertrag entfernt wird"
+    },
+    "onContractViewed": {
+      "description": "Wird ausgelöst, wenn ein Vertrag angezeigt wird"
+    }
+  },
+  "slots": {
+    "contractListHeader": {
+      "description": "Kopfzeile der Vertragsliste"
+    },
+    "contractListFooter": {
+      "description": "Fußzeile der Vertragsliste"
+    },
+    "contractListEmpty": {
+      "description": "Wird angezeigt, wenn die Vertragsliste leer ist"
+    },
+    "contractForm": {
+      "description": "Benutzerdefiniertes Formular für Verträge"
+    }
+  },
+  "styles": {
+    "container": {
+      "description": "Hauptcontainer der Komponente"
+    },
+    "header": {
+      "description": "Kopfzeile der Komponente"
+    },
+    "contractList": {
+      "description": "Liste der Verträge"
+    },
+    "contractItem": {
+      "description": "Einzelner Vertrag in der Liste"
+    },
+    "expiringAlert": {
+      "description": "Warnung für ablaufende Verträge"
+    },
+    "form": {
+      "description": "Vertragsformular"
+    },
+    "button": {
+      "description": "Schaltflächen in der Komponente"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "supabase-codegen",
+  "version": "1.0.0",
+  "description": "Supabase Type Generator for LemonVows",
+  "scripts": {
+    "generate-types": "npx supabase gen types typescript --project-id cwuygosoynoitfrikdts --schema public > src/types/supabase-generated.ts"
+  },
+  "dependencies": {
+    "supabase": "^1.8.1"
+  }
+}
