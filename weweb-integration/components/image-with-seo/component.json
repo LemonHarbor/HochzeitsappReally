@@ -1,0 +1,50 @@
+{
+  "name": "ImageWithSEO",
+  "description": "SEO-optimiertes Bild-Element für WeWeb",
+  "version": "1.0.0",
+  "props": {
+    "src": {
+      "type": "string",
+      "description": "Bildquelle (URL)",
+      "default": ""
+    },
+    "alt": {
+      "type": "string",
+      "description": "Alternativer Text für das Bild (wichtig für SEO)",
+      "default": ""
+    },
+    "width": {
+      "type": "number",
+      "description": "Breite des Bildes in Pixeln",
+      "default": null
+    },
+    "height": {
+      "type": "number",
+      "description": "Höhe des Bildes in Pixeln",
+      "default": null
+    },
+    "loading": {
+      "type": "string",
+      "description": "Ladeverhalten des Bildes",
+      "default": "lazy",
+      "enum": ["lazy", "eager"]
+    },
+    "className": {
+      "type": "string",
+      "description": "CSS-Klassen für das Bild",
+      "default": ""
+    },
+    "theme": {
+      "type": "string",
+      "description": "Farbschema der Komponente",
+      "default": "light",
+      "enum": ["light", "dark"]
+    },
+    "language": {
+      "type": "string",
+      "description": "Sprache der Komponente",
+      "default": "de",
+      "enum": ["de", "en"]
+    }
+  }
+}

@@ -1,0 +1,315 @@
+/* Mobile-Optimierungen für WeWeb-Komponenten */
+
+/* Gemeinsame Styles für alle Komponenten */
+.ww-component {
+  /* Basis-Styles für alle Komponenten */
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Responsive Typografie */
+.ww-text-xs {
+  font-size: 0.75rem; /* 12px */
+}
+.ww-text-sm {
+  font-size: 0.875rem; /* 14px */
+}
+.ww-text-base {
+  font-size: 1rem; /* 16px */
+}
+.ww-text-lg {
+  font-size: 1.125rem; /* 18px */
+}
+.ww-text-xl {
+  font-size: 1.25rem; /* 20px */
+}
+.ww-text-2xl {
+  font-size: 1.5rem; /* 24px */
+}
+
+/* Responsive Abstände */
+.ww-p-2 {
+  padding: 0.5rem; /* 8px */
+}
+.ww-p-4 {
+  padding: 1rem; /* 16px */
+}
+.ww-p-6 {
+  padding: 1.5rem; /* 24px */
+}
+.ww-m-2 {
+  margin: 0.5rem; /* 8px */
+}
+.ww-m-4 {
+  margin: 1rem; /* 16px */
+}
+.ww-m-6 {
+  margin: 1.5rem; /* 24px */
+}
+
+/* Responsive Grid-Layout */
+.ww-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+/* Responsive Flex-Layout */
+.ww-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+.ww-flex-col {
+  flex-direction: column;
+}
+
+/* Touch-freundliche Bedienelemente */
+.ww-button {
+  min-height: 44px; /* Mindesthöhe für Touch-Targets */
+  min-width: 44px; /* Mindestbreite für Touch-Targets */
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+.ww-button:active {
+  transform: scale(0.98); /* Leichte Skalierung beim Tippen */
+}
+
+/* Touch-freundliche Formularelemente */
+.ww-input {
+  min-height: 44px; /* Mindesthöhe für Touch-Targets */
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  width: 100%;
+}
+.ww-select {
+  min-height: 44px; /* Mindesthöhe für Touch-Targets */
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  width: 100%;
+}
+.ww-checkbox {
+  min-height: 24px; /* Mindesthöhe für Touch-Targets */
+  min-width: 24px; /* Mindestbreite für Touch-Targets */
+}
+
+/* Responsive Bilder */
+.ww-image {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Responsive Tabellen */
+.ww-table {
+  width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
+/* Responsive Karten */
+.ww-card {
+  width: 100%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Tabs */
+.ww-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #e2e8f0;
+}
+.ww-tab {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  min-height: 44px; /* Mindesthöhe für Touch-Targets */
+}
+
+/* Responsive Navigation */
+.ww-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+.ww-nav-items {
+  display: flex;
+  flex-wrap: wrap;
+}
+.ww-nav-item {
+  padding: 0.5rem 1rem;
+  min-height: 44px; /* Mindesthöhe für Touch-Targets */
+}
+
+/* Mobile-spezifische Styles */
+@media (max-width: 640px) {
+  .ww-hide-mobile {
+    display: none;
+  }
+  
+  .ww-full-width-mobile {
+    width: 100%;
+  }
+  
+  .ww-text-center-mobile {
+    text-align: center;
+  }
+  
+  .ww-stack-mobile {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .ww-p-mobile-2 {
+    padding: 0.5rem;
+  }
+  
+  .ww-m-mobile-2 {
+    margin: 0.5rem;
+  }
+  
+  .ww-text-mobile-sm {
+    font-size: 0.875rem;
+  }
+}
+
+/* Tablet-spezifische Styles */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .ww-hide-tablet {
+    display: none;
+  }
+  
+  .ww-grid-tablet-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop-spezifische Styles */
+@media (min-width: 1025px) {
+  .ww-hide-desktop {
+    display: none;
+  }
+  
+  .ww-grid-desktop-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Dark Mode Styles */
+.ww-dark {
+  color-scheme: dark;
+  --ww-bg-primary: #1a202c;
+  --ww-bg-secondary: #2d3748;
+  --ww-text-primary: #f7fafc;
+  --ww-text-secondary: #e2e8f0;
+  --ww-border-color: #4a5568;
+  --ww-accent-color: #4299e1;
+}
+
+.ww-light {
+  color-scheme: light;
+  --ww-bg-primary: #ffffff;
+  --ww-bg-secondary: #f7fafc;
+  --ww-text-primary: #1a202c;
+  --ww-text-secondary: #4a5568;
+  --ww-border-color: #e2e8f0;
+  --ww-accent-color: #3182ce;
+}
+
+/* Barrierefreiheit */
+.ww-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.ww-focus-visible:focus-visible {
+  outline: 2px solid var(--ww-accent-color);
+  outline-offset: 2px;
+}
+
+/* Animationen und Übergänge */
+.ww-transition {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-duration: 150ms;
+}
+
+.ww-fade-in {
+  animation: ww-fade-in 0.3s ease-in-out;
+}
+
+@keyframes ww-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Ladeindikator */
+.ww-loading {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--ww-accent-color);
+  animation: ww-spin 1s ease-in-out infinite;
+}
+
+@keyframes ww-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Komponenten-spezifische Optimierungen */
+
+/* SEO-Komponente */
+.ww-seo-preview {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* ImageWithSEO-Komponente */
+.ww-image-with-seo img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Trauzeugen-Bereich-Komponente */
+.ww-trauzeugen-bereich .ww-tabs {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
+  display: flex;
+}
+
+.ww-trauzeugen-bereich .ww-tab {
+  flex: 1;
+  text-align: center;
+}
+
+.ww-trauzeugen-bereich .ww-expense-list {
+  max-height: 300px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* WeWebIntegration-Komponente */
+.ww-weweb-integration .ww-status {
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}

@@ -1,0 +1,97 @@
+{
+  "name": "BasicComponent",
+  "description": "Eine Basis-Komponente als Template für WeWeb-Integration",
+  "version": "1.0.0",
+  "props": {
+    "title": {
+      "type": "string",
+      "description": "Titel der Komponente",
+      "default": "Basis-Komponente"
+    },
+    "description": {
+      "type": "string",
+      "description": "Beschreibung der Komponente",
+      "default": "Eine einfache Basis-Komponente für WeWeb"
+    },
+    "theme": {
+      "type": "string",
+      "description": "Farbschema der Komponente",
+      "default": "light",
+      "enum": ["light", "dark"]
+    },
+    "language": {
+      "type": "string",
+      "description": "Sprache der Komponente",
+      "default": "de",
+      "enum": ["de", "en"]
+    }
+  },
+  "dataSchema": {
+    "item": {
+      "id": "string",
+      "name": "string",
+      "description": "string",
+      "created_at": "date"
+    }
+  },
+  "methods": {
+    "addItem": {
+      "description": "Fügt ein neues Item hinzu",
+      "parameters": ["item"]
+    },
+    "updateItem": {
+      "description": "Aktualisiert ein vorhandenes Item",
+      "parameters": ["id", "item"]
+    },
+    "removeItem": {
+      "description": "Entfernt ein Item",
+      "parameters": ["id"]
+    },
+    "getItems": {
+      "description": "Ruft alle Items ab",
+      "parameters": []
+    }
+  },
+  "events": {
+    "onItemAdded": {
+      "description": "Wird ausgelöst, wenn ein Item hinzugefügt wird"
+    },
+    "onItemUpdated": {
+      "description": "Wird ausgelöst, wenn ein Item aktualisiert wird"
+    },
+    "onItemRemoved": {
+      "description": "Wird ausgelöst, wenn ein Item entfernt wird"
+    }
+  },
+  "slots": {
+    "header": {
+      "description": "Kopfzeile der Komponente"
+    },
+    "footer": {
+      "description": "Fußzeile der Komponente"
+    },
+    "emptyState": {
+      "description": "Wird angezeigt, wenn keine Items vorhanden sind"
+    }
+  },
+  "styles": {
+    "container": {
+      "description": "Hauptcontainer der Komponente"
+    },
+    "header": {
+      "description": "Kopfzeile der Komponente"
+    },
+    "content": {
+      "description": "Inhaltsbereich der Komponente"
+    },
+    "footer": {
+      "description": "Fußzeile der Komponente"
+    },
+    "item": {
+      "description": "Einzelnes Item in der Liste"
+    },
+    "button": {
+      "description": "Schaltflächen in der Komponente"
+    }
+  }
+}

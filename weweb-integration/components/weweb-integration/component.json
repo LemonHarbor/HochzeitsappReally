@@ -1,0 +1,57 @@
+{
+  "name": "WeWebIntegration",
+  "description": "Komponente zur Integration mit WeWeb für No-Code-Bearbeitung",
+  "version": "1.0.0",
+  "props": {
+    "isDeveloperMode": {
+      "type": "boolean",
+      "description": "Ob der Entwicklermodus aktiviert ist",
+      "default": false
+    },
+    "connectionStatus": {
+      "type": "string",
+      "description": "Status der WeWeb-Verbindung",
+      "default": "Not connected",
+      "enum": ["Not connected", "Connected", "Error"]
+    },
+    "lastSync": {
+      "type": "string",
+      "description": "Zeitpunkt der letzten Synchronisierung",
+      "default": "Never"
+    },
+    "theme": {
+      "type": "string",
+      "description": "Farbschema der Komponente",
+      "default": "light",
+      "enum": ["light", "dark"]
+    },
+    "language": {
+      "type": "string",
+      "description": "Sprache der Komponente",
+      "default": "de",
+      "enum": ["de", "en"]
+    }
+  },
+  "methods": {
+    "connectToWeWeb": {
+      "description": "Verbindung zu WeWeb herstellen",
+      "parameters": []
+    },
+    "viewDocumentation": {
+      "description": "WeWeb-Dokumentation anzeigen",
+      "parameters": []
+    },
+    "syncWithWeWeb": {
+      "description": "Mit WeWeb synchronisieren",
+      "parameters": []
+    }
+  },
+  "events": {
+    "onConnect": {
+      "description": "Wird ausgelöst, wenn eine Verbindung zu WeWeb hergestellt wird"
+    },
+    "onSync": {
+      "description": "Wird ausgelöst, wenn eine Synchronisierung mit WeWeb durchgeführt wird"
+    }
+  }
+}

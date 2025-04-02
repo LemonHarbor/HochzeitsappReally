@@ -1,202 +1,159 @@
-# LemonVows by LemonHarbor - Dokumentation
+# WeWeb-Integration Dokumentation
 
-## Übersicht
+Diese Dokumentation beschreibt den Prozess der Integration der Hochzeitsapp in WeWeb, um eine No-Code-Alternative zu ermöglichen.
 
-LemonVows ist eine umfassende Hochzeitsplanungs-App, die mit WeWeb als No-Code-Lösung entwickelt wurde. Die App bietet verschiedene Preisstufen und Funktionen, um Paaren bei der Planung ihrer Hochzeit zu helfen.
+## 1. Überblick
 
-## Preisstufen
+Die Hochzeitsapp wurde erfolgreich für die WeWeb-Integration vorbereitet, indem React-Komponenten zu Vue-Komponenten konvertiert und mit der WeWeb-Komponentenanatomie kompatibel gemacht wurden. Die Integration ermöglicht es, die App in WeWeb zu bearbeiten und anzupassen, ohne Programmierkenntnisse zu benötigen.
 
-Die App bietet vier Preisstufen:
+## 2. WeWeb-Komponentenanatomie
 
-1. **Free Version (0€)**
-   - Grundfunktionen für bis zu 20 Gäste
-   - Automatischer Zeitplangenerator
-   - Einfache Gästeliste
-   - Grundlegende Budgetplanung
-   - Einfache Aufgabenliste
+Jede WeWeb-Komponente besteht aus vier Hauptdateien:
 
-2. **Basis (29,99€/Monat)**
-   - Erweiterte Funktionen für bis zu 50 Gäste
-   - Detaillierte Gästeverwaltung mit RSVP-Tracking
-   - Erweiterte Budgetplanung mit Berichten
-   - Aufgabenlisten mit Erinnerungen
-   - Lieferantenmanagement
-   - Einfache Sitzplatzplanung
-   - Basis-Fotogalerie
+1. **component.json** - Definition der Komponente mit Props, Methoden, Events und Styles
+2. **[name]-model.json** - Datenmodell für die Komponente
+3. **[name]-service.js** - Geschäftslogik für die Komponente
+4. **[name]-ui.js** - Vue-Komponente mit WeWeb-Konfiguration
 
-3. **Premium (89,99€/Monat)**
-   - Alle Funktionen mit unbegrenzter Gästeanzahl
-   - Vollständige Gästeverwaltung mit detailliertem RSVP-Tracking
-   - Umfassende Budgetplanung mit detaillierten Berichten
-   - Erweiterte Aufgabenlisten mit Erinnerungen und Zuweisungen
-   - Umfassendes Lieferantenmanagement mit Bewertungen
-   - Interaktive Sitzplatzplanung mit Drag-and-Drop
-   - Erweiterte Fotogalerie mit Sharing-Optionen
-   - Trauzeugenbereich mit Rollenvergabe
+Diese Struktur ermöglicht eine klare Trennung von Daten, Logik und Darstellung und macht die Komponenten in WeWeb anpassbar.
 
-4. **Deluxe (199,99€/Monat)**
-   - Premium-Funktionen plus persönlicher Assistent
-   - KI-Redengenerator
-   - NFT-Gästebuch
-   - Unbegrenzte Gästeanzahl
-   - Prioritäts-Support
-   - Alle Premium-Funktionen inklusive
+## 3. Konvertierte Komponenten
 
-## Kernfunktionen
+Folgende Komponenten wurden erfolgreich konvertiert und mit der WeWeb-Komponentenanatomie kompatibel gemacht:
 
-### Gästemanagement
-- Verwaltung der Gästeliste
-- RSVP-Tracking
-- Gästekategorien (Familie, Freunde, Kollegen, etc.)
-- Kontaktinformationen
-- Menüauswahl
-- Spezielle Anforderungen (Allergien, etc.)
+### 3.1 WeWebIntegration
 
-### Budgetplanung
-- Budgetübersicht
-- Kategorisierte Ausgaben
-- Ausgabenverfolgung
-- Budgetberichte
-- Bezahlte/Unbezahlte Posten
-- Kostenvergleich (Geplant vs. Tatsächlich)
+Eine Komponente zur Verbindung mit WeWeb für No-Code-Bearbeitung.
 
-### Aufgabenlisten
-- Aufgabenübersicht
-- Kategorisierte Aufgaben
-- Fälligkeitsdaten
-- Erinnerungen
-- Aufgabenzuweisung
-- Fortschrittsverfolgung
+- **Funktionen**: Verbindung mit WeWeb, Anzeige der WeWeb-Dokumentation, Synchronisierung mit WeWeb
+- **Dateien**: 
+  - component.json
+  - weweb-integration-model.json
+  - weweb-integration-service.js
+  - weweb-integration-ui.js
 
-### Lieferantenmanagement
-- Lieferantenübersicht
-- Kategorisierte Lieferanten
-- Kontaktinformationen
-- Vertragsmanagement
-- Zahlungsverfolgung
-- Lieferantenbewertungen
+### 3.2 ImageWithSEO
 
-### Sitzplatzplanung
-- Interaktive Sitzplatzplanung
-- Drag-and-Drop-Funktionalität
-- Tischkategorien
-- Gästezuweisung
-- Menüauswahl pro Gast
-- Exportierbare Sitzpläne
+Eine SEO-optimierte Bildkomponente.
 
-### Fotogalerie
-- Albenorganisation
-- Fotoupload
-- Sharing-Optionen
-- Kommentarfunktion
-- Likes
-- Zugriffssteuerung
+- **Funktionen**: Bildanzeige mit SEO-Attributen, responsive Bildanpassung
+- **Dateien**: 
+  - component.json
+  - image-with-seo-model.json
+  - image-with-seo-service.js
+  - image-with-seo-ui.js
 
-### Trauzeugenbereich
-- Geschützter Bereich für Trauzeugen
-- Rollenvergabe
-- Aufgabenzuweisung
-- Notizen
-- Ereignisplanung
-- Zugriffssteuerung
+### 3.3 SEO
 
-### Automatischer Zeitplangenerator
-- Generierung eines Zeitplans basierend auf dem Hochzeitsdatum
-- Meilensteine
-- Aufgaben mit Fälligkeitsdaten
-- Anpassbare Zeitpläne
+Eine umfassende SEO-Optimierungskomponente.
 
-## Technische Details
+- **Funktionen**: Meta-Tag-Generierung, SEO-Vorschau für Google, Facebook und Twitter
+- **Dateien**: 
+  - component.json
+  - seo-model.json
+  - seo-service.js
+  - seo-ui.js
 
-### WeWeb-Integration
-Die App wurde mit WeWeb als No-Code-Lösung entwickelt. Die Integration umfasst:
+### 3.4 Trauzeugen-Bereich
 
-- Komponenten für alle Kernfunktionen
-- Responsive Design
-- Benutzerfreundliche Oberfläche
-- Anpassbare Konfiguration
+Eine Komponente für den geschützten Bereich für Trauzeugen.
 
-### Verzeichnisstruktur
-```
-/weweb-integration/
-  /components/
-    /pricing-tiers/
-    /timeline-generator/
-    /guest-management/
-    /budget-planning/
-    /task-management/
-    /vendor-management/
-    /seating-planner/
-    /photo-gallery/
-    /best-man-section/
-  /config/
-    weweb-config.js
-  /deploy/
-    deploy.js
-    index.html
-  /test/
-    test-app.js
-```
+- **Funktionen**: JGA-Planungstool, Abstimmungsfunktion, Kostenaufteilungssystem
+- **Dateien**: 
+  - component.json
+  - trauzeugen-bereich-model.json
+  - trauzeugen-bereich-service.js
+  - trauzeugen-bereich-ui.js
 
-### Komponenten
-Jede Komponente besteht aus:
-- Modell (JSON-Datei)
-- Service (JavaScript-Datei)
-- UI-Komponente (JavaScript-Datei)
+## 4. WeWeb-spezifische Funktionen
 
-## Anpassung der App
+### 4.1 Mehrsprachigkeit (DE/EN/FR/ES)
 
-Als Nicht-Programmierer können Sie die App über die WeWeb-Oberfläche anpassen:
+Alle Komponenten unterstützen Mehrsprachigkeit mit Deutsch und Englisch als Hauptsprachen und Französisch und Spanisch als zusätzliche Sprachen.
 
-### Texte ändern
-1. Melden Sie sich bei WeWeb an
-2. Navigieren Sie zur gewünschten Seite
-3. Klicken Sie auf den Text, den Sie ändern möchten
-4. Bearbeiten Sie den Text im Eigenschaftenbereich
+- **Implementierung**: 
+  - Sprachauswahl über die `language`-Prop
+  - Übersetzungsdateien in den model.json-Dateien
+  - Übersetzungsfunktion in den Service-Klassen
 
-### Bilder ändern
-1. Melden Sie sich bei WeWeb an
-2. Navigieren Sie zur gewünschten Seite
-3. Klicken Sie auf das Bild, das Sie ändern möchten
-4. Laden Sie ein neues Bild im Eigenschaftenbereich hoch
+### 4.2 Dark Mode
 
-### Preise ändern
-1. Melden Sie sich bei WeWeb an
-2. Navigieren Sie zur Preisseite
-3. Klicken Sie auf den Preis, den Sie ändern möchten
-4. Bearbeiten Sie den Preis im Eigenschaftenbereich
+Alle Komponenten unterstützen einen verbesserten Dark Mode mit anpassbaren Farbschemata.
 
-### Funktionen ändern
-1. Melden Sie sich bei WeWeb an
-2. Navigieren Sie zum Workflow-Bereich
-3. Wählen Sie die Funktion aus, die Sie ändern möchten
-4. Passen Sie die Logik nach Bedarf an
+- **Implementierung**: 
+  - Theme-Auswahl über die `theme`-Prop
+  - Dynamische CSS-Klassen basierend auf dem aktuellen Theme
+  - Konsistente Farbpalette für beide Themes
 
-## Bereitstellung
+### 4.3 Mobile-First Design
 
-Die App kann auf verschiedenen Plattformen bereitgestellt werden:
+Alle Komponenten wurden mit einem Mobile-First-Ansatz entwickelt.
 
-### WeWeb Hosting
-1. Melden Sie sich bei WeWeb an
-2. Klicken Sie auf "Veröffentlichen"
-3. Wählen Sie "WeWeb Hosting"
-4. Folgen Sie den Anweisungen
+- **Implementierung**: 
+  - Responsive Layouts mit Flexbox und Grid
+  - Anpassbare Größen für verschiedene Bildschirmgrößen
+  - Touch-freundliche Bedienelemente
 
-### Vercel
-1. Exportieren Sie das Projekt aus WeWeb
-2. Laden Sie es auf Vercel hoch
-3. Konfigurieren Sie die Bereitstellungseinstellungen
-4. Klicken Sie auf "Bereitstellen"
+## 5. Integration in WeWeb
 
-### Netlify
-1. Exportieren Sie das Projekt aus WeWeb
-2. Laden Sie es auf Netlify hoch
-3. Konfigurieren Sie die Bereitstellungseinstellungen
-4. Klicken Sie auf "Bereitstellen"
+### 5.1 Komponenten importieren
 
-## Support
+1. Öffnen Sie Ihr WeWeb-Projekt
+2. Navigieren Sie zu "Components" > "Import Component"
+3. Wählen Sie den Ordner der zu importierenden Komponente aus
+4. Klicken Sie auf "Import"
 
-Bei Fragen oder Problemen wenden Sie sich bitte an:
-- E-Mail: support@lemonharbor.com
-- Telefon: +49 123 456789
-- Website: www.lemonharbor.com/support
+### 5.2 Komponenten verwenden
+
+1. Ziehen Sie die importierte Komponente aus der Komponentenliste auf Ihre Seite
+2. Konfigurieren Sie die Komponente über das Eigenschaftenpanel
+3. Verbinden Sie die Komponente mit Datenquellen oder anderen Komponenten
+
+### 5.3 Komponenten anpassen
+
+1. Ändern Sie das Erscheinungsbild über die Style-Eigenschaften
+2. Passen Sie die Funktionalität über die Props an
+3. Verbinden Sie Events mit Aktionen
+
+## 6. Tipps für die Verwendung
+
+### 6.1 Mehrsprachigkeit
+
+- Verwenden Sie die `language`-Prop, um die Sprache zu ändern
+- Stellen Sie sicher, dass alle Texte in allen unterstützten Sprachen vorhanden sind
+
+### 6.2 Dark Mode
+
+- Verwenden Sie die `theme`-Prop, um zwischen Hell- und Dunkel-Modus zu wechseln
+- Testen Sie beide Modi, um sicherzustellen, dass alle Elemente gut sichtbar sind
+
+### 6.3 Mobile-Optimierung
+
+- Testen Sie die Komponenten auf verschiedenen Bildschirmgrößen
+- Verwenden Sie die responsive Vorschau in WeWeb, um das Verhalten zu überprüfen
+
+## 7. Fehlerbehebung
+
+### 7.1 Komponente wird nicht angezeigt
+
+- Überprüfen Sie, ob alle erforderlichen Props gesetzt sind
+- Prüfen Sie die Konsole auf Fehlermeldungen
+- Stellen Sie sicher, dass die Komponente korrekt importiert wurde
+
+### 7.2 Styling-Probleme
+
+- Überprüfen Sie die Theme-Einstellung
+- Prüfen Sie, ob CSS-Konflikte mit anderen Komponenten bestehen
+- Verwenden Sie die WeWeb-Inspektor-Funktion, um Styling-Probleme zu identifizieren
+
+### 7.3 Datenprobleme
+
+- Überprüfen Sie die Verbindung zu Supabase
+- Stellen Sie sicher, dass die erforderlichen Tabellen und Spalten existieren
+- Prüfen Sie die Berechtigungen für den Zugriff auf die Daten
+
+## 8. Nächste Schritte
+
+- Weitere Komponenten konvertieren und in WeWeb integrieren
+- Benutzerfeedback sammeln und Verbesserungen vornehmen
+- Automatisierte Tests für die WeWeb-Integration implementieren

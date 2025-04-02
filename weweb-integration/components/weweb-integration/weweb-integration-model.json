@@ -1,0 +1,45 @@
+{
+  "name": "WeWebIntegrationModel",
+  "description": "Datenmodell für die WeWeb-Integrationskomponente",
+  "version": "1.0.0",
+  
+  "dataModel": {
+    "connection": {
+      "status": "enum:Not connected,Connected,Error",
+      "lastSync": "string",
+      "apiKey": "string",
+      "projectId": "string"
+    },
+    "settings": {
+      "theme": "enum:light,dark",
+      "language": "enum:de,en",
+      "developerMode": "boolean"
+    },
+    "translations": {
+      "de": {
+        "title": "WeWeb Integration",
+        "description": "Verbinden Sie Ihre LemonVows App mit WeWeb für No-Code-Bearbeitung",
+        "connectButton": "Mit WeWeb verbinden",
+        "docsButton": "WeWeb-Dokumentation anzeigen",
+        "statusLabel": "Status",
+        "lastSyncLabel": "Letzte Synchronisierung",
+        "syncButton": "Jetzt synchronisieren",
+        "notConnected": "Nicht verbunden",
+        "connected": "Verbunden",
+        "error": "Fehler"
+      },
+      "en": {
+        "title": "WeWeb Integration",
+        "description": "Connect your LemonVows app to WeWeb for no-code editing",
+        "connectButton": "Connect to WeWeb",
+        "docsButton": "View WeWeb Documentation",
+        "statusLabel": "Status",
+        "lastSyncLabel": "Last sync",
+        "syncButton": "Sync now",
+        "notConnected": "Not connected",
+        "connected": "Connected",
+        "error": "Error"
+      }
+    }
+  }
+}

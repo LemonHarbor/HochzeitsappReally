@@ -1,0 +1,56 @@
+{
+  "name": "SEO",
+  "description": "SEO-Optimierungskomponente für WeWeb",
+  "version": "1.0.0",
+  "props": {
+    "title": {
+      "type": "string",
+      "description": "Seitentitel",
+      "default": "HochzeitsappReally - Ihre perfekte Hochzeitsplanung"
+    },
+    "description": {
+      "type": "string",
+      "description": "Seitenbeschreibung",
+      "default": "HochzeitsappReally ist Ihre All-in-One-Lösung für eine stressfreie Hochzeitsplanung. Gästemanagement, Budgetplanung, Sitzordnung und mehr."
+    },
+    "keywords": {
+      "type": "string",
+      "description": "Schlüsselwörter für Suchmaschinen",
+      "default": "Hochzeitsplanung, Hochzeitsapp, Gästemanagement, Budgetplanung, Hochzeit, Sitzordnung, Gästeliste, Hochzeitsorganisation"
+    },
+    "canonicalUrl": {
+      "type": "string",
+      "description": "Kanonische URL der Seite",
+      "default": "https://hochzeitsapp-really.vercel.app"
+    },
+    "ogImage": {
+      "type": "string",
+      "description": "Bild für Open Graph (soziale Medien)",
+      "default": "/images/og-image.jpg"
+    },
+    "ogType": {
+      "type": "string",
+      "description": "Open Graph Typ",
+      "default": "website",
+      "enum": ["website", "article", "product"]
+    },
+    "twitterCard": {
+      "type": "string",
+      "description": "Twitter Card Typ",
+      "default": "summary_large_image",
+      "enum": ["summary", "summary_large_image", "app", "player"]
+    },
+    "theme": {
+      "type": "string",
+      "description": "Farbschema der Komponente",
+      "default": "light",
+      "enum": ["light", "dark"]
+    },
+    "language": {
+      "type": "string",
+      "description": "Sprache der Komponente",
+      "default": "de",
+      "enum": ["de", "en"]
+    }
+  }
+}

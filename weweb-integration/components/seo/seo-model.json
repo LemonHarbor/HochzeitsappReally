@@ -1,0 +1,39 @@
+{
+  "name": "SEOModel",
+  "description": "Datenmodell für die SEO-Optimierungskomponente",
+  "version": "1.0.0",
+  
+  "dataModel": {
+    "seo": {
+      "title": "string",
+      "description": "string",
+      "keywords": "string",
+      "canonicalUrl": "string",
+      "ogImage": "string",
+      "ogType": "enum:website,article,product",
+      "twitterCard": "enum:summary,summary_large_image,app,player"
+    },
+    "settings": {
+      "theme": "enum:light,dark",
+      "language": "enum:de,en"
+    },
+    "translations": {
+      "de": {
+        "missingTitle": "Bitte geben Sie einen Seitentitel an",
+        "missingDescription": "Bitte geben Sie eine Seitenbeschreibung an",
+        "previewTitle": "SEO-Vorschau",
+        "googlePreview": "Google-Vorschau",
+        "facebookPreview": "Facebook-Vorschau",
+        "twitterPreview": "Twitter-Vorschau"
+      },
+      "en": {
+        "missingTitle": "Please provide a page title",
+        "missingDescription": "Please provide a page description",
+        "previewTitle": "SEO Preview",
+        "googlePreview": "Google Preview",
+        "facebookPreview": "Facebook Preview",
+        "twitterPreview": "Twitter Preview"
+      }
+    }
+  }
+}

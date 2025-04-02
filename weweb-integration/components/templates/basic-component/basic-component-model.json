@@ -1,0 +1,30 @@
+{
+  "name": "BasicComponentModel",
+  "description": "Datenmodell für die Basis-Komponente",
+  "version": "1.0.0",
+  
+  "dataModel": {
+    "item": {
+      "id": "string",
+      "name": "string",
+      "description": "string",
+      "created_at": "date",
+      "updated_at": "date",
+      "status": "enum:active,inactive,archived",
+      "tags": "array",
+      "metadata": "object"
+    },
+    "settings": {
+      "theme": "enum:light,dark",
+      "language": "enum:de,en",
+      "showHeader": "boolean",
+      "showFooter": "boolean",
+      "itemsPerPage": "number",
+      "sortOrder": "enum:asc,desc"
+    },
+    "translations": {
+      "de": "object",
+      "en": "object"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "ImageWithSEOModel",
+  "description": "Datenmodell für die SEO-optimierte Bildkomponente",
+  "version": "1.0.0",
+  
+  "dataModel": {
+    "image": {
+      "src": "string",
+      "alt": "string",
+      "width": "number",
+      "height": "number",
+      "loading": "enum:lazy,eager",
+      "className": "string"
+    },
+    "settings": {
+      "theme": "enum:light,dark",
+      "language": "enum:de,en"
+    },
+    "translations": {
+      "de": {
+        "missingAltText": "Bitte geben Sie einen alternativen Text für das Bild an (wichtig für SEO)",
+        "missingSrc": "Bitte geben Sie eine Bildquelle an"
+      },
+      "en": {
+        "missingAltText": "Please provide alternative text for the image (important for SEO)",
+        "missingSrc": "Please provide an image source"
+      }
+    }
+  }
+}
