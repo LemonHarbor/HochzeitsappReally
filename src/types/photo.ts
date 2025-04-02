@@ -1,41 +1,24 @@
 export interface Photo {
   id: string;
-  user_id: string;
-  album_id?: string | null;
+  title: string;
   url: string;
-  thumbnail_url?: string | null;
-  title?: string | null;
-  description?: string | null;
-  tags?: string[] | null;
+  caption: string; // Added missing caption property
+  description?: string;
   is_public: boolean;
+  event_id?: string;
+  uploaded_by: string;
   created_at: string;
   updated_at: string;
 }
 
-export interface PhotoComment {
+export interface JGAPhoto {
   id: string;
-  photo_id: string;
-  guest_id: string;
-  guest_name?: string;
-  content: string;
-  created_at: string;
-  updated_at?: string | null;
-}
-
-export interface PhotoLike {
-  id: string;
-  photo_id: string;
-  guest_id: string;
-  created_at: string;
-}
-
-export interface PhotoAlbum {
-  id: string;
-  user_id: string;
   title: string;
-  description?: string | null;
-  cover_photo_id?: string | null;
+  url: string; // Added missing url property
+  description: string;
   is_public: boolean;
+  event_id: string;
+  uploaded_by: string;
   created_at: string;
   updated_at: string;
 }

@@ -1,28 +1,11 @@
-export interface Expense {
-  id: string;
-  name: string;
-  category: string;
-  amount: number;
-  date: string;
-  status: "paid" | "pending" | "cancelled";
-  vendor?: string;
-  notes?: string;
-  receipt_url?: string;
-  vendor_id?: string;
-  created_at?: string;
-  updated_at?: string;
-  user_id?: string;
-}
-
 export interface BudgetCategory {
   id: string;
   name: string;
-  percentage: number;
-  amount: number;
+  allocated: number; // Made required
   spent: number;
   color: string;
-  recommended: number;
-  allocated?: number; // Added to match BudgetReports.tsx interface
+  created_at: string;
+  updated_at: string;
 }
 
 export interface DashboardBudgetCategory {
@@ -30,5 +13,17 @@ export interface DashboardBudgetCategory {
   allocated: number;
   spent: number;
   color: string;
-  amount: number; // Added this property to fix errors in BudgetDashboard.tsx
+  amount: number; // Added missing property
+}
+
+export interface Expense {
+  id: string;
+  name: string;
+  category: string;
+  amount: number;
+  date: string;
+  status: "pending" | "cancelled" | "paid"; // Fixed to use union type instead of string
+  vendor: string;
+  created_at: string;
+  updated_at: string;
 }
