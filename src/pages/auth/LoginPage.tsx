@@ -1,26 +1,47 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useLanguage } from '../../lib/language';
 
 interface LoginPageProps {
   register?: boolean;
 }
 
 export const LoginPage: React.FC<LoginPageProps> = ({ register = false }) => {
+  const { t } = useLanguage();
+  const { signIn, signUp } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Check if register parameter is in the URL
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('register') === 'true') {
+      setIsRegister(true);
+    }
+  }, [location]);
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const { signIn, signUp } = useAuth();
-
+  const [isRegister, setIsRegister] = useState(register);
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-
+    
     try {
-      if (register) {
+      console.log("Authentication attempt with:", email);
+      
+      if (!email || !password) {
+        setError(t("auth.enterBothFields") || "Bitte geben Sie E-Mail und Passwort ein");
+        setLoading(false);
+        return;
+      }
+      
+      if (isRegister) {
         const { error } = await signUp(email, password);
         if (error) throw error;
         // Show success message and redirect to login
@@ -30,37 +51,44 @@ export const LoginPage: React.FC<LoginPageProps> = ({ register = false }) => {
         const { error } = await signIn(email, password);
         if (error) throw error;
         // Redirect to dashboard on successful login
-        navigate('/dashboard');
+        navigate("/dashboard");
       }
-    } catch (error: any) {
-      console.error('Authentication error:', error);
-      setError(error.message || 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
+    } catch (err: any) {
+      console.error("Authentication error:", err);
+      setError(err.message || t("auth.loginFailed") || "Anmeldung fehlgeschlagen");
     } finally {
       setLoading(false);
     }
   };
-
+  
   // For demo purposes, add a quick login function
   const handleDemoLogin = () => {
-    setEmail('demo@lemonvows.de');
-    setPassword('demo123');
+    setEmail("demo@lemonvows.de");
+    setPassword("demo123");
   };
-
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        <div>
+        <div className="text-center">
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            {register ? 'Registrieren' : 'Anmelden'}
+            {isRegister ? t("auth.register") || "Registrieren" : t("auth.login") || "Anmelden"}
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            {register ? 'Erstellen Sie Ihr Konto' : 'Melden Sie sich bei Ihrem Konto an'}
+            {isRegister ? t("auth.createAccount") || "Erstellen Sie Ihr Konto" : t("auth.signInToAccount") || "Melden Sie sich bei Ihrem Konto an"}
           </p>
         </div>
+        
+        {error && (
+          <div className="p-3 mb-4 text-sm text-red-500 bg-red-50 rounded-md">
+            {error}
+          </div>
+        )}
+        
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <label htmlFor="email-address" className="sr-only">E-Mail-Adresse</label>
+              <label htmlFor="email-address" className="sr-only">{t("auth.email") || "E-Mail-Adresse"}</label>
               <input
                 id="email-address"
                 name="email"
@@ -68,61 +96,70 @@ export const LoginPage: React.FC<LoginPageProps> = ({ register = false }) => {
                 autoComplete="email"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-                placeholder="E-Mail-Adresse"
+                placeholder={t("auth.email") || "E-Mail-Adresse"}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">Passwort</label>
+              <label htmlFor="password" className="sr-only">{t("auth.password") || "Passwort"}</label>
               <input
                 id="password"
                 name="password"
                 type="password"
-                autoComplete={register ? 'new-password' : 'current-password'}
+                autoComplete={isRegister ? "new-password" : "current-password"}
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-                placeholder="Passwort"
+                placeholder={t("auth.password") || "Passwort"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </div>
-
-          {error && (
-            <div className="text-red-500 text-sm text-center">
-              {error}
-            </div>
-          )}
-
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+          
+          <div className="flex justify-end">
+            <button 
+              type="button" 
+              className="text-sm text-primary"
+              onClick={() => alert(t("auth.passwordResetSoon") || "Password-Reset-Funktionalität wird bald implementiert.")}
             >
-              {loading ? (
-                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                </span>
-              ) : null}
-              {register ? 'Registrieren' : 'Anmelden'}
+              {t("auth.forgotPassword") || "Passwort vergessen?"}
             </button>
           </div>
-
+          
+          <button
+            type="submit"
+            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+            disabled={loading}
+          >
+            {loading ? (
+              <div className="flex items-center justify-center">
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                <span className="ml-2">{t("auth.signingIn") || "Anmelden..."}</span>
+              </div>
+            ) : (
+              isRegister ? (t("auth.register") || "Registrieren") : (t("auth.signIn") || "Anmelden")
+            )}
+          </button>
+          
           <div className="flex items-center justify-between">
             <div className="text-sm">
-              {register ? (
-                <Link to="/login" className="font-medium text-primary hover:text-primary-dark">
-                  Bereits registriert? Anmelden
-                </Link>
+              {isRegister ? (
+                <button 
+                  type="button"
+                  onClick={() => setIsRegister(false)}
+                  className="font-medium text-primary hover:text-primary-dark"
+                >
+                  {t("auth.alreadyRegistered") || "Bereits registriert? Anmelden"}
+                </button>
               ) : (
-                <Link to="/register" className="font-medium text-primary hover:text-primary-dark">
-                  Noch kein Konto? Registrieren
-                </Link>
+                <button 
+                  type="button"
+                  onClick={() => setIsRegister(true)}
+                  className="font-medium text-primary hover:text-primary-dark"
+                >
+                  {t("auth.dontHaveAccount") || "Noch kein Konto? Registrieren"}
+                </button>
               )}
             </div>
             <div className="text-sm">
@@ -131,12 +168,20 @@ export const LoginPage: React.FC<LoginPageProps> = ({ register = false }) => {
                 onClick={handleDemoLogin}
                 className="font-medium text-primary hover:text-primary-dark"
               >
-                Demo-Login
+                {t("auth.demoLogin") || "Demo-Login"}
               </button>
             </div>
           </div>
         </form>
+        
+        <div className="mt-6">
+          <Link to="/" className="text-sm text-gray-600 hover:text-gray-900">
+            ← {t("common.backToHome") || "Zurück zur Startseite"}
+          </Link>
+        </div>
       </div>
     </div>
   );
 };
+
+export default LoginPage;

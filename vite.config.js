@@ -11,7 +11,8 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    host: '0.0.0.0'
+    host: '0.0.0.0',
+    allowedHosts: ['3000-i8c2oxjv2dfo3wenvrmop-8a678df9.manus.computer']
   },
   resolve: {
     alias: {

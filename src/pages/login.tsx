@@ -1,29 +1,51 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { LanguageSwitcher } from "../components/ui/language-switcher";
 import { useLanguage } from "../lib/language";
+import { useAuth } from "../contexts/AuthContext";
 
 export function LoginPage() {
   const { t } = useLanguage();
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   
-  const handleLogin = (e) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login attempt with:", email);
+    setError(null);
+    setLoading(true);
     
-    // Simple login logic for demonstration
-    if (email && password) {
-      localStorage.setItem("authenticated", "true");
-      localStorage.setItem("user_email", email);
+    try {
+      console.log("Login attempt with:", email);
       
-      // Alert for user feedback
-      alert("Login successful! Redirecting to dashboard...");
+      if (!email || !password) {
+        setError(t("auth.enterBothFields"));
+        return;
+      }
       
-      // Redirect to dashboard
-      window.location.href = "/";
-    } else {
-      alert("Please enter both email and password");
+      const { error } = await signIn(email, password);
+      
+      if (error) {
+        throw error;
+      }
+      
+      // Redirect to dashboard on successful login
+      navigate("/dashboard");
+    } catch (err: any) {
+      console.error("Login error:", err);
+      setError(err.message || t("auth.loginFailed"));
+    } finally {
+      setLoading(false);
     }
+  };
+  
+  // For demo purposes, add a quick login function
+  const handleDemoLogin = () => {
+    setEmail("demo@lemonvows.de");
+    setPassword("demo123");
   };
   
   return (
@@ -48,7 +70,7 @@ export function LoginPage() {
             </button>
             <button 
               className="px-4 py-2"
-              onClick={() => console.log("Register tab clicked")}
+              onClick={() => navigate("/register")}
             >
               {t("auth.register")}
             </button>
@@ -64,6 +86,12 @@ export function LoginPage() {
           <p className="text-muted-foreground mb-6">
             {t("auth.enterGuestCode")}
           </p>
+          
+          {error && (
+            <div className="p-3 mb-4 text-sm text-red-500 bg-red-50 rounded-md">
+              {error}
+            </div>
+          )}
           
           <form className="space-y-4" onSubmit={handleLogin}>
             <div className="space-y-2">
@@ -107,8 +135,16 @@ export function LoginPage() {
             <button
               type="submit"
               className="w-full py-2 bg-primary text-primary-foreground rounded-md"
+              disabled={loading}
             >
-              {t("auth.signIn")}
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                  <span className="ml-2">{t("auth.signingIn")}</span>
+                </div>
+              ) : (
+                t("auth.signIn")
+              )}
             </button>
           </form>
           
@@ -117,7 +153,7 @@ export function LoginPage() {
               {t("auth.dontHaveAccount")} 
               <button 
                 className="text-primary ml-1"
-                onClick={() => alert("Registration functionality will be implemented soon.")}
+                onClick={() => navigate("/register")}
               >
                 {t("auth.register")}
               </button>
@@ -138,10 +174,7 @@ export function LoginPage() {
       <div className="fixed bottom-4 right-4">
         <button 
           className="px-3 py-1 text-xs bg-muted rounded-md"
-          onClick={() => {
-            localStorage.setItem('devMode', 'true');
-            alert('Developer mode activated! Refresh the page to see changes.');
-          }}
+          onClick={handleDemoLogin}
         >
           {t("developer.toggleMode")}
         </button>

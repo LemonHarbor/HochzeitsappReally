@@ -29,11 +29,13 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   // If role check is required, implement it here
-  // This is a placeholder for future role-based access control
-  if (requiredRole) {
-    // For now, we'll just allow access without checking roles
-    // In a real implementation, you would check if the user has the required role
-    console.log(`Role check for ${requiredRole} would happen here`);
+  if (requiredRole && user.role !== requiredRole) {
+    // Check if user has the required role
+    // For now, we'll log the check and allow access
+    console.log(`Role check: User role ${user.role}, required role ${requiredRole}`);
+    
+    // In a production app, you might want to redirect to an unauthorized page
+    // return <Navigate to="/unauthorized" replace />;
   }
 
   // If authenticated and passes role check, render the protected content
