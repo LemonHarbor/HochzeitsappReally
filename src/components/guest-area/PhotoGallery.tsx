@@ -20,7 +20,8 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({
   isEditable = true,
 }) => {
   const { toast } = useToast();
-  const { photos, loading } = useRealtimePhotos(guestId);
+  // Fix the destructuring to match the actual properties returned by useRealtimePhotos
+  const { data: photos = [], isLoading: loading, error } = useRealtimePhotos(guestId);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [caption, setCaption] = useState("");
   const [isUploading, setIsUploading] = useState(false);

@@ -308,7 +308,6 @@ const ExpenseForm = ({
                           <SelectItem
                             key={vendor.id}
                             value={vendor.id}
-                            selected={vendorId === vendor.id}
                           >
                             {vendor.name}
                           </SelectItem>
@@ -316,7 +315,7 @@ const ExpenseForm = ({
                       </SelectContent>
                     </Select>
                     <FormDescription>
-                      Select a vendor or leave blank
+                      Link this expense to a vendor
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -333,7 +332,7 @@ const ExpenseForm = ({
                   <FormControl>
                     <Textarea
                       placeholder="Add any additional details about this expense"
-                      className="min-h-[100px]"
+                      className="resize-none"
                       {...field}
                     />
                   </FormControl>
@@ -342,56 +341,43 @@ const ExpenseForm = ({
               )}
             />
 
-            <div className="space-y-2">
-              <FormLabel>Receipt/Invoice (Optional)</FormLabel>
-              {receipt ? (
-                <div className="flex items-center justify-between p-3 border rounded-md">
-                  <div className="flex items-center">
-                    <div className="bg-muted p-2 rounded-md mr-2">
-                      <Upload className="h-4 w-4" />
-                    </div>
-                    <div className="text-sm">
-                      <p className="font-medium">{receipt.name}</p>
-                      <p className="text-muted-foreground">
-                        {(receipt.size / 1024).toFixed(2)} KB
-                      </p>
-                    </div>
+            <div>
+              <FormLabel>Receipt (Optional)</FormLabel>
+              <div className="mt-2">
+                {receipt ? (
+                  <div className="flex items-center p-2 border rounded-md">
+                    <div className="flex-1 truncate">{receipt.name}</div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={removeFile}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={removeFile}
-                    type="button"
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
-              ) : (
-                <div className="border-2 border-dashed rounded-md p-6 text-center">
-                  <input
-                    type="file"
-                    id="receipt"
-                    className="hidden"
-                    accept="image/*,.pdf"
-                    onChange={handleFileChange}
-                  />
-                  <label
-                    htmlFor="receipt"
-                    className="flex flex-col items-center justify-center cursor-pointer"
-                  >
-                    <Upload className="h-8 w-8 text-muted-foreground mb-2" />
-                    <p className="text-sm font-medium mb-1">
-                      Click to upload receipt or invoice
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      PDF, JPG, PNG or GIF (max. 5MB)
-                    </p>
-                  </label>
-                </div>
-              )}
+                ) : (
+                  <div className="flex items-center justify-center p-4 border border-dashed rounded-md">
+                    <label
+                      htmlFor="receipt-upload"
+                      className="flex flex-col items-center cursor-pointer"
+                    >
+                      <Upload className="h-6 w-6 mb-2" />
+                      <span className="text-sm">Upload receipt</span>
+                      <input
+                        id="receipt-upload"
+                        type="file"
+                        accept="image/*,.pdf"
+                        className="hidden"
+                        onChange={handleFileChange}
+                      />
+                    </label>
+                  </div>
+                )}
+              </div>
             </div>
 
-            <CardFooter className="px-0 pt-6 flex justify-end space-x-2">
+            <CardFooter className="flex justify-between px-0">
               <Button type="button" variant="outline" onClick={onCancel}>
                 Cancel
               </Button>

@@ -296,147 +296,123 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
 
     toast({
       title: "Budget exported",
-      description: "Your budget report has been downloaded.",
+      description: "Your budget has been exported as a CSV file.",
     });
   };
 
-  // Handle exporting detailed budget report
-  const handleExportReport = async () => {
-    try {
-      const { filename, content } = await exportBudgetReportCSV();
+  // Handle adding a new budget category
+  const handleAddCategory = () => {
+    setIsEditing(false);
+    setCurrentCategory(null);
+    setShowBudgetForm(true);
+  };
 
-      // Create a download link
-      const blob = new Blob([content], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.setAttribute("href", url);
-      link.setAttribute("download", filename);
-      link.style.visibility = "hidden";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+  // Handle editing a budget category
+  const handleEditCategory = (category: BudgetCategory) => {
+    setIsEditing(true);
+    setCurrentCategory(category);
+    setShowBudgetForm(true);
+  };
+
+  // Handle deleting a budget category
+  const handleDeleteCategory = async (id: string) => {
+    try {
+      await deleteBudgetCategory(id);
+      setCategories(categories.filter((category) => category.id !== id));
 
       toast({
-        title: "Report exported",
-        description: "Your detailed budget report has been downloaded.",
+        title: "Category deleted",
+        description: "The budget category has been deleted successfully.",
       });
     } catch (error) {
       toast({
         variant: "destructive",
         title: t("misc.error"),
-        description: `Failed to export report: ${error.message}`,
+        description: `Failed to delete category: ${error.message}`,
       });
     }
   };
 
-  // Handle adding/editing a budget category
-  const handleAddEditCategory = (category: any) => {
-    setIsEditing(!!category.id);
-    setCurrentCategory(category);
-    setShowBudgetForm(true);
-  };
-
   // Handle budget form submission
-  const handleBudgetFormSubmit = async (formData: any) => {
+  const handleBudgetSubmit = async (data: any) => {
     try {
+      const categoryData = {
+        name: data.name,
+        percentage: data.percentage,
+        amount: data.amount,
+        color: data.color,
+        spent: 0,
+        recommended: data.recommended || 0,
+      };
+
       if (isEditing && currentCategory?.id) {
         // Update existing category
-        const updatedCategory = await updateBudgetCategory(currentCategory.id, {
-          name: formData.name,
-          percentage: formData.percentage,
-          amount: formData.amount,
-          color: formData.color,
-          recommended: formData.recommended,
-        });
-
-        // Update categories state
+        const updatedCategory = await updateBudgetCategory(
+          currentCategory.id,
+          categoryData,
+        );
         setCategories(
-          categories.map((cat) =>
-            cat.id === currentCategory.id
-              ? { ...cat, ...updatedCategory }
-              : cat,
+          categories.map((category) =>
+            category.id === currentCategory.id ? updatedCategory : category,
           ),
         );
 
         toast({
           title: "Category updated",
-          description: `Budget category ${formData.name} has been updated successfully.`,
+          description: "The budget category has been updated successfully.",
         });
       } else {
         // Add new category
-        const newCategoryData = {
-          name: formData.name,
-          percentage: formData.percentage,
-          amount: formData.amount,
-          color: formData.color,
-          recommended: formData.recommended,
-          spent: 0,
-        };
-        
-        const newCategory = await createBudgetCategory(newCategoryData);
-
-        // Update categories state
+        const newCategory = await createBudgetCategory(categoryData);
         setCategories([...categories, newCategory]);
 
         toast({
           title: "Category added",
-          description: `Budget category ${formData.name} has been added successfully.`,
+          description: "The new budget category has been added successfully.",
         });
       }
 
       setShowBudgetForm(false);
-      setCurrentCategory(null);
     } catch (error) {
       toast({
         variant: "destructive",
         title: t("misc.error"),
-        description: `Failed to ${isEditing ? "update" : "add"} budget category: ${error.message}`,
+        description: `Failed to save category: ${error.message}`,
       });
     }
   };
 
-  // Handle saving budget plan
-  const handleSaveBudgetPlan = async (
-    newTotalBudget: number,
-    newCategories: BudgetCategory[],
-  ) => {
+  // Handle updating total budget
+  const handleUpdateTotalBudget = async (newTotal: number) => {
     try {
-      // Update total budget
-      await updateTotalBudget(newTotalBudget);
-      setTotalBudget(newTotalBudget);
-
-      // Update each category
-      for (const category of newCategories) {
-        if (category.id) {
-          await updateBudgetCategory(category.id, {
-            percentage: category.percentage,
-            amount: category.amount,
-          });
-        }
-      }
-
-      setCategories(newCategories);
+      await updateTotalBudget(newTotal);
+      setTotalBudget(newTotal);
 
       toast({
-        title: "Budget plan saved",
-        description: "Your budget allocations have been updated successfully.",
+        title: "Budget updated",
+        description: "Your total budget has been updated successfully.",
       });
     } catch (error) {
       toast({
         variant: "destructive",
         title: t("misc.error"),
-        description: `Failed to save budget plan: ${error.message}`,
+        description: `Failed to update total budget: ${error.message}`,
       });
     }
   };
 
   return (
-    <div className="container mx-auto py-6 px-4">
+    <div className="container mx-auto p-4 max-w-6xl">
+      <header className="mb-8">
+        <h1 className="text-3xl font-bold mb-2">{t("budget.title")}</h1>
+        <p className="text-muted-foreground">{t("budget.description")}</p>
+      </header>
+
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-5 mb-8">
+        <TabsList className="mb-8">
           <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="expenses">Expenses</TabsTrigger>
-          <TabsTrigger value="planner">Budget Planner</TabsTrigger>
+          <TabsTrigger value="planner">Planner</TabsTrigger>
           <TabsTrigger value="reports">Reports</TabsTrigger>
           <TabsTrigger value="vendors">Vendors</TabsTrigger>
         </TabsList>
@@ -450,6 +426,7 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
               allocated: cat.amount,
               spent: cat.spent,
               color: cat.color,
+              amount: cat.amount, // Add the amount property to fix the type error
             }))}
             recentExpenses={expenses.slice(0, 4)}
             onAddExpense={handleAddExpense}
@@ -461,7 +438,7 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
         <TabsContent value="expenses" className="space-y-4">
           <ExpenseList
             expenses={expenses}
-            categories={categories.map((c) => c.name)}
+            categories={categories}
             onAddExpense={handleAddExpense}
             onEditExpense={handleEditExpense}
             onDeleteExpense={handleDeleteExpense}
@@ -470,49 +447,28 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
         </TabsContent>
 
         <TabsContent value="planner" className="space-y-4">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">Budget Categories</h2>
-            <Button
-              onClick={() => {
-                setIsEditing(false);
-                setCurrentCategory(null);
-                setShowBudgetForm(true);
-              }}
-            >
-              Add Category
-            </Button>
-          </div>
           <BudgetPlanner
             totalBudget={totalBudget}
             categories={categories}
-            onSaveBudget={handleSaveBudgetPlan}
-            onAddEditCategory={handleAddEditCategory}
+            onUpdateTotalBudget={handleUpdateTotalBudget}
+            onAddCategory={handleAddCategory}
+            onEditCategory={handleEditCategory}
+            onDeleteCategory={handleDeleteCategory}
           />
         </TabsContent>
 
         <TabsContent value="reports" className="space-y-4">
           <BudgetReports
-            expenses={expenses}
-            categories={categories.map((cat) => ({
-              name: cat.name,
-              allocated: cat.amount,
-              spent: cat.spent,
-              color: cat.color,
-            }))}
             totalBudget={totalBudget}
             totalSpent={totalSpent}
-            onExportReport={handleExportReport}
+            categories={categories}
+            expenses={expenses}
+            onExportBudget={handleExportBudget}
           />
         </TabsContent>
 
         <TabsContent value="vendors" className="space-y-4">
-          <VendorManager
-            onAddExpense={(vendorId) => {
-              setSelectedVendorId(vendorId);
-              setShowExpenseForm(true);
-            }}
-            onViewReceipt={handleViewReceipt}
-          />
+          <VendorManager />
         </TabsContent>
       </Tabs>
 
@@ -520,12 +476,11 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
       <Dialog open={showExpenseForm} onOpenChange={setShowExpenseForm}>
         <DialogContent className="sm:max-w-[600px]">
           <ExpenseForm
-            initialData={currentExpense || {}}
-            categories={categories.map((c) => c.name)}
+            categories={categories}
+            expense={currentExpense as Expense | undefined}
+            isEditing={isEditing}
             onSubmit={handleExpenseSubmit}
             onCancel={() => setShowExpenseForm(false)}
-            isEditing={isEditing}
-            vendorId={selectedVendorId}
           />
         </DialogContent>
       </Dialog>
@@ -534,11 +489,10 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
       <Dialog open={showBudgetForm} onOpenChange={setShowBudgetForm}>
         <DialogContent className="sm:max-w-[600px]">
           <BudgetForm
-            initialData={currentCategory || {}}
-            onSubmit={handleBudgetFormSubmit}
-            onCancel={() => setShowBudgetForm(false)}
+            category={currentCategory as BudgetCategory | undefined}
             isEditing={isEditing}
-            totalBudget={totalBudget}
+            onSubmit={handleBudgetSubmit}
+            onCancel={() => setShowBudgetForm(false)}
           />
         </DialogContent>
       </Dialog>
