@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="800" height="500" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title { font: bold 20px sans-serif; }
+    .subtitle { font: bold 16px sans-serif; }
+    .label { font: 14px sans-serif; }
+    .code { font: 12px monospace; fill: #333; }
+    .box { stroke-width: 2px; }
+    .arrow { stroke: #333; stroke-width: 2px; fill: none; marker-end: url(#arrowhead); }
+    .description { font: italic 12px sans-serif; fill: #555; }
+    .flag { font-size: 24px; }
+  </style>
+  
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+    </marker>
+  </defs>
+  
+  <rect x="10" y="10" width="780" height="480" fill="#f8f9fa" stroke="#ddd" rx="5" ry="5" />
+  
+  <text x="400" y="40" text-anchor="middle" class="title">Mehrsprachigkeit in WeWeb-Komponenten</text>
+  
+  <!-- Language Selection Box -->
+  <rect x="50" y="80" width="200" height="120" fill="#e3f2fd" stroke="#2196f3" class="box" rx="5" ry="5" />
+  <text x="150" y="105" text-anchor="middle" class="subtitle">Sprachauswahl</text>
+  <text x="60" y="130" class="label">• language-Prop</text>
+  <text x="60" y="150" class="label">• DE/EN/FR/ES Unterstützung</text>
+  <text x="60" y="170" class="label">• Dynamische Änderung</text>
+  <text x="60" y="190" class="description">Steuert die aktive Sprache</text>
+  
+  <!-- Translation Data Box -->
+  <rect x="300" y="80" width="200" height="180" fill="#e8f5e9" stroke="#4caf50" class="box" rx="5" ry="5" />
+  <text x="400" y="105" text-anchor="middle" class="subtitle">Übersetzungsdaten</text>
+  <text x="310" y="130" class="code">"translations": {</text>
+  <text x="320" y="150" class="code">"de": { "title": "Titel" },</text>
+  <text x="320" y="170" class="code">"en": { "title": "Title" },</text>
+  <text x="320" y="190" class="code">"fr": { "title": "Titre" },</text>
+  <text x="320" y="210" class="code">"es": { "title": "Título" }</text>
+  <text x="310" y="230" class="code">}</text>
+  <text x="310" y="250" class="description">In model.json definiert</text>
+  
+  <!-- Translation Function Box -->
+  <rect x="550" y="80" width="200" height="120" fill="#fff3e0" stroke="#ff9800" class="box" rx="5" ry="5" />
+  <text x="650" y="105" text-anchor="middle" class="subtitle">Übersetzungsfunktion</text>
+  <text x="560" y="130" class="code">translate(key) {</text>
+  <text x="570" y="150" class="code">return translations</text>
+  <text x="570" y="170" class="code">[language][key];</text>
+  <text x="560" y="190" class="code">}</text>
+  
+  <!-- UI Implementation Box -->
+  <rect x="300" y="300" width="200" height="120" fill="#f3e5f5" stroke="#9c27b0" class="box" rx="5" ry="5" />
+  <text x="400" y="325" text-anchor="middle" class="subtitle">UI-Implementierung</text>
+  <text x="310" y="350" class="code">{{ t('title') }}</text>
+  <text x="310" y="370" class="code">{{ t('description') }}</text>
+  <text x="310" y="390" class="code">{{ t('buttonText') }}</text>
+  <text x="310" y="410" class="description">Verwendet t() für alle Texte</text>
+  
+  <!-- Language Flags -->
+  <text x="100" y="350" class="flag">🇩🇪</text>
+  <text x="100" y="380" class="label">Deutsch</text>
+  
+  <text x="150" y="350" class="flag">🇬🇧</text>
+  <text x="150" y="380" class="label">Englisch</text>
+  
+  <text x="200" y="350" class="flag">🇫🇷</text>
+  <text x="200" y="380" class="label">Französisch</text>
+  
+  <text x="250" y="350" class="flag">🇪🇸</text>
+  <text x="250" y="380" class="label">Spanisch</text>
+  
+  <!-- WeWeb Config Box -->
+  <rect x="550" y="300" width="200" height="120" fill="#fafafa" stroke="#9e9e9e" class="box" rx="5" ry="5" />
+  <text x="650" y="325" text-anchor="middle" class="subtitle">WeWeb-Konfiguration</text>
+  <text x="560" y="350" class="code">language: {</text>
+  <text x="570" y="370" class="code">type: 'select',</text>
+  <text x="570" y="390" class="code">options: ['de','en','fr','es']</text>
+  <text x="560" y="410" class="code">}</text>
+  
+  <!-- Arrows -->
+  <path d="M250 140 L300 140" class="arrow" />
+  <path d="M500 140 L550 140" class="arrow" />
+  <path d="M650 200 L650 300" class="arrow" />
+  <path d="M400 260 L400 300" class="arrow" />
+  <path d="M250 360 L300 360" class="arrow" />
+</svg>
