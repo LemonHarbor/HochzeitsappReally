@@ -75,7 +75,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({
       setSelectedFile(null);
       setCaption("");
       setShowUploadForm(false);
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Upload Failed",
@@ -93,7 +93,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({
         title: "Photo Deleted",
         description: "The photo has been removed from the gallery.",
       });
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Delete Failed",

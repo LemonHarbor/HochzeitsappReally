@@ -246,5 +246,49 @@ export const useRealtimeMoodBoard = (boardId: string) => {
     };
   }, [boardId]);
 
-  return { moodBoard, moodBoardItems, moodBoardComments, moodBoardShares, loading, error };
+  // Return the data in the format expected by MoodBoardCanvas.tsx
+  return { 
+    board: moodBoard, 
+    items: moodBoardItems, 
+    comments: moodBoardComments, 
+    loading, 
+    error,
+    moodBoard,
+    moodBoardItems,
+    moodBoardComments,
+    moodBoardShares
+  };
+};
+
+// Add this export to fix the error in MoodBoardList.tsx
+export const useRealtimeMoodBoards = (userId: string) => {
+  const [moodBoards, setMoodBoards] = useState<MoodBoard[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    const fetchMoodBoards = async () => {
+      try {
+        setLoading(true);
+        
+        const { data, error } = await supabase
+          .from('moodboards')
+          .select('*')
+          .eq('user_id', userId)
+          .order('created_at', { ascending: false });
+        
+        if (error) throw error;
+        setMoodBoards(data || []);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching mood boards:', err);
+        setError(err instanceof Error ? err : new Error('Unknown error occurred'));
+        setLoading(false);
+      }
+    };
+
+    fetchMoodBoards();
+  }, [userId]);
+
+  return { moodBoards, loading, error };
 };

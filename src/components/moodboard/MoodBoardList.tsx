@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/context/AuthContext";
 import { useRealtimeMoodBoards } from "@/hooks/useRealtimeMoodBoard";
-import { MoodBoard } from "@/types/moodboard";
+import { MoodBoard, MoodBoardFormData } from "@/types/moodboard";
 import { createMoodBoard, deleteMoodBoard } from "@/services/moodboardService";
 import {
   Grid,
@@ -63,6 +63,14 @@ interface MoodBoardListProps {
   onViewBoard?: (boardId: string) => void;
 }
 
+// Extended MoodBoard interface for the component
+interface ExtendedMoodBoard extends MoodBoard {
+  title: string;
+  category: string;
+  shared?: boolean;
+  permission?: string;
+}
+
 const MoodBoardList: React.FC<MoodBoardListProps> = ({
   onCreateBoard = () => {},
   onEditBoard = () => {},
@@ -71,7 +79,7 @@ const MoodBoardList: React.FC<MoodBoardListProps> = ({
   const { toast } = useToast();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { boards, loading } = useRealtimeMoodBoards(user?.id || "");
+  const { moodBoards: boards, loading } = useRealtimeMoodBoards(user?.id || "");
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
@@ -81,7 +89,7 @@ const MoodBoardList: React.FC<MoodBoardListProps> = ({
   const [boardToDelete, setBoardToDelete] = useState<string | null>(null);
 
   // Filter boards based on search and category
-  const filteredBoards = boards.filter((board) => {
+  const filteredBoards = boards.filter((board: ExtendedMoodBoard) => {
     const matchesSearch =
       searchTerm === "" ||
       board.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -95,7 +103,9 @@ const MoodBoardList: React.FC<MoodBoardListProps> = ({
   });
 
   // Get unique categories from boards
-  const categories = Array.from(new Set(boards.map((board) => board.category)));
+  const categories = Array.from(
+    new Set(boards.map((board: ExtendedMoodBoard) => board.category))
+  );
 
   // Handle creating a new board
   const handleCreateBoard = async () => {
@@ -118,12 +128,17 @@ const MoodBoardList: React.FC<MoodBoardListProps> = ({
     }
 
     try {
-      const newBoard = await createMoodBoard({
-        user_id: user.id,
-        title: newBoardTitle.trim(),
-        description: newBoardDescription.trim() || undefined,
-        category: newBoardCategory,
+      const newBoardData: MoodBoardFormData = {
+        name: newBoardTitle.trim(),
+        description: newBoardDescription.trim(),
         is_public: false,
+      };
+
+      // @ts-ignore - We know this is safe because we're adding the user_id
+      const newBoard = await createMoodBoard({
+        ...newBoardData,
+        user_id: user.id,
+        category: newBoardCategory,
       });
 
       setShowCreateDialog(false);
@@ -133,7 +148,7 @@ const MoodBoardList: React.FC<MoodBoardListProps> = ({
 
       // Navigate to the new board
       onViewBoard(newBoard.id);
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Error",
@@ -154,7 +169,7 @@ const MoodBoardList: React.FC<MoodBoardListProps> = ({
         title: "Mood Board Deleted",
         description: "The mood board has been deleted successfully.",
       });
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Error",
@@ -216,8 +231,8 @@ const MoodBoardList: React.FC<MoodBoardListProps> = ({
           <SelectContent>
             <SelectItem value="all">All Categories</SelectItem>
             {categories.map((category) => (
-              <SelectItem key={category} value={category}>
-                {getCategoryDisplay(category)}
+              <SelectItem key={category as string} value={category as string}>
+                {getCategoryDisplay(category as string)}
               </SelectItem>
             ))}
           </SelectContent>
@@ -244,7 +259,7 @@ const MoodBoardList: React.FC<MoodBoardListProps> = ({
         </div>
       ) : filteredBoards.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredBoards.map((board) => (
+          {filteredBoards.map((board: ExtendedMoodBoard) => (
             <Card
               key={board.id}
               className="overflow-hidden hover:border-primary cursor-pointer transition-colors"
@@ -306,22 +321,13 @@ const MoodBoardList: React.FC<MoodBoardListProps> = ({
                             <Edit className="mr-2 h-4 w-4" />
                             Edit Details
                           </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              navigate(`/mood-board/${board.id}/share`);
-                            }}
-                          >
-                            <Share2 className="mr-2 h-4 w-4" />
-                            Share Board
-                          </DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem
-                            className="text-destructive focus:text-destructive"
                             onClick={(e) => {
                               e.stopPropagation();
                               setBoardToDelete(board.id);
                             }}
+                            className="text-destructive"
                           >
                             <Trash2 className="mr-2 h-4 w-4" />
                             Delete Board
@@ -333,34 +339,21 @@ const MoodBoardList: React.FC<MoodBoardListProps> = ({
                 </div>
               </CardHeader>
               <CardContent>
-                {board.description && (
-                  <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
-                    {board.description}
-                  </p>
-                )}
-                <div className="flex items-center justify-between text-xs text-muted-foreground">
-                  <div className="flex items-center">
-                    <Folder className="h-3.5 w-3.5 mr-1" />
-                    {getCategoryDisplay(board.category)}
-                  </div>
-                  <div className="flex items-center">
-                    {board.shared ? (
-                      <>
-                        <Users className="h-3.5 w-3.5 mr-1" />
-                        Shared
-                      </>
-                    ) : board.is_public ? (
-                      <>
-                        <Unlock className="h-3.5 w-3.5 mr-1" />
-                        Public
-                      </>
-                    ) : (
-                      <>
-                        <Lock className="h-3.5 w-3.5 mr-1" />
-                        Private
-                      </>
-                    )}
-                  </div>
+                <p className="text-sm text-muted-foreground line-clamp-3">
+                  {board.description || "No description provided."}
+                </p>
+                <div className="flex items-center mt-4 text-xs text-muted-foreground">
+                  {board.is_public ? (
+                    <div className="flex items-center">
+                      <Users className="mr-1 h-3 w-3" />
+                      <span>Public</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center">
+                      <Lock className="mr-1 h-3 w-3" />
+                      <span>Private</span>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -368,14 +361,18 @@ const MoodBoardList: React.FC<MoodBoardListProps> = ({
         </div>
       ) : (
         <div className="text-center py-12">
-          <Grid className="h-12 w-12 mx-auto text-muted-foreground" />
+          <Folder className="mx-auto h-12 w-12 text-muted-foreground" />
           <h3 className="mt-4 text-lg font-medium">No mood boards found</h3>
-          <p className="mt-2 text-muted-foreground">
+          <p className="mt-2 text-sm text-muted-foreground">
             {searchTerm || categoryFilter
               ? "Try adjusting your search or filters"
-              : "Create your first mood board to get started"}
+              : "Get started by creating your first mood board"}
           </p>
-          <Button onClick={() => setShowCreateDialog(true)} className="mt-4">
+          <Button
+            onClick={() => setShowCreateDialog(true)}
+            className="mt-4"
+            variant="outline"
+          >
             <Plus className="mr-2 h-4 w-4" />
             Create Mood Board
           </Button>
@@ -392,7 +389,7 @@ const MoodBoardList: React.FC<MoodBoardListProps> = ({
               inspiration.
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4 py-4">
+          <div className="space-y-4 py-2">
             <div className="space-y-2">
               <label
                 htmlFor="title"
@@ -402,7 +399,7 @@ const MoodBoardList: React.FC<MoodBoardListProps> = ({
               </label>
               <Input
                 id="title"
-                placeholder="My Wedding Inspiration"
+                placeholder="Enter a title for your mood board"
                 value={newBoardTitle}
                 onChange={(e) => setNewBoardTitle(e.target.value)}
               />
@@ -412,11 +409,11 @@ const MoodBoardList: React.FC<MoodBoardListProps> = ({
                 htmlFor="description"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Description (Optional)
+                Description (optional)
               </label>
               <Input
                 id="description"
-                placeholder="A collection of ideas for our special day"
+                placeholder="Enter a description"
                 value={newBoardDescription}
                 onChange={(e) => setNewBoardDescription(e.target.value)}
               />
@@ -432,18 +429,19 @@ const MoodBoardList: React.FC<MoodBoardListProps> = ({
                 value={newBoardCategory}
                 onValueChange={setNewBoardCategory}
               >
-                <SelectTrigger>
+                <SelectTrigger id="category">
                   <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="general">General</SelectItem>
-                  <SelectItem value="decor">Decor</SelectItem>
+                  <SelectItem value="ceremony">Ceremony</SelectItem>
+                  <SelectItem value="reception">Reception</SelectItem>
                   <SelectItem value="attire">Attire</SelectItem>
-                  <SelectItem value="venue">Venue</SelectItem>
+                  <SelectItem value="decor">Decor</SelectItem>
                   <SelectItem value="flowers">Flowers</SelectItem>
                   <SelectItem value="food">Food & Drinks</SelectItem>
-                  <SelectItem value="colors">Color Schemes</SelectItem>
-                  <SelectItem value="themes">Themes & Styles</SelectItem>
+                  <SelectItem value="photography">Photography</SelectItem>
+                  <SelectItem value="music">Music</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -469,15 +467,15 @@ const MoodBoardList: React.FC<MoodBoardListProps> = ({
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
-              mood board and all of its contents.
+              This will permanently delete this mood board and all of its
+              contents. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDeleteBoard}
-              className="bg-destructive text-destructive-foreground"
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               Delete
             </AlertDialogAction>

@@ -2,9 +2,9 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 
-const Layout = () => {
+const Layout: React.FC = () => {
   const { user } = useAuth();
   
   return (

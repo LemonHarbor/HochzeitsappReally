@@ -59,12 +59,12 @@ interface GuestListProps {
   onInvite?: (id: string) => void;
 }
 
-const GuestList = ({
+const GuestList: React.FC<GuestListProps> = ({
   guests: propGuests,
   onEdit = () => {},
   onDelete = () => {},
   onInvite = () => {},
-}: GuestListProps) => {
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [rsvpFilter, setRsvpFilter] = useState<string | null>(null);
@@ -92,10 +92,11 @@ const GuestList = ({
   // Show error toast if there's an error fetching guests
   useEffect(() => {
     if (error) {
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
       toast({
         variant: "destructive",
         title: "Error fetching guests",
-        description: error.message,
+        description: errorMessage,
       });
     }
   }, [error, toast]);
@@ -178,7 +179,7 @@ const GuestList = ({
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
+              <SelectItem value="">All Categories</SelectItem>
               {categories.map((category) => (
                 <SelectItem key={category} value={category}>
                   {category}
@@ -197,7 +198,7 @@ const GuestList = ({
               <SelectValue placeholder="RSVP Status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Statuses</SelectItem>
+              <SelectItem value="">All Statuses</SelectItem>
               {rsvpStatuses.map((status) => (
                 <SelectItem key={status} value={status}>
                   {status}
@@ -332,7 +333,7 @@ const GuestList = ({
                   {error ? (
                     <div className="flex flex-col items-center justify-center">
                       <p className="mb-2">
-                        Error loading guests: {error.message}
+                        Error loading guests: {error instanceof Error ? error.message : 'An unknown error occurred'}
                       </p>
                       <Button
                         variant="outline"

@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/lib/language";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
 
@@ -34,13 +34,20 @@ interface User {
   permissions?: UserPermissions;
 }
 
+interface MenuItem {
+  name: string;
+  path: string;
+  icon: React.ReactNode;
+  permission?: string;
+}
+
 const MobileLayout: React.FC<MobileLayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
   const { language } = useLanguage();
   const isGuest = user?.role === "guest";
-  const [menuItems, setMenuItems] = useState(getMenuItems(language));
+  const [menuItems, setMenuItems] = useState<MenuItem[]>(getMenuItems(language));
 
   // Update menu items when language changes
   useEffect(() => {
@@ -57,7 +64,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({ children }) => {
     };
   }, [language]);
 
-  function getMenuItems(lang: string) {
+  function getMenuItems(lang: string): MenuItem[] {
     return [
       {
         name: lang === "de" ? "Dashboard" : "Dashboard",
@@ -115,7 +122,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({ children }) => {
   });
 
   // If user is a guest, only show guest area
-  const guestMenuItems = [
+  const guestMenuItems: MenuItem[] = [
     {
       name: language === "de" ? "Gast-Bereich" : "Guest Area",
       path: "/guest-area",

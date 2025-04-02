@@ -14,6 +14,22 @@ interface GuestRelationshipsProps {
   guestId?: string; // Optional: to filter relationships for a specific guest
 }
 
+interface Relationship {
+  id: string;
+  guest_id: string;
+  related_guest_id: string;
+  relationship_type: string;
+  strength: number;
+}
+
+interface RelationshipFormData {
+  id?: string;
+  guest_id: string;
+  related_guest_id: string;
+  relationship_type: string;
+  strength: number;
+}
+
 const GuestRelationships: React.FC<GuestRelationshipsProps> = ({ guestId }) => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("all");
@@ -35,7 +51,7 @@ const GuestRelationships: React.FC<GuestRelationshipsProps> = ({ guestId }) => {
   };
 
   // Handle editing a relationship
-  const handleEditRelationship = (relationship: any) => {
+  const handleEditRelationship = (relationship: Relationship) => {
     // This is handled in the RelationshipList component
   };
 
@@ -48,16 +64,17 @@ const GuestRelationships: React.FC<GuestRelationshipsProps> = ({ guestId }) => {
         description: "The relationship has been deleted successfully.",
       });
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
       toast({
         variant: "destructive",
         title: "Error",
-        description: `Failed to delete relationship: ${error.message}`,
+        description: `Failed to delete relationship: ${errorMessage}`,
       });
     }
   };
 
   // Handle form submission
-  const handleSubmitRelationship = async (data: any) => {
+  const handleSubmitRelationship = async (data: RelationshipFormData) => {
     try {
       if (data.id) {
         // Update existing relationship
@@ -83,10 +100,11 @@ const GuestRelationships: React.FC<GuestRelationshipsProps> = ({ guestId }) => {
         });
       }
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
       toast({
         variant: "destructive",
         title: "Error",
-        description: `Failed to ${data.id ? "update" : "create"} relationship: ${error.message}`,
+        description: `Failed to ${data.id ? "update" : "create"} relationship: ${errorMessage}`,
       });
     }
   };

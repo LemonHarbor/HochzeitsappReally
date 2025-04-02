@@ -39,7 +39,7 @@ interface PhotoItemProps {
 const PhotoItem: React.FC<PhotoItemProps> = ({ photo, guestId, onDelete }) => {
   const { toast } = useToast();
   const { comments, loading: commentsLoading } = useRealtimePhotoComments(
-    photo.id,
+    photo.id
   );
   const [showComments, setShowComments] = useState(false);
   const [newComment, setNewComment] = useState("");
@@ -61,7 +61,7 @@ const PhotoItem: React.FC<PhotoItemProps> = ({ photo, guestId, onDelete }) => {
     try {
       await addPhotoComment(photo.id, guestId, newComment.trim());
       setNewComment("");
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Comment Failed",
@@ -79,7 +79,7 @@ const PhotoItem: React.FC<PhotoItemProps> = ({ photo, guestId, onDelete }) => {
         title: "Comment Deleted",
         description: "Your comment has been removed.",
       });
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Delete Failed",

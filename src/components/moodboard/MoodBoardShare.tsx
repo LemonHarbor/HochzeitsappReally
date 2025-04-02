@@ -10,7 +10,7 @@ import {
   shareMoodBoard,
   updateMoodBoard,
   generateShareableLink,
-  removeMoodBoardShare,
+  deleteMoodBoardShare as removeMoodBoardShare,
 } from "@/services/moodboardService";
 import {
   ArrowLeft,
@@ -58,7 +58,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabaseClient";
 
 interface MoodBoardShareProps {
   boardId: string;
@@ -80,7 +80,7 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
   const { toast } = useToast();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { board } = useRealtimeMoodBoard(boardId);
+  const { board, moodBoard } = useRealtimeMoodBoard(boardId);
   const [shareEmail, setShareEmail] = useState("");
   const [sharePermission, setSharePermission] = useState<"view" | "edit" | "admin">("view");
   const [sharedUsers, setSharedUsers] = useState<ShareUser[]>([]);
@@ -89,6 +89,9 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
   const [linkCopied, setLinkCopied] = useState(false);
   const [userToRemove, setUserToRemove] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Use moodBoard if board is not available
+  const currentBoard = board || moodBoard;
 
   // Fetch shared users when component mounts
   useEffect(() => {
@@ -100,43 +103,33 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
         
         // Get shares for this board
         const { data: sharesData, error: sharesError } = await supabase
-          .from("mood_board_shares")
-          .select("id, shared_with_id, permission")
+          .from("moodboard_shares")
+          .select("id, user_id, shared_with_email, permission_level")
           .eq("board_id", boardId);
 
         if (sharesError) throw sharesError;
 
-        // Get user details for each shared user
-        const sharedUserDetails: ShareUser[] = [];
-        
-        for (const share of sharesData) {
-          const { data: userData, error: userError } = await supabase
-            .from("users")
-            .select("id, email, name")
-            .eq("id", share.shared_with_id)
-            .single();
-
-          if (userError) continue;
-
-          sharedUserDetails.push({
-            ...userData,
-            permission: share.permission,
-            shareId: share.id,
-          });
-        }
+        // Convert to ShareUser format
+        const sharedUserDetails: ShareUser[] = sharesData.map(share => ({
+          id: share.user_id,
+          email: share.shared_with_email,
+          name: share.shared_with_email.split('@')[0], // Simple name extraction
+          permission: share.permission_level as "view" | "edit" | "admin",
+          shareId: share.id,
+        }));
 
         setSharedUsers(sharedUserDetails);
         
         // Set public status based on board data
-        if (board) {
-          setIsPublic(board.is_public);
+        if (currentBoard) {
+          setIsPublic(currentBoard.is_public);
           
           // Generate shareable link if board is public
-          if (board.is_public) {
+          if (currentBoard.is_public) {
             setShareableLink(`${window.location.origin}/mood-board/${boardId}`);
           }
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error fetching shared users:", error);
         toast({
           variant: "destructive",
@@ -149,54 +142,30 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
     };
 
     fetchSharedUsers();
-  }, [boardId, board, toast]);
+  }, [boardId, currentBoard, toast]);
 
   // Handle sharing with a user
   const handleShareWithUser = async () => {
     if (!shareEmail.trim() || !user) return;
 
     try {
-      // Check if user exists
-      const { data: userData, error: userError } = await supabase
-        .from("users")
-        .select("id, email, name")
-        .eq("email", shareEmail.trim())
-        .single();
-
-      if (userError) {
-        toast({
-          variant: "destructive",
-          title: "User Not Found",
-          description: "No user with that email address was found.",
-        });
-        return;
-      }
-
-      // Check if user is already shared with
-      if (sharedUsers.some((u) => u.id === userData.id)) {
-        toast({
-          variant: "destructive",
-          title: "Already Shared",
-          description: "This board is already shared with that user.",
-        });
-        return;
-      }
-
       // Share the board
-      const shareResult = await shareMoodBoard(
-        boardId,
-        user.id,
-        userData.id,
-        sharePermission
-      );
+      const shareData = {
+        board_id: boardId,
+        user_id: user.id,
+        shared_with_email: shareEmail.trim(),
+        permission_level: sharePermission,
+      };
+      
+      const shareResult = await shareMoodBoard(shareData);
 
       // Add to shared users list
       setSharedUsers([
         ...sharedUsers,
         {
-          id: userData.id,
-          email: userData.email,
-          name: userData.name,
+          id: shareResult.user_id,
+          email: shareEmail.trim(),
+          name: shareEmail.trim().split('@')[0],
           permission: sharePermission,
           shareId: shareResult.id,
         },
@@ -206,9 +175,9 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
       
       toast({
         title: "Board Shared",
-        description: `The board has been shared with ${userData.email}.`
+        description: `The board has been shared with ${shareEmail.trim()}.`
       });
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Error",
@@ -235,7 +204,7 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
         title: "Sharing Removed",
         description: "The user no longer has access to this board.",
       });
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Error",
@@ -253,7 +222,7 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
       
       if (!isPublic) {
         // Generate shareable link
-        const link = await generateShareableLink(boardId);
+        const link = generateShareableLink(boardId);
         setShareableLink(link);
         
         toast({
@@ -268,7 +237,7 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
           description: "This board is now private.",
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Error",
@@ -301,7 +270,7 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
         <div>
           <h1 className="text-2xl font-bold">Share Mood Board</h1>
           <p className="text-muted-foreground">
-            {board?.title || "Loading..."}
+            {currentBoard?.name || "Loading..."}
           </p>
         </div>
       </div>
@@ -352,7 +321,7 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
                     <TableRow>
                       <TableHead>User</TableHead>
                       <TableHead>Permission</TableHead>
-                      <TableHead></TableHead>
+                      <TableHead className="w-[50px]"></TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -360,15 +329,27 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
                       <TableRow key={sharedUser.id}>
                         <TableCell>
                           <div className="flex flex-col">
-                            <span className="font-medium">{sharedUser.name || "Unnamed User"}</span>
-                            <span className="text-sm text-muted-foreground">{sharedUser.email}</span>
+                            <span className="font-medium">{sharedUser.name}</span>
+                            <span className="text-xs text-muted-foreground">
+                              {sharedUser.email}
+                            </span>
                           </div>
                         </TableCell>
                         <TableCell>
-                          <Badge variant="outline">
-                            {sharedUser.permission === "view" && "Can view"}
-                            {sharedUser.permission === "edit" && "Can edit"}
-                            {sharedUser.permission === "admin" && "Admin"}
+                          <Badge
+                            variant={
+                              sharedUser.permission === "admin"
+                                ? "default"
+                                : sharedUser.permission === "edit"
+                                ? "outline"
+                                : "secondary"
+                            }
+                          >
+                            {sharedUser.permission === "admin"
+                              ? "Admin"
+                              : sharedUser.permission === "edit"
+                              ? "Can edit"
+                              : "Can view"}
                           </Badge>
                         </TableCell>
                         <TableCell>
@@ -377,7 +358,7 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
                             size="icon"
                             onClick={() => setUserToRemove(sharedUser.id)}
                           >
-                            <Trash2 className="h-4 w-4 text-destructive" />
+                            <Trash2 className="h-4 w-4 text-muted-foreground" />
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -386,7 +367,8 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
                 </Table>
               ) : (
                 <div className="text-center py-4 text-muted-foreground">
-                  No users have been shared with yet.
+                  <Users className="mx-auto h-8 w-8 mb-2" />
+                  <p>This board is not shared with anyone yet</p>
                 </div>
               )}
             </div>
@@ -398,7 +380,7 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
           <CardHeader>
             <CardTitle>Public Access</CardTitle>
             <CardDescription>
-              Allow anyone with the link to view this mood board
+              Control who can access this mood board with a link
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -409,7 +391,7 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
                   <p className="text-sm text-muted-foreground">
                     {isPublic
                       ? "Anyone with the link can view this board"
-                      : "Only invited users can access this board"}
+                      : "Only you and people you share with can access"}
                   </p>
                 </div>
                 <Switch
@@ -420,45 +402,77 @@ const MoodBoardShare: React.FC<MoodBoardShareProps> = ({
               </div>
 
               {isPublic && (
-                <div className="space-y-4">
-                  <div className="flex gap-2">
+                <div className="pt-4">
+                  <Label htmlFor="share-link">Shareable link</Label>
+                  <div className="flex mt-1.5">
                     <Input
+                      id="share-link"
                       value={shareableLink}
                       readOnly
                       className="flex-1"
                     />
                     <Button
+                      className="ml-2"
                       variant="outline"
-                      size="icon"
                       onClick={handleCopyLink}
                     >
                       {linkCopied ? (
-                        <Check className="h-4 w-4 mr-2" />
+                        <Check className="h-4 w-4" />
                       ) : (
-                        <Copy className="h-4 w-4 mr-2" />
+                        <Copy className="h-4 w-4" />
                       )}
                     </Button>
                   </div>
                 </div>
               )}
+
+              <div className="pt-4">
+                <h3 className="text-sm font-medium mb-2">Access summary</h3>
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    {isPublic ? (
+                      <>
+                        <Globe className="h-4 w-4 mr-2 text-muted-foreground" />
+                        <span>Public - Anyone with the link can view</span>
+                      </>
+                    ) : (
+                      <>
+                        <Lock className="h-4 w-4 mr-2 text-muted-foreground" />
+                        <span>Private - Only invited people can access</span>
+                      </>
+                    )}
+                  </div>
+                  <div className="flex items-center">
+                    <Users className="h-4 w-4 mr-2 text-muted-foreground" />
+                    <span>
+                      Shared with {sharedUsers.length}{" "}
+                      {sharedUsers.length === 1 ? "person" : "people"}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Confirmation dialog for removing a user */}
-      <AlertDialog open={!!userToRemove} onOpenChange={() => setUserToRemove(null)}>
+      {/* Remove User Confirmation Dialog */}
+      <AlertDialog
+        open={!!userToRemove}
+        onOpenChange={(open) => !open && setUserToRemove(null)}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Remove User</AlertDialogTitle>
+            <AlertDialogTitle>Remove Access?</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to remove this user's access to the mood board?
+              This will remove the user's access to this mood board. They will
+              no longer be able to view or edit it.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={handleRemoveUser}>
-              Remove
+              Remove Access
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

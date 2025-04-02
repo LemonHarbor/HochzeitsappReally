@@ -11,11 +11,17 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/lib/language";
 
-export function MobileNavbar() {
+interface NavItem {
+  icon: React.ReactNode;
+  label: string;
+  path: string;
+}
+
+export const MobileNavbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { language } = useLanguage();
-  const [navItems, setNavItems] = useState(getNavItems(language));
+  const [navItems, setNavItems] = useState<NavItem[]>(getNavItems(language));
 
   // Update nav items when language changes
   useEffect(() => {
@@ -32,7 +38,7 @@ export function MobileNavbar() {
     };
   }, [language]);
 
-  function getNavItems(lang: string) {
+  function getNavItems(lang: string): NavItem[] {
     return [
       {
         icon: <Home className="h-5 w-5" />,

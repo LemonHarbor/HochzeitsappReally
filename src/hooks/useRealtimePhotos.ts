@@ -1,19 +1,132 @@
 import { useEffect, useState } from "react";
-import { supabase } from "../lib/supabase";
-import { PhotoComment, PhotoLike } from "../types/photo";
+import { supabase } from "../lib/supabaseClient";
+import { Photo, PhotoComment, PhotoLike } from "../types/photo";
 
-export const useRealtimePhotos = (photoId: string, guestId: string) => {
-  const [comments, setComments] = useState<PhotoComment[]>([]);
-  const [likes, setLikes] = useState<PhotoLike[]>([]);
+// Hook to get all photos
+export const useRealtimePhotos = (guestId?: string) => {
+  const [photos, setPhotos] = useState<Photo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    // Load initial comments and likes
-    const loadData = async () => {
+    // Load initial photos
+    const loadPhotos = async () => {
       setIsLoading(true);
       try {
-        // Fetch comments
+        const query = supabase
+          .from("photos")
+          .select("*, guests(name)")
+          .order("created_at", { ascending: false });
+
+        // Filter by guest ID if provided
+        const { data, error: photosError } = guestId 
+          ? await query.eq("guest_id", guestId)
+          : await query;
+
+        if (photosError) throw photosError;
+
+        // Format photos with guest names
+        const formattedPhotos = data.map((photo) => ({
+          ...photo,
+          guest_name: photo.guests?.name || "Unknown Guest",
+        })) as Photo[];
+
+        setPhotos(formattedPhotos);
+      } catch (err) {
+        console.error("Error loading photos:", err);
+        setError(err instanceof Error ? err : new Error("Failed to load photos"));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadPhotos();
+
+    // Set up realtime subscription
+    const photosSubscription = supabase
+      .channel("photos_changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "photos",
+        },
+        async (payload) => {
+          if (payload.eventType === "INSERT") {
+            const newPhoto = payload.new as Photo;
+            
+            // Only add if it matches the filter
+            if (!guestId || newPhoto.guest_id === guestId) {
+              // Fetch guest name
+              try {
+                const { data: guestData, error: guestError } = await supabase
+                  .from("guests")
+                  .select("name")
+                  .eq("id", newPhoto.guest_id)
+                  .single();
+
+                if (!guestError && guestData) {
+                  setPhotos((prev) => [
+                    { ...newPhoto, guest_name: guestData.name } as Photo,
+                    ...prev,
+                  ]);
+                } else {
+                  setPhotos((prev) => [
+                    { ...newPhoto, guest_name: "Unknown Guest" } as Photo,
+                    ...prev,
+                  ]);
+                }
+              } catch (err) {
+                setPhotos((prev) => [
+                  { ...newPhoto, guest_name: "Unknown Guest" } as Photo,
+                  ...prev,
+                ]);
+              }
+            }
+          } else if (payload.eventType === "UPDATE") {
+            const updatedPhoto = payload.new as Photo;
+            setPhotos((prev) =>
+              prev.map((photo) =>
+                photo.id === updatedPhoto.id
+                  ? { ...updatedPhoto, guest_name: photo.guest_name }
+                  : photo
+              )
+            );
+          } else if (payload.eventType === "DELETE") {
+            const deletedId = payload.old.id;
+            setPhotos((prev) => prev.filter((photo) => photo.id !== deletedId));
+          }
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscription
+    return () => {
+      supabase.removeChannel(photosSubscription);
+    };
+  }, [guestId]);
+
+  return {
+    data: photos,
+    isLoading,
+    error,
+    photos, // For backward compatibility
+    loading: isLoading // For backward compatibility
+  };
+};
+
+// Hook to get comments for a specific photo
+export const useRealtimePhotoComments = (photoId: string) => {
+  const [comments, setComments] = useState<PhotoComment[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    // Load initial comments
+    const loadComments = async () => {
+      setLoading(true);
+      try {
         const { data: commentsData, error: commentsError } = await supabase
           .from("photo_comments")
           .select("*, guests(name)")
@@ -29,8 +142,97 @@ export const useRealtimePhotos = (photoId: string, guestId: string) => {
         })) as PhotoComment[];
 
         setComments(formattedComments);
+      } catch (err) {
+        console.error("Error loading photo comments:", err);
+        setError(err instanceof Error ? err : new Error("Failed to load comments"));
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        // Fetch likes
+    loadComments();
+
+    // Set up realtime subscription
+    const commentsSubscription = supabase
+      .channel("photo_comments_changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "photo_comments",
+          filter: `photo_id=eq.${photoId}`,
+        },
+        async (payload) => {
+          if (payload.eventType === "INSERT") {
+            const newComment = payload.new as PhotoComment;
+            
+            // Fetch guest name
+            try {
+              const { data: guestData, error: guestError } = await supabase
+                .from("guests")
+                .select("name")
+                .eq("id", newComment.guest_id)
+                .single();
+
+              if (!guestError && guestData) {
+                setComments((prev) => [
+                  ...prev,
+                  { ...newComment, guest_name: guestData.name } as PhotoComment,
+                ]);
+              } else {
+                setComments((prev) => [
+                  ...prev,
+                  { ...newComment, guest_name: "Unknown Guest" } as PhotoComment,
+                ]);
+              }
+            } catch (err) {
+              setComments((prev) => [
+                ...prev,
+                { ...newComment, guest_name: "Unknown Guest" } as PhotoComment,
+              ]);
+            }
+          } else if (payload.eventType === "UPDATE") {
+            const updatedComment = payload.new as PhotoComment;
+            setComments((prev) =>
+              prev.map((comment) =>
+                comment.id === updatedComment.id
+                  ? { ...updatedComment, guest_name: comment.guest_name }
+                  : comment
+              )
+            );
+          } else if (payload.eventType === "DELETE") {
+            const deletedId = payload.old.id;
+            setComments((prev) => prev.filter((comment) => comment.id !== deletedId));
+          }
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscription
+    return () => {
+      supabase.removeChannel(commentsSubscription);
+    };
+  }, [photoId]);
+
+  return {
+    comments,
+    loading,
+    error
+  };
+};
+
+// Hook to get likes for a specific photo
+export const useRealtimePhotoLikes = (photoId: string, currentGuestId?: string) => {
+  const [likes, setLikes] = useState<PhotoLike[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    // Load initial likes
+    const loadLikes = async () => {
+      setLoading(true);
+      try {
         const { data: likesData, error: likesError } = await supabase
           .from("photo_likes")
           .select("*")
@@ -39,212 +241,54 @@ export const useRealtimePhotos = (photoId: string, guestId: string) => {
         if (likesError) throw likesError;
         setLikes(likesData as PhotoLike[]);
       } catch (err) {
-        console.error("Error loading photo data:", err);
-        setError("Failed to load comments and likes");
+        console.error("Error loading photo likes:", err);
+        setError(err instanceof Error ? err : new Error("Failed to load likes"));
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
 
-    loadData();
+    loadLikes();
 
-    // Set up realtime subscriptions
-    const commentsSubscription = supabase
-      .channel("photo_comments_changes")
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "photo_comments",
-          filter: `photo_id=eq.${photoId}`,
-        },
-        async (payload) => {
-          const newRecord = payload.new as PhotoComment;
-          
-          // Fetch guest name
-          try {
-            const { data: guestData, error: guestError } = await supabase
-              .from("guests")
-              .select("name")
-              .eq("id", newRecord.guest_id)
-              .single();
-
-            if (!guestError && guestData) {
-              setComments((prev) => [
-                ...prev,
-                { ...newRecord, guest_name: guestData.name } as PhotoComment,
-              ]);
-            } else {
-              setComments((prev) => [
-                ...prev,
-                { ...newRecord, guest_name: "Unknown Guest" } as PhotoComment,
-              ]);
-            }
-          } catch (err) {
-            setComments((prev) => [
-              ...prev,
-              { ...newRecord, guest_name: "Unknown Guest" } as PhotoComment,
-            ]);
-          }
-        }
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "photo_comments",
-          filter: `photo_id=eq.${photoId}`,
-        },
-        (payload) => {
-          const updatedRecord = payload.new as PhotoComment;
-          setComments((prev) =>
-            prev.map((comment) =>
-              comment.id === updatedRecord.id
-                ? { ...updatedRecord, guest_name: comment.guest_name } as PhotoComment
-                : comment
-            )
-          );
-        }
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "DELETE",
-          schema: "public",
-          table: "photo_comments",
-          filter: `photo_id=eq.${photoId}`,
-        },
-        (payload) => {
-          const deletedId = payload.old.id;
-          setComments((prev) => prev.filter((comment) => comment.id !== deletedId));
-        }
-      )
-      .subscribe();
-
+    // Set up realtime subscription
     const likesSubscription = supabase
       .channel("photo_likes_changes")
       .on(
         "postgres_changes",
         {
-          event: "INSERT",
+          event: "*",
           schema: "public",
           table: "photo_likes",
           filter: `photo_id=eq.${photoId}`,
         },
         (payload) => {
-          const newRecord = payload.new as PhotoLike;
-          setLikes((prev) => [...prev, newRecord]);
-        }
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "DELETE",
-          schema: "public",
-          table: "photo_likes",
-          filter: `photo_id=eq.${photoId}`,
-        },
-        (payload) => {
-          const deletedId = payload.old.id;
-          setLikes((prev) => prev.filter((like) => like.id !== deletedId));
+          if (payload.eventType === "INSERT") {
+            const newLike = payload.new as PhotoLike;
+            setLikes((prev) => [...prev, newLike]);
+          } else if (payload.eventType === "DELETE") {
+            const deletedId = payload.old.id;
+            setLikes((prev) => prev.filter((like) => like.id !== deletedId));
+          }
         }
       )
       .subscribe();
 
-    // Cleanup subscriptions
+    // Cleanup subscription
     return () => {
-      supabase.removeChannel(commentsSubscription);
       supabase.removeChannel(likesSubscription);
     };
-  }, [photoId, guestId]);
+  }, [photoId]);
 
-  // Add a comment
-  const addComment = async (content: string): Promise<boolean> => {
-    try {
-      const { error } = await supabase.from("photo_comments").insert([
-        {
-          photo_id: photoId,
-          guest_id: guestId,
-          content,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        },
-      ]);
-
-      if (error) throw error;
-      return true;
-    } catch (err) {
-      console.error("Error adding comment:", err);
-      setError("Failed to add comment");
-      return false;
-    }
-  };
-
-  // Delete a comment
-  const deleteComment = async (commentId: string): Promise<boolean> => {
-    try {
-      const { error } = await supabase
-        .from("photo_comments")
-        .delete()
-        .eq("id", commentId)
-        .eq("guest_id", guestId); // Ensure only the author can delete
-
-      if (error) throw error;
-      return true;
-    } catch (err) {
-      console.error("Error deleting comment:", err);
-      setError("Failed to delete comment");
-      return false;
-    }
-  };
-
-  // Toggle like
-  const toggleLike = async (): Promise<boolean> => {
-    try {
-      // Check if already liked
-      const existingLike = likes.find((like) => like.guest_id === guestId);
-
-      if (existingLike) {
-        // Unlike
-        const { error } = await supabase
-          .from("photo_likes")
-          .delete()
-          .eq("id", existingLike.id);
-
-        if (error) throw error;
-      } else {
-        // Like
-        const { error } = await supabase.from("photo_likes").insert([
-          {
-            photo_id: photoId,
-            guest_id: guestId,
-            created_at: new Date().toISOString(),
-          },
-        ]);
-
-        if (error) throw error;
-      }
-
-      return true;
-    } catch (err) {
-      console.error("Error toggling like:", err);
-      setError("Failed to update like");
-      return false;
-    }
-  };
-
-  const hasLiked = likes.some((like) => like.guest_id === guestId);
+  // Check if current guest has liked
+  const hasLiked = currentGuestId 
+    ? likes.some((like) => like.guest_id === currentGuestId)
+    : false;
 
   return {
-    comments,
     likes,
-    isLoading,
-    error,
-    addComment,
-    deleteComment,
-    toggleLike,
+    likesCount: likes.length,
     hasLiked,
+    loading,
+    error
   };
 };

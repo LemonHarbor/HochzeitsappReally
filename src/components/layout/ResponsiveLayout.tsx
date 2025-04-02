@@ -1,8 +1,8 @@
 import React from "react";
-import { useMediaQuery } from "../../hooks/useMediaQuery";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import MobileLayout from "./MobileLayout";
-import { PWAInstallPrompt } from "../ui/pwa-install-prompt";
-import { OfflineIndicator } from "../ui/offline-indicator";
+import { PWAInstallPrompt } from "@/components/ui/pwa-install-prompt";
+import { OfflineIndicator } from "@/components/ui/offline-indicator";
 
 // Directly import the hook to avoid path resolution issues
 // This is a workaround for Vercel deployment

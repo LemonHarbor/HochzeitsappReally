@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 
-const Sidebar = () => {
+const Sidebar: React.FC = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 

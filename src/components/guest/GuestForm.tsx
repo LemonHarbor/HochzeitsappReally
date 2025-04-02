@@ -69,7 +69,7 @@ interface GuestFormProps {
   onCancel?: () => void;
 }
 
-const GuestForm = ({
+const GuestForm: React.FC<GuestFormProps> = ({
   initialData = {
     firstName: "",
     lastName: "",
@@ -98,7 +98,7 @@ const GuestForm = ({
   },
   isEditing = false,
   onCancel = () => {},
-}: GuestFormProps) => {
+}) => {
   const { t } = useLanguage();
   const form = useForm<GuestFormData>({
     resolver: zodResolver(formSchema),
