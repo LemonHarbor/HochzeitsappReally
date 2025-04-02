@@ -29,4 +29,5 @@ export interface DashboardBudgetCategory {
   allocated: number;
   spent: number;
   color: string;
+  amount: number; // Added this property to fix errors in BudgetDashboard.tsx
 }

@@ -20,6 +20,20 @@ interface MobileLayoutProps {
   children: React.ReactNode;
 }
 
+// Define a proper type for user permissions
+interface UserPermissions {
+  canViewGuests?: boolean;
+  canViewTables?: boolean;
+  [key: string]: boolean | undefined;
+}
+
+// Update the user type to include properly typed permissions
+interface User {
+  id: string;
+  role: string;
+  permissions?: UserPermissions;
+}
+
 const MobileLayout: React.FC<MobileLayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -88,16 +102,15 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({ children }) => {
   // Filter menu items based on permissions
   const filteredMenuItems = menuItems.filter((item) => {
     if (!item.permission) return true;
-    if (
-      item.permission === "canViewGuests" &&
-      !user?.permissions?.canViewGuests
-    )
+    
+    // Safely check permissions
+    const userPermissions = (user as User | undefined)?.permissions || {};
+    if (item.permission === "canViewGuests" && !userPermissions.canViewGuests) {
       return false;
-    if (
-      item.permission === "canViewTables" &&
-      !user?.permissions?.canViewTables
-    )
+    }
+    if (item.permission === "canViewTables" && !userPermissions.canViewTables) {
       return false;
+    }
     return true;
   });
 

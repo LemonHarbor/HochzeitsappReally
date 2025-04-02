@@ -1,11 +1,24 @@
 import React from "react";
 import { useLanguage } from "@/lib/language";
 
+interface Vendor {
+  id: number;
+  name: string;
+  category: string;
+  contact: string;
+  phone: string;
+  email: string;
+  website: string;
+  price: number;
+  notes: string;
+  status: string;
+}
+
 export function VendorManager() {
   const { t } = useLanguage();
   
   // Dummy vendor data for demonstration
-  const vendors = [
+  const vendors: Vendor[] = [
     { id: 1, name: "Schloss Schönbrunn", category: "venue", contact: "Herr Müller", phone: "+43 123 456789", email: "schloss@example.com", website: "www.schloss-schoenbrunn.at", price: 5000, notes: "Historischer Veranstaltungsort", status: "booked" },
     { id: 2, name: "Gourmet Catering", category: "catering", contact: "Frau Schmidt", phone: "+43 987 654321", email: "catering@example.com", website: "www.gourmet-catering.at", price: 80, notes: "Preis pro Person", status: "booked" },
     { id: 3, name: "Foto Schmidt", category: "photography", contact: "Herr Schmidt", phone: "+43 555 123456", email: "foto@example.com", website: "www.foto-schmidt.at", price: 1500, notes: "Inkl. Fotoalbum", status: "booked" },
@@ -22,7 +35,7 @@ export function VendorManager() {
   ];
   
   // Get color for status
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: string) => {
     const option = statusOptions.find(opt => opt.value === status);
     return option ? option.color : "bg-gray-100 text-gray-800";
   };
@@ -126,9 +139,10 @@ export function VendorManager() {
               <div>
                 <label className="block text-sm font-medium mb-1">{t("vendors.category")}</label>
                 <select className="w-full px-3 py-2 border rounded-md">
-                  {Object.keys(t("budget.categories", { returnObjects: true }) as Record<string, string>).map((category) => (
-                    <option key={category} value={category}>
-                      {t(`budget.categories.${category}`)}
+                  {/* Fix the type conversion issue by using a safer approach */}
+                  {Object.entries(t("budget.categories", { returnObjects: true }) as object).map(([key, value]) => (
+                    <option key={key} value={key}>
+                      {value as string}
                     </option>
                   ))}
                 </select>

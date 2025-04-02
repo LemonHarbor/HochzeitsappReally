@@ -60,11 +60,11 @@ const formSchema = z.object({
   notes: z.string().optional(),
 });
 
-type GuestFormValues = z.infer<typeof formSchema>;
+export type GuestFormData = z.infer<typeof formSchema>;
 
 interface GuestFormProps {
-  initialData?: GuestFormValues;
-  onSubmit?: (data: GuestFormValues) => void;
+  initialData?: Partial<GuestFormData>;
+  onSubmit?: (data: GuestFormData) => void;
   isEditing?: boolean;
   onCancel?: () => void;
 }
@@ -88,7 +88,7 @@ const GuestForm = ({
     // For now, we'll create a guest directly using the guestService
     try {
       import("@/services/guestService").then(({ createGuest }) => {
-        createGuest(data).then(() => {
+        createGuest(data as GuestFormData).then(() => {
           console.log("Guest created successfully");
         });
       });
@@ -100,12 +100,12 @@ const GuestForm = ({
   onCancel = () => {},
 }: GuestFormProps) => {
   const { t } = useLanguage();
-  const form = useForm<GuestFormValues>({
+  const form = useForm<GuestFormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData,
+    defaultValues: initialData as GuestFormData,
   });
 
-  const handleSubmit = (data: GuestFormValues) => {
+  const handleSubmit = (data: GuestFormData) => {
     onSubmit(data);
   };
 

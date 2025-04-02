@@ -7,11 +7,12 @@ import { Plus, Download, Filter, ArrowUpDown } from "lucide-react";
 import { useLanguage } from "@/lib/language";
 import { useCurrency } from "@/lib/currency";
 import { Badge } from "@/components/ui/badge";
-import { Expense, BudgetCategory } from "@/types/budget";
+import { Expense, BudgetCategory, DashboardBudgetCategory } from "@/types/budget";
 
-interface DashboardBudgetCategory extends Omit<BudgetCategory, "percentage" | "recommended"> {
-  allocated: number;
-}
+// Remove local interface definition and use the one from types/budget.ts
+// interface DashboardBudgetCategory extends Omit<BudgetCategory, "percentage" | "recommended"> {
+//   allocated: number;
+// }
 
 interface BudgetDashboardProps {
   totalBudget?: number;
@@ -27,12 +28,12 @@ const BudgetDashboard = ({
   totalBudget = 20000,
   totalSpent = 12350,
   categories = [
-    { name: "Venue", allocated: 8000, spent: 7500, color: "#4f46e5" },
-    { name: "Catering", allocated: 5000, spent: 2800, color: "#0ea5e9" },
-    { name: "Decoration", allocated: 2000, spent: 1200, color: "#10b981" },
-    { name: "Photography", allocated: 2500, spent: 500, color: "#f59e0b" },
-    { name: "Attire", allocated: 1500, spent: 350, color: "#ef4444" },
-    { name: "Other", allocated: 1000, spent: 0, color: "#8b5cf6" },
+    { name: "Venue", allocated: 8000, spent: 7500, color: "#4f46e5", amount: 8000 },
+    { name: "Catering", allocated: 5000, spent: 2800, color: "#0ea5e9", amount: 5000 },
+    { name: "Decoration", allocated: 2000, spent: 1200, color: "#10b981", amount: 2000 },
+    { name: "Photography", allocated: 2500, spent: 500, color: "#f59e0b", amount: 2500 },
+    { name: "Attire", allocated: 1500, spent: 350, color: "#ef4444", amount: 1500 },
+    { name: "Other", allocated: 1000, spent: 0, color: "#8b5cf6", amount: 1000 },
   ],
   recentExpenses = [
     {
