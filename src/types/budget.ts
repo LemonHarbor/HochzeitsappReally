@@ -22,6 +22,7 @@ export interface BudgetCategory {
   spent: number;
   color: string;
   recommended: number;
+  allocated?: number; // Added to match BudgetReports.tsx interface
 }
 
 export interface DashboardBudgetCategory {

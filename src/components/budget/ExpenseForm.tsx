@@ -65,12 +65,13 @@ type FormValues = z.infer<typeof formSchema>;
 
 interface ExpenseFormProps {
   initialData?: Partial<FormValues>;
-  categories?: string[];
+  categories?: string[] | { id: string; name: string }[];
   vendors?: { id: string; name: string }[];
   onSubmit?: (data: FormValues, receipt?: File) => void;
   onCancel?: () => void;
   isEditing?: boolean;
   vendorId?: string;
+  expense?: Expense; // Changed from initialData to match usage in BudgetTracker.tsx
 }
 
 const ExpenseForm = ({

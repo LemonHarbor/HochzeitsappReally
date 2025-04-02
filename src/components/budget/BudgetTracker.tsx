@@ -476,8 +476,8 @@ const BudgetTracker: React.FC<BudgetTrackerProps> = ({
       <Dialog open={showExpenseForm} onOpenChange={setShowExpenseForm}>
         <DialogContent className="sm:max-w-[600px]">
           <ExpenseForm
-            categories={categories}
-            expense={currentExpense as Expense | undefined}
+            categories={categories.map(cat => cat.name)}
+            expense={currentExpense || undefined}
             isEditing={isEditing}
             onSubmit={handleExpenseSubmit}
             onCancel={() => setShowExpenseForm(false)}

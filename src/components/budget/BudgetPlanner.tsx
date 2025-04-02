@@ -31,6 +31,10 @@ interface BudgetCategory {
 interface BudgetPlannerProps {
   totalBudget?: number;
   categories?: BudgetCategory[];
+  onUpdateTotalBudget?: (newTotal: number) => Promise<void>;
+  onAddCategory?: () => void;
+  onEditCategory?: (category: BudgetCategory) => void;
+  onDeleteCategory?: (id: string) => Promise<void>;
   onSaveBudget?: (totalBudget: number, categories: BudgetCategory[]) => void;
   onResetToRecommended?: () => void;
   onAddEditCategory?: (category: BudgetCategory) => void;

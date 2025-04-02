@@ -49,6 +49,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 interface BudgetFormProps {
   initialData?: Partial<FormValues>;
+  category?: any; // Added to match usage in BudgetTracker.tsx
   onSubmit?: (data: FormValues) => void;
   onCancel?: () => void;
   isEditing?: boolean;

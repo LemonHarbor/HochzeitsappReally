@@ -66,7 +66,7 @@ interface Expense {
 
 interface ExpenseListProps {
   expenses?: Expense[];
-  categories?: string[];
+  categories?: string[] | { id: string; name: string }[];
   onAddExpense?: () => void;
   onEditExpense?: (expense: Expense) => void;
   onDeleteExpense?: (id: string) => void;

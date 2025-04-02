@@ -140,9 +140,9 @@ export function VendorManager() {
                 <label className="block text-sm font-medium mb-1">{t("vendors.category")}</label>
                 <select className="w-full px-3 py-2 border rounded-md">
                   {/* Fix the type conversion issue by using a safer approach */}
-                  {Object.entries(t("budget.categories", { returnObjects: true }) as object).map(([key, value]) => (
+                  {Object.entries(t("budget.categories", { returnObjects: true }) as Record<string, string>).map(([key, value]) => (
                     <option key={key} value={key}>
-                      {value as string}
+                      {value}
                     </option>
                   ))}
                 </select>
